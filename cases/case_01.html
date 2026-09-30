@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ParaMagic — набор «9 планет» — кейс CASE 01</title>
+<meta name="description" content="Подарочный набор натуральных камней. Разбор юнит-экономики карточки: контекст, проблема, решение, результат.">
+<link rel="stylesheet" href="../assets/style.css">
+<script src="https://cdn.jsdelivr.net/npm/lucide@0.454.0/dist/umd/lucide.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js" defer></script>
+<style>
+
+/* Специфика страниц кейсов. Общие компоненты (крошки, титул, инсайт,
+   фильтр, кнопки) живут в assets/style.css, раздел 17 — здесь только
+   то, что не нужно ни главной, ни каталогу. */
+
+@media (max-width: 720px) {
+  .case-hero { padding: var(--space-4) 0; }
+}
+
+/* ТЁМНАЯ ПАЛИТРА ПЕЧАТИ.
+
+   Раздел 18 style.css переводит печать на белый лист — это сделано
+   осознанно для резюме (тёмная заливка на бумаге не печатается
+   большинством принтеров). Здесь решение обратное: PDF кейсов и
+   каталога выходит тёмным, премиум-версией. Поэтому палитра
+   переопределяется явно, а не через var() — var() здесь уже указывал
+   бы на белые значения из раздела 18.
+
+   Значения совпадают с палитрой раздела 1 (тёмная тема): меняются
+   только кегль и отступы. */
+@media print{
+  @page{size:A4;margin:12mm 10mm}
+  html,[data-theme]{-webkit-print-color-adjust:exact;print-color-adjust:exact;color-scheme:dark;background-color:#0a0e1a}
+  :root{
+    --color-bg: #0a0e1a;
+    --color-surface: #121a2b;
+    --color-surface-raised: #182236;
+    --color-well: #0d1422;
+    --color-hover: #151e2f;
+    --color-border: #1e2a3f;
+    --color-border-strong: #33425c;
+    --color-border-control: #5a6b86;
+    --color-text-primary: #e8edf7;
+    --color-text-secondary: #a3b0c7;
+    --color-text-tertiary: #7b8aa3;
+    --color-accent: #5b9bff;
+    --color-accent-strong: #8ab6ff;
+    --color-profit: #3ddc97;
+    --color-loss: #ff958c;
+    --color-warning: #fbbf24;
+    --color-profit-kpi: #3ddc97;
+    --color-loss-kpi: #ff958c;
+    --color-warning-kpi: #fbbf24;
+    --color-info: #38bdf8;
+    --color-text-on-accent: #0a0e1a;
+    --color-focus-ring: #8ab6ff;
+  }
+  body{background:var(--color-bg)!important;color:var(--color-text-primary)!important;
+    font-size:10.2pt;line-height:1.45}
+  /* печать компактнее экрана: кегль и отступы уменьшены */
+  /* Кегли в px, потому что токены --text-* читают элементы как font-size.
+     9 pt ровно = 12 px при 96 dpi (9 * 96/72). Ниже 12 не опускаемся:
+     8.6 px давали 6,45 pt и в PDF текст был нечитаем. */
+  :root{--text-3xl:26px;--text-2xl:17px;--text-xl:15px;--text-lg:14px;
+    --text-base:12px;--text-sm:12px;--text-xs:12px;--text-2xs:12px;
+    --space-16:14px;--space-10:10px;--space-8:9px;--space-6:8px;
+    --space-5:7px;--space-4:6px;--space-3:5px;--row-h-md:24px;
+    --radius-lg:6px;--radius-sm:4px}
+  .page{max-width:none;padding:0}
+  .no-print,.site-header,.site-footer .site-footer__nav,.cs-filter{display:none!important}
+  .section{break-inside:avoid;page-break-inside:avoid}
+  .card,.metric,.alert,.table-wrap{break-inside:avoid;page-break-inside:avoid}
+  .case-hero{border-bottom:1px solid var(--color-border-strong)}
+  .grid-2,.grid-3{grid-template-columns:1fr 1fr!important;gap:var(--space-4)}
+  .site-footer{margin-top:var(--space-8);padding-top:var(--space-4);
+    border-top:1px solid var(--color-border)}
+  .site-footer__copy{color:var(--color-text-tertiary)}
+  a[href^="http"]::after{content:none!important}
+  .case-prose{gap:var(--space-2)}
+}
+
+</style>
+</head>
+<body>
+<header class="site-header no-print">
+<div class="site-header__inner">
+<a class="brand" href="../index.html"><span class="brand__name">Жаворонков Кирилл</span><span class="brand__sub">Юнит-экономика маркетплейсов</span></a>
+<nav class="nav" aria-label="Разделы">
+<a class="nav-link" href="../index.html">Главная</a>
+<a class="nav-link" href="../resume.html">Резюме</a>
+<a class="nav-link" href="../products/index.html">Каталог</a>
+<a class="nav-link nav-link--active" href="index.html">Кейсы</a>
+<a class="nav-link" href="tools.html">Инструменты</a>
+</nav>
+<a class="btn btn--primary cs-max" href="https://max.ru/u/f9LHodD0cOLdp8PLl5xLOgbVyMIGA-CzKgczzqM_HK-bc2fsqmhaWQNg7Lk" target="_blank" rel="noopener"><i data-lucide="message-circle" width="16" height="16" aria-hidden="true"></i>Написать в MAX</a>
+</div></header>
+<main class="page case-page">
+<nav class="crumbs" aria-label="Хлебные крошки"><ol>
+<li><a href="../index.html">Портфолио</a></li>
+<li><a href="index.html">Кейсы</a></li>
+<li aria-current="page">ParaMagic — набор «9 планет»</li>
+</ol></nav>
+<div class="case-hero">
+<div class="case-hero__main">
+<div class="case__num">CASE 01</div>
+<h1 class="page-title case-hero__title">ParaMagic — набор «9 планет»</h1>
+<p class="page-sub">Подарочный набор натуральных камней</p>
+<div class="case-tags">
+<span class="badge badge--neutral"><i data-lucide="layers" width="12" height="12" aria-hidden="true"></i>Рукоделие → Природные камни</span>
+<span class="badge badge--info">FBS</span>
+<span class="badge badge--info">FBW</span>
+</div></div>
+<div class="case-hero__kpi">
+<span class="calc-hero-label">разрыв в пользу FBW</span>
+<p class="calc-hero-value kpi-profit" data-money="84.9" data-dec="2">—</p>
+</div></div>
+<p class="case-headline">Один и тот же товар: FBS в минусе, FBW в плюсе</p>
+<section class="section" id="context" aria-labelledby="context-t">
+<div class="section-head">
+<h2 class="section-title" id="context-t">Контекст</h2>
+</div>
+<div class="card case-prose">
+<p class="service__text">Набор натуральных камней в подарочной упаковке. РРЦ 3 700 ₽, объём 1,25 л — в 6 раз больше медианы ниши, где преобладают объёмы около 0,2 л.</p>
+<p class="service__text">Категория относится к дорогим: кВВ 33 % FBS против 29,5 % FBW. К этому добавляются фиксированные 60 ₽ обработки в ПВЗ и фулфилмента — только в FBS.</p>
+</div>
+</section>
+<section class="section" id="problem" aria-labelledby="problem-t">
+<div class="section-head">
+<h2 class="section-title" id="problem-t">Проблема</h2>
+</div>
+<div class="card case-prose">
+<p class="service__text">При РРЦ 1 000 ₽ модель FBS даёт −58,28 ₽ с единицы. Комиссия с НДС плюс фиксированные расходы съедают всю маржу: безубыточность FBS — 1 109,19 ₽, то есть на 9 % выше цены.</p>
+<p class="service__text">FBW при той же цене даёт +26,62 ₽. Разрыв 84,90 ₽ с единицы — он складывается из разницы ставок 3,5 п.п. и разницы фиксированных расходов.</p>
+</div>
+</section>
+<section class="section" id="did" aria-labelledby="did-t">
+<div class="section-head">
+<h2 class="section-title" id="did-t">Что сделали</h2>
+</div>
+<div class="card case-prose">
+<p class="service__text">Разобрал экономику по оферте: база комиссии — цена после скидки продавца, СПП вычитается из ставки кВВ с порогом 1 %, скидки WB выплату не уменьшают.</p>
+<p class="service__text">Посчитал безубыточность и цену под маржу 15 % отдельно для FBS и FBW.</p>
+<p class="service__text">Разобрал влияние скорости передачи: скидка кС −3,5 % поднимает маржу с −58,28 ₽ до −8,28 ₽ — это снижение ставки вознаграждения, а не выручки.</p>
+<p class="service__text">Оценил EV штрафа за просрочку: двойная комиссия × КСО, потолок 50 % РРЦ.</p>
+</div>
+</section>
+<section class="section" id="result" aria-labelledby="result-t">
+<div class="section-head"><h2 class="section-title" id="result-t">Результат</h2><span class="section-note">по фактическим ценам последнего заказа</span></div>
+<div class="grid grid-3">
+<div class="metric">
+<span class="metric-label">Рекомендованная РРЦ</span>
+<p class="metric--sm metric-value tone-neutral">1 543 ₽</p>
+</div>
+<div class="metric">
+<span class="metric-label">Маржа при 1 543 ₽</span>
+<p class="metric--sm metric-value tone-profit">231,53 ₽ (15,0 %)</p>
+</div>
+<div class="metric">
+<span class="metric-label">BE FBS</span>
+<p class="metric--sm metric-value tone-loss">1 109,19 ₽</p>
+</div>
+<div class="metric">
+<span class="metric-label">BE FBW</span>
+<p class="metric--sm metric-value tone-warning">953,19 ₽</p>
+</div>
+<div class="metric">
+<span class="metric-label">Маржа при 1 000 ₽, FBS</span>
+<p class="metric--sm metric-value tone-loss">−58,28 ₽</p>
+</div>
+<div class="metric">
+<span class="metric-label">Маржа при 1 000 ₽, FBW</span>
+<p class="metric--sm metric-value tone-profit">+26,62 ₽</p>
+</div>
+</div></section>
+<section class="section" id="insight" aria-labelledby="insight-t">
+<div class="section-head"><h2 class="section-title" id="insight-t">Ключевой инсайт</h2></div>
+<div class="alert alert--info case-insight"><i data-lucide="lightbulb" width="16" height="16" aria-hidden="true"></i><span>Рекомендованная РРЦ 1 543 ₽ даёт 15 % маржи. С учётом скидки за скорость передачи безубыточность опускается до 1 043,68 ₽ — запас появляется за счёт дисциплины передачи, а не за счёт цены. Топ-конкурент ниши стоит 1 723 ₽ при 768 отзывах, то есть запас по цене есть.</span></div>
+</section>
+<div class="case-actions no-print">
+<a class="btn btn--primary cs-max" href="https://max.ru/u/f9LHodD0cOLdp8PLl5xLOgbVyMIGA-CzKgczzqM_HK-bc2fsqmhaWQNg7Lk" target="_blank" rel="noopener"><i data-lucide="message-circle" width="16" height="16" aria-hidden="true"></i>Написать в MAX</a>
+<button class="btn" type="button" onclick="window.print()"><i data-lucide="download" width="16" height="16" aria-hidden="true"></i>Скачать PDF</button>
+<a class="btn btn--ghost" href="index.html"><i data-lucide="arrow-left" width="16" height="16" aria-hidden="true"></i>Все кейсы</a>
+</div>
+<p class="case-source">Расчёт по данным Seller API и оферты WB. Модель: <span class="code">econ_v3</span>, вероятность штрафа 0,30 % по эмпирике продавца. Себестоимость подтверждена продавцом.</p>
+</main>
+<footer class="site-footer">
+<div class="site-footer__inner">
+<span class="site-footer__copy">© 2026 Жаворонков Кирилл</span>
+<nav class="site-footer__nav" aria-label="Разделы">
+<a class="nav-link" href="../index.html">Главная</a>
+<a class="nav-link" href="index.html">Все кейсы</a>
+<a class="nav-link" href="../products/index.html">Каталог</a>
+<a class="nav-link" href="../resume.html">Резюме</a>
+</nav>
+<span class="site-footer__copy">Дата сборки: 2026-09-30</span>
+</div></footer>
+<script type="module" src="../assets/site.js"></script>
+</body></html>

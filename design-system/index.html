@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Дизайн-система — демо компонентов</title>
+<meta name="description" content="Демонстрация компонентов: KPI-плитка, спарклайн, таблица данных, разбор экономики, калькулятор с ползунками, интерактивные сноски.">
+<link rel="stylesheet" href="../assets/style.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/lucide@0.454.0/dist/umd/lucide.min.js" defer></script>
+<script type="module" src="./demo.js"></script>
+</head>
+<body>
+<div class="page">
+
+  <!-- ── шапка ─────────────────────────────────────────────────────────── -->
+  <div class="demo-bar">
+    <strong style="font-size:var(--text-lg)">Дизайн-система</strong>
+    <span class="muted">демо компонентов · форматирование ru-RU · контраст WCAG 2.2</span>
+    <button class="btn theme-toggle" id="theme-toggle" type="button" aria-label="Переключить тему">
+      Светлая тема
+    </button>
+  </div>
+
+  <header class="page-head">
+    <div>
+      <h1 class="page-title">Финансовая вёрстка</h1>
+      <p class="page-sub">
+        Набор показывает одну мысль: как показать деньги так, чтобы решение
+        принималось без пересчёта в уме. Цвет несёт смысл, но никогда —
+        единственный его носитель: знак, подпись и форма дублируют цвет.
+      </p>
+    </div>
+  </header>
+
+  <div id="live-region" class="sr-only" role="status" aria-live="polite"></div>
+
+  <!-- ── калькулятор ───────────────────────────────────────────────────── -->
+  <section class="section" id="calc" style="margin-top:var(--space-6)">
+    <div class="section-head">
+      <h2 class="section-title">Калькулятор экономики единицы</h2>
+      <span class="section-note">live · пересчёт на каждый ввод</span>
+    </div>
+
+    <div class="calc">
+      <!-- входы -->
+      <div class="calc-inputs">
+        <div class="field">
+          <div class="field-row">
+            <label class="field-label" for="in-price">Цена продажи</label>
+            <output class="field-value" id="out-price" for="in-price">—</output>
+          </div>
+          <input class="range" type="range" id="in-price" min="200" max="5000" step="50" value="1000">
+        </div>
+
+        <div class="field">
+          <div class="field-row">
+            <label class="field-label" for="in-cost">Себестоимость</label>
+            <output class="field-value" id="out-cost" for="in-cost">—</output>
+          </div>
+          <input class="range" type="range" id="in-cost" min="50" max="2000" step="10" value="320">
+        </div>
+
+        <div class="field">
+          <div class="field-row">
+            <label class="field-label" for="in-comm">
+              Комиссия
+              <span class="fn">
+                <button class="fn-btn" type="button" aria-expanded="false"
+                        aria-label="Что такое комиссия и откуда ставка">1</button>
+                <span class="fn-pop" role="tooltip">
+                  <b>Комиссия площадки</b>
+                  Процент от цены, который площадка удерживает из выручки.
+                  Ставка зависит от категории товара и схемы работы —
+                  в демо это свободный параметр, а не норматив.
+                  <span class="fn-src">Параметр модели, не нормативный документ.</span>
+                </span>
+              </span>
+            </label>
+            <output class="field-value" id="out-comm" for="in-comm">—</output>
+          </div>
+          <input class="range" type="range" id="in-comm" min="0" max="40" step="0.5" value="18">
+        </div>
+
+        <div class="field">
+          <div class="field-row">
+            <label class="field-label" for="in-log">Логистика и хранение</label>
+            <output class="field-value" id="out-log" for="in-log">—</output>
+          </div>
+          <input class="range" type="range" id="in-log" min="0" max="400" step="5" value="85">
+        </div>
+
+        <div class="field">
+          <div class="field-row">
+            <label class="field-label" for="in-ads">
+              Реклама, % выручки
+              <span class="fn">
+                <button class="fn-btn" type="button" aria-expanded="false"
+                        aria-label="Как считается доля рекламы">2</button>
+                <span class="fn-pop" role="tooltip">
+                  <b>Доля рекламы в выручке</b>
+                  Расходы на продвижение, делённые на выручку.
+                  Показывает, сколько процентов выручки съедает реклама
+                  до того, как посчитана прибыль.
+                  <span class="fn-src">Порог внимания — выше 25 %.</span>
+                </span>
+              </span>
+            </label>
+            <output class="field-value" id="out-ads" for="in-ads">—</output>
+          </div>
+          <input class="range" type="range" id="in-ads" min="0" max="60" step="1" value="12">
+        </div>
+
+        <div class="field">
+          <div class="field-row">
+            <label class="field-label" for="in-fine">
+              Штрафы и удержания
+              <span class="fn">
+                <button class="fn-btn" type="button" aria-expanded="false"
+                        aria-label="Что означает этот параметр">3</button>
+                <span class="fn-pop" role="tooltip">
+                  <b>Штрафы и удержания</b>
+                  Ожидаемые расходы на санкции за единицу.
+                  Считаются как вероятность события × размер санкции.
+                  В демо это допущение пользователя, а не установленная
+                  норма: публичной статистики вероятности не существует.
+                  <span class="fn-src">Допущение модели. Задавайте осознанно.</span>
+                </span>
+              </span>
+            </label>
+            <output class="field-value" id="out-fine" for="in-fine">—</output>
+          </div>
+          <input class="range" type="range" id="in-fine" min="0" max="200" step="5" value="20">
+        </div>
+
+        <button class="btn" type="button" id="btn-reset">Сбросить параметры</button>
+      </div>
+
+      <!-- выход -->
+      <div class="calc-out">
+        <div class="calc-headline">
+          <div class="calc-hero">
+            <span class="calc-hero-label">
+              Маржа
+              <span class="fn">
+                <button class="fn-btn" type="button" aria-expanded="false"
+                        aria-label="Как считается маржа">4</button>
+                <span class="fn-pop" role="tooltip">
+                  <b>Маржа</b>
+                  Доля цены, которая остаётся после всех вычетов:
+                  (цена − себестоимость − комиссия − логистика − реклама) ÷ цена.
+                  <span class="fn-src">Ноль — нейтральный цвет, не красный.</span>
+                </span>
+              </span>
+            </span>
+            <span class="calc-hero-value" id="out-margin">—</span>
+          </div>
+          <div class="calc-side">
+            <span class="calc-side-label">Прибыль с единицы</span>
+            <span class="calc-side-value" id="out-profit">—</span>
+          </div>
+        </div>
+
+        <!-- waterfall-разбор -->
+        <div class="card">
+          <div class="card-head">
+            <div>
+              <h3 class="card-title">Разбор цены</h3>
+              <p class="card-sub">от цены продажи до прибыли, построчно</p>
+            </div>
+            <span class="badge badge--neutral" id="out-state">—</span>
+          </div>
+          <div class="breakdown" id="out-breakdown"></div>
+          <div class="breakdown-metrics" id="out-metrics"></div>
+        </div>
+
+        <div class="alert alert--warning" id="out-alert" hidden>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+               stroke-width="1.5" aria-hidden="true">
+            <circle cx="12" cy="12" r="10"/><path d="M12 8v5"/><path d="M12 16h.01"/>
+          </svg>
+          <span id="out-alert-text"></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── метрики ───────────────────────────────────────────────────────── -->
+  <section class="section">
+    <div class="section-head">
+      <h2 class="section-title">Метрика</h2>
+      <span class="section-note">плитка KPI · тренд · спарклайн</span>
+    </div>
+    <div class="grid grid-kpi" id="kpi-row"></div>
+  </section>
+
+  <!-- ── таблица ───────────────────────────────────────────────────────── -->
+  <section class="section">
+    <div class="section-head">
+      <h2 class="section-title">Таблица данных</h2>
+      <span class="section-note">числа вправо и tabular · текст влево · скрытие колонки на узких экранах</span>
+    </div>
+    <div class="table-wrap">
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">Позиция</th>
+            <th scope="col" class="num">Цена</th>
+            <th scope="col" class="num">Выручка</th>
+            <th scope="col" class="num">Маржа</th>
+            <th scope="col" class="num col-md">Прибыль</th>
+            <th scope="col" class="num">Статус</th>
+          </tr>
+        </thead>
+        <tbody id="rows-body"></tbody>
+      </table>
+    </div>
+    <p class="muted" style="margin-top:var(--space-2)">
+      Суммы демонстрационные. Совпадения с реальными товарами случайны.
+    </p>
+  </section>
+
+  <!-- ── график ────────────────────────────────────────────────────────── -->
+  <section class="section">
+    <div class="section-head">
+      <h2 class="section-title">График маржи по цене</h2>
+      <span class="section-note">Chart.js · точка безубыточности</span>
+    </div>
+    <div class="chart-box">
+      <canvas id="chart" aria-label="График зависимости маржи от цены продажи" role="img"></canvas>
+    </div>
+    <div class="chart-legend">
+      <span><i class="legend-dot" aria-hidden="true"></i> маржа, %</span>
+      <span><i class="legend-line" aria-hidden="true"></i> точка безубыточности</span>
+      <span class="muted" id="chart-note"></span>
+    </div>
+  </section>
+
+  <!-- ── элементы управления и состояния ───────────────────────────────── -->
+  <section class="section">
+    <div class="section-head">
+      <h2 class="section-title">Элементы и состояния</h2>
+      <span class="section-note">кнопки · бейджи · ввод · состояния</span>
+    </div>
+
+    <div class="grid grid-2">
+      <div class="card">
+        <h3 class="card-title">Кнопки</h3>
+        <div class="demo-bar" style="margin:0;padding:0;border:0">
+          <button class="btn btn--primary" type="button">Основная</button>
+          <button class="btn" type="button">Вторичная</button>
+          <button class="btn btn--ghost" type="button">Призрачная</button>
+        </div>
+        <p class="muted">
+          Фокус единый для всех интерактивных элементов — обводка 2 px с
+          отступом 2 px, заметна и на тёмном, и на светлом фоне.
+        </p>
+      </div>
+
+      <div class="card">
+        <h3 class="card-title">Бейджи статуса</h3>
+        <div class="demo-bar" style="margin:0;padding:0;border:0" id="badge-row"></div>
+        <p class="muted">
+          Цвет дублируется формой и подписью: знак, иконка и текст читаются
+          без различения цвета.
+        </p>
+      </div>
+
+      <div class="card">
+        <h3 class="card-title">Прогресс и пороги лимита</h3>
+        <div class="stack" id="progress-row"></div>
+        <div class="stack" id="alert-scale"></div>
+      </div>
+
+      <div class="card">
+        <h3 class="card-title">Пустое состояние</h3>
+        <div class="empty">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+               stroke-width="1.5" aria-hidden="true">
+            <rect x="3" y="4" width="18" height="16" rx="2"/>
+            <path d="M3 9h18M9 9v11"/>
+          </svg>
+          <strong style="color:var(--color-text-secondary)">Нет данных за период</strong>
+          <span>Выберите другой диапазон дат или снимите фильтр</span>
+          <button class="btn" type="button">Сбросить фильтры</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── токены ────────────────────────────────────────────────────────── -->
+  <section class="section">
+    <div class="section-head">
+      <h2 class="section-title">Токены</h2>
+      <span class="section-note">значения переключаются вместе с темой</span>
+    </div>
+    <div class="stack">
+      <div>
+        <h3 class="card-title" style="margin-bottom:var(--space-2)">Семантика</h3>
+        <div class="swatch-grid" id="sw-semantic"></div>
+      </div>
+      <div>
+        <h3 class="card-title" style="margin-bottom:var(--space-2)">Плоскости и границы</h3>
+        <div class="swatch-grid" id="sw-surface"></div>
+      </div>
+    </div>
+  </section>
+
+  <p class="footnote" style="margin-top:var(--space-16)">
+    Демонстрационные данные. Все суммы, проценты и ставки — вымышленные
+    параметры модели, не нормативы площадки и не данные реальных продавцов.
+  </p>
+
+</div>
+</body>
+</html>

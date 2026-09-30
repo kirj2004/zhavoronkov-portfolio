@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Каталог услуг — аналитика маркетплейсов</title>
+<meta name="description" content="Каталог услуг: микропродукты, основные продукты, пакеты и абонементы. 18 позиций с ценами и сроками.">
+<link rel="stylesheet" href="../assets/style.css">
+<script src="https://cdn.jsdelivr.net/npm/lucide@0.454.0/dist/umd/lucide.min.js" defer></script>
+<style>
+
+/* ── каталог: свои блоки поверх дизайн-системы ───────────────────────── */
+.cat-head-right{display:flex;gap:var(--space-3);align-items:center}
+.cat-kpi{margin-bottom:var(--space-6)}
+
+.cat-filter{display:flex;flex-wrap:wrap;gap:var(--space-2);align-items:center;
+  padding:var(--space-3) var(--space-4);background:var(--color-surface);
+  border:1px solid var(--color-border);border-radius:var(--radius-lg)}
+.cat-filter-label{font-size:var(--text-xs);color:var(--color-text-tertiary);
+  text-transform:uppercase;letter-spacing:.04em;margin-right:var(--space-1)}
+.cat-filter-btn{height:var(--row-h-md);font-size:var(--text-sm);padding:0 var(--space-3)}
+.cat-filter-btn[aria-pressed="true"]{background:var(--color-accent-subtle);
+  border-color:var(--color-accent);color:var(--color-accent)}
+
+.cat-blurb{margin:0 0 var(--space-5);max-width:70ch;
+  color:var(--color-text-secondary);font-size:var(--text-sm)}
+
+.cat-card{gap:var(--space-4)}
+.cat-card-title{font-size:var(--text-base);line-height:1.35}
+.cat-num{font-variant-numeric:tabular-nums;min-width:34px;justify-content:center}
+
+.cat-lead{margin:0;font-size:var(--text-sm);color:var(--color-text-secondary)}
+
+.cat-gets{display:flex;flex-direction:column;gap:var(--space-2);
+  padding-top:var(--space-3);border-top:1px solid var(--color-border)}
+.cat-gets-label{font-size:var(--text-xs);text-transform:uppercase;
+  letter-spacing:.04em;color:var(--color-text-tertiary)}
+.cat-list{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:6px}
+.cat-list li{position:relative;padding-left:18px;font-size:var(--text-sm);
+  color:var(--color-text-secondary);line-height:1.45}
+.cat-list li::before{content:"";position:absolute;left:2px;top:8px;width:6px;
+  height:6px;border-radius:2px;background:var(--color-accent)}
+
+.cat-result{background:var(--color-well);border:1px solid var(--color-border);
+  border-left:2px solid var(--color-accent);border-radius:var(--radius-sm);
+  padding:var(--space-3)}
+.cat-result-label{display:block;font-size:var(--text-2xs);text-transform:uppercase;
+  letter-spacing:.04em;color:var(--color-text-tertiary);margin-bottom:4px}
+.cat-result-text{margin:0;font-size:var(--text-sm);color:var(--color-text-primary);
+  line-height:1.45}
+
+.cat-foot-row{display:flex;flex-wrap:wrap;align-items:flex-end;
+  justify-content:space-between;gap:var(--space-3);
+  margin-top:auto;padding-top:var(--space-4);border-top:1px solid var(--color-border)}
+.cat-meta{display:flex;gap:var(--space-6)}
+.cat-meta-item{display:flex;flex-direction:column;gap:2px}
+.cat-meta-label{font-size:var(--text-2xs);text-transform:uppercase;
+  letter-spacing:.04em;color:var(--color-text-tertiary)}
+.cat-meta-value{font-size:var(--text-sm);font-weight:600;color:var(--color-text-primary)}
+.cat-meta-item--price .cat-meta-value{font-size:var(--text-lg);color:var(--color-accent)}
+.cat-actions{display:flex;gap:var(--space-2)}
+.cat-btn{height:var(--row-h-md);font-size:var(--text-sm);padding:0 var(--space-4)}
+
+.cat-contacts .cat-contact-card{gap:var(--space-4)}
+.cat-contact-text{margin:0;font-size:var(--text-base);color:var(--color-text-primary);
+  max-width:62ch}
+.cat-contact-actions{display:flex;flex-wrap:wrap;gap:var(--space-3)}
+.cat-contact-mail{margin:0}
+
+.cat-foot{margin-top:var(--space-16);padding-top:var(--space-5);
+  border-top:1px solid var(--color-border)}
+.cat-foot p{margin:0;max-width:78ch}
+
+/* карточка скрыта фильтром — но не схлопывает сетку */
+.cat-card[hidden]{display:none}
+/* раздел целиком отфильтрован */
+.cat-section--empty{display:none}
+
+/* ── печать: ТЁМНАЯ тема, A4, без навигации ─────────────────────────────
+   По решению владельца PDF каталога выходит тёмным. Chrome по умолчанию
+   не печатает фон, поэтому print-color-adjust: exact обязателен — без
+   него тёмная тема схлопывается в белый лист. Все цвета берутся из
+   токенов, а не из hex: палитра одна на экран и на печать. */
+@media print{
+  @page{size:A4;margin:12mm 10mm}
+  html,[data-theme]{-webkit-print-color-adjust:exact;print-color-adjust:exact;color-scheme:dark;background-color:#0a0e1a}
+  /* Раздел 18 style.css переводит печать на белый (осознанно, для
+     резюме). Здесь решение обратное — PDF каталога тёмный, поэтому
+     палитра переопределяется явно: через var() она уже указывала бы
+     на белые значения раздела 18. Значения совпадают с разделом 1. */
+  :root{
+    --color-bg: #0a0e1a;
+    --color-surface: #121a2b;
+    --color-surface-raised: #182236;
+    --color-well: #0d1422;
+    --color-hover: #151e2f;
+    --color-border: #1e2a3f;
+    --color-border-strong: #33425c;
+    --color-border-control: #5a6b86;
+    --color-text-primary: #e8edf7;
+    --color-text-secondary: #a3b0c7;
+    --color-text-tertiary: #7b8aa3;
+    --color-accent: #5b9bff;
+    --color-accent-strong: #8ab6ff;
+    --color-profit: #3ddc97;
+    --color-loss: #ff958c;
+    --color-warning: #fbbf24;
+    --color-profit-kpi: #3ddc97;
+    --color-loss-kpi: #ff958c;
+    --color-warning-kpi: #fbbf24;
+    --color-info: #38bdf8;
+    --color-text-on-accent: #0a0e1a;
+    --color-focus-ring: #8ab6ff;
+  }
+  html[data-theme],html[data-theme] body{
+    background:var(--color-bg)!important;color:var(--color-text-primary)!important}
+  /* печать — компактнее экранной: карточки в две колонки, кегль меньше */
+  /* 9 pt ровно = 12 px при 96 dpi. Ниже не опускаемся (см. build_cases.py). */
+  :root{--text-3xl:28px;--text-2xl:18px;--text-lg:15px;--text-base:12px;
+    --text-sm:12px;--text-xs:12px;--text-2xs:12px;--space-16:16px;
+    --space-8:11px;--space-6:9px;--space-5:8px;--space-4:7px;--space-3:6px;
+    --row-h-md:24px;--radius-lg:6px;--radius-sm:4px}
+  .page{max-width:none;padding:0}
+  .theme-toggle,.cat-filter,.cat-actions,.cat-contact-actions,
+  .cat-head-right,.no-print,.print-btn{display:none!important}
+  .cat-blurb{margin-bottom:var(--space-4)}
+  .cat-grid{grid-template-columns:1fr 1fr;gap:var(--space-4)}
+  .cat-kpi{grid-template-columns:repeat(4,1fr);gap:var(--space-3);margin-bottom:var(--space-5)}
+  .cat-card,.card,.metric,.cat-contact-card{background:var(--color-surface)!important;
+    border:1px solid var(--color-border-strong)!important;box-shadow:none!important;
+    break-inside:avoid;page-break-inside:avoid}
+  .cat-card{gap:var(--space-3)}
+  .cat-list{gap:2px}
+  .cat-list li{line-height:1.3;padding-left:12px}
+  .cat-list li::before{top:5px;width:4px;height:4px}
+  .cat-lead{line-height:1.35}
+  .cat-result{padding:var(--space-2)}
+  .cat-foot-row{padding-top:var(--space-3)}
+  .cat-kpi .metric{break-inside:avoid}
+  .cat-section--empty{display:none}
+  .cat-list li,.cat-lead,.cat-result-text,.cat-contact-text,
+  .metric-label,.metric-hint,.page-sub,.cat-blurb{color:var(--color-text-secondary)!important}
+  .card-title,.cat-meta-value,.section-title,.metric-value,
+  .cat-result-text{color:var(--color-text-primary)!important}
+  .cat-meta-item--price .cat-meta-value{color:var(--color-accent-strong)!important;
+    font-size:var(--text-base)}
+  .cat-result{background:var(--color-well)!important;
+    border-color:var(--color-border-strong)!important;
+    border-left-color:var(--color-accent)!important}
+  .cat-list li::before{background:var(--color-accent)!important}
+  .section{break-inside:auto;margin-top:var(--space-10)}
+  .section-head{border-color:var(--color-border-strong)!important;break-after:avoid}
+  .cat-card{break-inside:avoid}
+  .cat-foot{margin-top:var(--space-10)}
+  a{color:var(--color-text-primary);text-decoration:none}
+  .site-footer{border-color:var(--color-border-strong)!important}
+}
+
+</style>
+</head>
+<body>
+<div class="page">
+<header class="page-head">
+<div>
+<h1 class="page-title">Каталог услуг</h1>
+<p class="page-sub">18 позиций: от разбора одной карточки до ежемесячного ведения магазина. Цена фиксируется до начала работ, срок — в рабочих днях. Каждый продукт заканчивается выводом: что делать и в каком порядке.</p>
+</div>
+<div class="cat-head-right">
+<button class="btn theme-toggle" id="theme-toggle" type="button" aria-label="Переключить тему">Светлая тема</button>
+</div>
+</header>
+<div class="grid grid-kpi cat-kpi">
+<div class="metric"><div class="metric-top"><span class="metric-label">Позиций в каталоге</span></div><div class="metric-body"><p class="metric-value tnum">18</p></div><div class="metric-foot"><span class="metric-hint">6 микро · 6 основных · 6 пакетов</span></div></div>
+<div class="metric"><div class="metric-top"><span class="metric-label">Срок микропродукта</span></div><div class="metric-body"><p class="metric-value tnum">2 ч – 1 день</p></div><div class="metric-foot"><span class="metric-hint">цена от 990 ₽</span></div></div>
+<div class="metric"><div class="metric-top"><span class="metric-label">Основные продукты</span></div><div class="metric-body"><p class="metric-value tnum">3–14 дней</p></div><div class="metric-foot"><span class="metric-hint">цена от 9 900 ₽</span></div></div>
+<div class="metric"><div class="metric-top"><span class="metric-label">Ежемесячное ведение</span></div><div class="metric-body"><p class="metric-value tnum">от 15 000 ₽</p></div><div class="metric-foot"><span class="metric-hint">абонементы и комбо</span></div></div>
+</div>
+<div class="cat-filter" role="group" aria-label="Фильтр по цене">
+<span class="cat-filter-label">Цена:</span>
+<button class="btn btn--ghost cat-filter-btn" type="button" data-filter="all" aria-pressed="true">все</button>
+<button class="btn btn--ghost cat-filter-btn" type="button" data-filter="cheap" aria-pressed="false">до 2 500 ₽</button>
+<button class="btn btn--ghost cat-filter-btn" type="button" data-filter="mid" aria-pressed="false">2 500 – 15 000 ₽</button>
+<button class="btn btn--ghost cat-filter-btn" type="button" data-filter="high" aria-pressed="false">от 15 000 ₽</button>
+</div>
+<section class="section" id="micro">
+<div class="section-head">
+<h2 class="section-title">Микропродукты</h2>
+<span class="section-note">быстро и дёшево · один вопрос — один ответ</span>
+</div>
+<p class="cat-blurb">Узкая задача с конкретным результатом на выходе. Берётся, когда нужно принять одно решение и не тянуть с этим неделю.</p>
+<div class="grid grid-2 cat-grid">
+<article class="card cat-card" id="p1" data-price="2900" data-level="micro" data-kind="one">
+<div class="card-head">
+<div>
+<h3 class="card-title cat-card-title">Юнит-экономика одного товара</h3>
+<p class="card-sub">№ 1 · разово</p>
+</div>
+<span class="badge badge--neutral cat-num tnum">1</span>
+</div>
+<p class="cat-lead">Раскладываю экономику одной позиции до рубля на единицу.</p>
+<div class="cat-gets">
+<div class="cat-gets-label">Что получите</div>
+<ul class="cat-list">
+<li>Статья затрат WB: комиссия по вашей категории, логистика, ПВЗ, эквайринг, налог</li>
+<li>Точка безубыточности и цены под маржу 10 / 15 / 20 %</li>
+<li>Порог, ниже который скидка съедает всю прибыль</li>
+<li>Вывод одной строкой: поднимать цену, снижать себестоимость или менять условия</li>
+</ul>
+</div>
+<div class="cat-result"><span class="cat-result-label">Пример результата</span><p class="cat-result-text">Пример: «При РРЦ 1 000 ₽ маржа −58 ₽ с единицы. Безубыточность — 1 109 ₽. Цена 1 543 ₽ даёт 15 % — это и есть рабочая точка».</p></div>
+<div class="cat-foot-row">
+<div class="cat-meta">
+<div class="cat-meta-item"><span class="cat-meta-label">Срок</span><span class="cat-meta-value">1 день</span></div>
+<div class="cat-meta-item cat-meta-item--price"><span class="cat-meta-label">Цена</span><span class="cat-meta-value tnum">2 900 ₽</span></div>
+</div>
+<div class="cat-actions">
+<a class="btn btn--primary cat-btn" href="mailto:ip.zhavoronkov.ka@yandex.ru?subject=%D0%9E%D0%B1%D1%81%D1%83%D0%B4%D0%B8%D1%82%D1%8C%3A%20%D0%AE%D0%BD%D0%B8%D1%82-%D1%8D%D0%BA%D0%BE%D0%BD%D0%BE%D0%BC%D0%B8%D0%BA%D0%B0%20%D0%BE%D0%B4%D0%BD%D0%BE%D0%B3%D0%BE%20%D1%82%D0%BE%D0%B2%D0%B0%D1%80%D0%B0%20%282%20900%20%E2%82%BD%29">Обсудить</a>
+<a class="btn cat-btn" href="https://max.ru/u/f9LHodD0cOLdp8PLl5xLOgbVyMIGA-CzKgczzqM_HK-bc2fsqmhaWQNg7Lk" target="_blank" rel="noopener">MAX</a>
+</div>
+</div>
+</article>
+<article class="card cat-card" id="p2" data-price="1900" data-level="micro" data-kind="one">
+<div class="card-head">
+<div>
+<h3 class="card-title cat-card-title">Разбор карточки-конкурента</h3>
+<p class="card-sub">№ 2 · разово</p>
+</div>
+<span class="badge badge--neutral cat-num tnum">2</span>
+</div>
+<p class="cat-lead">Разбираю одну чужую карточку: чем она берёт покупателя и что у неё слабые места.</p>
+<div class="cat-gets">
+<div class="cat-gets-label">Что получите</div>
+<ul class="cat-list">
+<li>Расшифровка: заголовок, цена, скидка, рейтинг, число отзывов, продажи</li>
+<li>Разбор инфографики и фотографий по элементам</li>
+<li>Разбор названия, описания и SEO-семантики</li>
+<li>Список из 5–7 конкретных правок, которые можно применить к своей карточке</li>
+</ul>
+</div>
+<div class="cat-result"><span class="cat-result-label">Пример результата</span><p class="cat-result-text">Пример: «Конкурент держит 28 % выручки за счёт фото со сценой, но не объясняет размер в карточке — это окно для вас».</p></div>
+<div class="cat-foot-row">
+<div class="cat-meta">
+<div class="cat-meta-item"><span class="cat-meta-label">Срок</span><span class="cat-meta-value">1 день</span></div>
+<div class="cat-meta-item cat-meta-item--price"><span class="cat-meta-label">Цена</span><span class="cat-meta-value tnum">1 900 ₽</span></div>
+</div>
+<div class="cat-actions">
+<a class="btn btn--primary cat-btn" href="mailto:ip.zhavoronkov.ka@yandex.ru?subject=%D0%9E%D0%B1%D1%81%D1%83%D0%B4%D0%B8%D1%82%D1%8C%3A%20%D0%A0%D0%B0%D0%B7%D0%B1%D0%BE%D1%80%20%D0%BA%D0%B0%D1%80%D1%82%D0%BE%D1%87%D0%BA%D0%B8-%D0%BA%D0%BE%D0%BD%D0%BA%D1%83%D1%80%D0%B5%D0%BD%D1%82%D0%B0%20%281%20900%20%E2%82%BD%29">Обсудить</a>
+<a class="btn cat-btn" href="https://max.ru/u/f9LHodD0cOLdp8PLl5xLOgbVyMIGA-CzKgczzqM_HK-bc2fsqmhaWQNg7Lk" target="_blank" rel="noopener">MAX</a>
+</div>
+</div>
+</article>
+<article class="card cat-card" id="p3" data-price="990" data-level="micro" data-kind="one">
+<div class="card-head">
+<div>
+<h3 class="card-title cat-card-title">Чек-лист карточки WB</h3>
+<p class="card-sub">№ 3 · разово</p>
+</div>
+<span class="badge badge--neutral cat-num tnum">3</span>
+</div>
+<p class="cat-lead">Проверяю карточку по формальному списку и отдаю список пунктов на дополнение.</p>
+<div class="cat-gets">
+<div class="cat-gets-label">Что получите</div>
+<ul class="cat-list">
+<li>Проверка обязательных полей, веса и габаритов</li>
+<li>Проверка категории и признаков, влияющих на выдачу</li>
+<li>Соответствие заголовка категории и описания</li>
+<li>Отметки «ок / поправить» по каждому пункту</li>
+</ul>
+</div>
+<div class="cat-result"><span class="cat-result-label">Пример результата</span><p class="cat-result-text">Пример: «42 пункта проверены, 6 требуют правки: 3 — в описании, 2 — в габаритах, 1 — в категории».</p></div>
+<div class="cat-foot-row">
+<div class="cat-meta">
+<div class="cat-meta-item"><span class="cat-meta-label">Срок</span><span class="cat-meta-value">4 часа</span></div>
+<div class="cat-meta-item cat-meta-item--price"><span class="cat-meta-label">Цена</span><span class="cat-meta-value tnum">990 ₽</span></div>
+</div>
+<div class="cat-actions">
+<a class="btn btn--primary cat-btn" href="mailto:ip.zhavoronkov.ka@yandex.ru?subject=%D0%9E%D0%B1%D1%81%D1%83%D0%B4%D0%B8%D1%82%D1%8C%3A%20%D0%A7%D0%B5%D0%BA-%D0%BB%D0%B8%D1%81%D1%82%20%D0%BA%D0%B0%D1%80%D1%82%D0%BE%D1%87%D0%BA%D0%B8%20WB%20%28990%20%E2%82%BD%29">Обсудить</a>
+<a class="btn cat-btn" href="https://max.ru/u/f9LHodD0cOLdp8PLl5xLOgbVyMIGA-CzKgczzqM_HK-bc2fsqmhaWQNg7Lk" target="_blank" rel="noopener">MAX</a>
+</div>
+</div>
+</article>
+<article class="card cat-card" id="p4" data-price="1900" data-level="micro" data-kind="one">
+<div class="card-head">
+<div>
+<h3 class="card-title cat-card-title">ТЗ на инфографику</h3>
+<p class="card-sub">№ 4 · разово</p>
+</div>
+<span class="badge badge--neutral cat-num tnum">4</span>
+</div>
+<p class="cat-lead">Готовлю техническое задание, по которому дизайнеру не нужно догадываться.</p>
+<div class="cat-gets">
+<div class="cat-gets-label">Что получите</div>
+<ul class="cat-list">
+<li>Раскладка слайдов: что на первом экране, что дальше</li>
+<li>Тексты под каждый блок — с размерами и акцентом</li>
+<li>Цвета, шрифты, требования к фото товара</li>
+<li>Указания по выгрузке под форматы WB и требования к размеру файлов</li>
+</ul>
+</div>
+<div class="cat-result"><span class="cat-result-label">Пример результата</span><p class="cat-result-text">Пример: «5 слайдов, первый экран закрывает выгоду, второй — размеры и характеристики, третий — сценарий использования».</p></div>
+<div class="cat-foot-row">
+<div class="cat-meta">
+<div class="cat-meta-item"><span class="cat-meta-label">Срок</span><span class="cat-meta-value">1 день</span></div>
+<div class="cat-meta-item cat-meta-item--price"><span class="cat-meta-label">Цена</span><span class="cat-meta-value tnum">1 900 ₽</span></div>
+</div>
+<div class="cat-actions">
+<a class="btn btn--primary cat-btn" href="mailto:ip.zhavoronkov.ka@yandex.ru?subject=%D0%9E%D0%B1%D1%81%D1%83%D0%B4%D0%B8%D1%82%D1%8C%3A%20%D0%A2%D0%97%20%D0%BD%D0%B0%20%D0%B8%D0%BD%D1%84%D0%BE%D0%B3%D1%80%D0%B0%D1%84%D0%B8%D0%BA%D1%83%20%281%20900%20%E2%82%BD%29">Обсудить</a>
+<a class="btn cat-btn" href="https://max.ru/u/f9LHodD0cOLdp8PLl5xLOgbVyMIGA-CzKgczzqM_HK-bc2fsqmhaWQNg7Lk" target="_blank" rel="noopener">MAX</a>
+</div>
+</div>
+</article>
+<article class="card cat-card" id="p5" data-price="990" data-level="micro" data-kind="one">
+<div class="card-head">
+<div>
+<h3 class="card-title cat-card-title">Расчёт одной цены</h3>
+<p class="card-sub">№ 5 · разово</p>
+</div>
+<span class="badge badge--neutral cat-num tnum">5</span>
+</div>
+<p class="cat-lead">Считаю, какая цена нужна для заданной маржи — с учётом ваших тарифов.</p>
+<div class="cat-gets">
+<div class="cat-gets-label">Что получите</div>
+<ul class="cat-list">
+<li>Обратный расчёт от маржи к цене по вашей категории</li>
+<li>Порядок величин: от точки безубыточности до рабочей цены</li>
+<li>Что произойдёт с маржой при скидке 10 / 20 / 30 %</li>
+<li>Рекомендованная цена с запасом на возвраты</li>
+</ul>
+</div>
+<div class="cat-result"><span class="cat-result-label">Пример результата</span><p class="cat-result-text">Пример: «Маржа 15 % достигается от 1 543 ₽. При скидке 20 % нужно подниматься до 1 930 ₽, иначе прибыль уходит в ноль».</p></div>
+<div class="cat-foot-row">
+<div class="cat-meta">
+<div class="cat-meta-item"><span class="cat-meta-label">Срок</span><span class="cat-meta-value">2 часа</span></div>
+<div class="cat-meta-item cat-meta-item--price"><span class="cat-meta-label">Цена</span><span class="cat-meta-value tnum">990 ₽</span></div>
+</div>
+<div class="cat-actions">
+<a class="btn btn--primary cat-btn" href="mailto:ip.zhavoronkov.ka@yandex.ru?subject=%D0%9E%D0%B1%D1%81%D1%83%D0%B4%D0%B8%D1%82%D1%8C%3A%20%D0%A0%D0%B0%D1%81%D1%87%D1%91%D1%82%20%D0%BE%D0%B4%D0%BD%D0%BE%D0%B9%20%D1%86%D0%B5%D0%BD%D1%8B%20%28990%20%E2%82%BD%29">Обсудить</a>
+<a class="btn cat-btn" href="https://max.ru/u/f9LHodD0cOLdp8PLl5xLOgbVyMIGA-CzKgczzqM_HK-bc2fsqmhaWQNg7Lk" target="_blank" rel="noopener">MAX</a>
+</div>
+</div>
+</article>
+<article class="card cat-card" id="p6" data-price="1500" data-level="micro" data-kind="one">
+<div class="card-head">
+<div>
+<h3 class="card-title cat-card-title">Проверка карточки на нарушения</h3>
+<p class="card-sub">№ 6 · разово</p>
+</div>
+<span class="badge badge--neutral cat-num tnum">6</span>
+</div>
+<p class="cat-lead">Ищу в карточке то, из-за чего её могут снять, заблокировать или оштрафовать.</p>
+<div class="cat-gets">
+<div class="cat-gets-label">Что получите</div>
+<ul class="cat-list">
+<li>Проверка по правилам площадки: запрещённые формулировки и обещания</li>
+<li>Проверка изображений: водяные знаки, чужие фото, логотипы</li>
+<li>Проверка описания на недостоверные заявления</li>
+<li>Список рисков с оценкой критичности</li>
+</ul>
+</div>
+<div class="cat-result"><span class="cat-result-label">Пример результата</span><p class="cat-result-text">Пример: «Один риск высокий: в описании обещание результата, которого товар не гарантирует. Формулировку нужно заменить».</p></div>
+<div class="cat-foot-row">
+<div class="cat-meta">
+<div class="cat-meta-item"><span class="cat-meta-label">Срок</span><span class="cat-meta-value">1 день</span></div>
+<div class="cat-meta-item cat-meta-item--price"><span class="cat-meta-label">Цена</span><span class="cat-meta-value tnum">1 500 ₽</span></div>
+</div>
+<div class="cat-actions">
+<a class="btn btn--primary cat-btn" href="mailto:ip.zhavoronkov.ka@yandex.ru?subject=%D0%9E%D0%B1%D1%81%D1%83%D0%B4%D0%B8%D1%82%D1%8C%3A%20%D0%9F%D1%80%D0%BE%D0%B2%D0%B5%D1%80%D0%BA%D0%B0%20%D0%BA%D0%B0%D1%80%D1%82%D0%BE%D1%87%D0%BA%D0%B8%20%D0%BD%D0%B0%20%D0%BD%D0%B0%D1%80%D1%83%D1%88%D0%B5%D0%BD%D0%B8%D1%8F%20%281%20500%20%E2%82%BD%29">Обсудить</a>
+<a class="btn cat-btn" href="https://max.ru/u/f9LHodD0cOLdp8PLl5xLOgbVyMIGA-CzKgczzqM_HK-bc2fsqmhaWQNg7Lk" target="_blank" rel="noopener">MAX</a>
+</div>
+</div>
+</article>
+</div>
+</section>
+<section class="section" id="main">
+<div class="section-head">
+<h2 class="section-title">Основные продукты</h2>
+<span class="section-note">полный разбор с расчётом и стратегией</span>
+</div>
+<p class="cat-blurb">Работа с данными магазина целиком: экономика, ценообразование, позиционирование и план действий по итогам.</p>
+<div class="grid grid-2 cat-grid">
+<article class="card cat-card" id="p7" data-price="9900" data-level="main" data-kind="one">
+<div class="card-head">
+<div>
+<h3 class="card-title cat-card-title">Юнит-экономика + РРЦ + стратегия</h3>
+<p class="card-sub">№ 7 · разово</p>
+</div>
+<span class="badge badge--neutral cat-num tnum">7</span>
+</div>
+<p class="cat-lead">Полный разбор позиции: экономика, цена и план действий по её изменению.</p>
+<div class="cat-gets">
+<div class="cat-gets-label">Что получите</div>
+<ul class="cat-list">
+<li>Юнит-экономика по всем позициям магазина с разбивкой по статьям</li>
+<li>Диапазон РРЦ: от безубыточности до цены под целевую маржу</li>
+<li>Рекомендация по цене, скидке и участию в акциях</li>
+<li>Оценка, где теряется маржа: цена, скидка, возвраты, логистика</li>
+<li>План действий на месяц с приоритетами</li>
+</ul>
+</div>
+<div class="cat-result"><span class="cat-result-label">Пример результата</span><p class="cat-result-text">Пример: «7 SKU, у трёх отрицательная маржа в пиковый сезон. Подъём на 8 % по двум позициям даёт +46 тыс. ₽ в месяц».</p></div>
+<div class="cat-foot-row">
+<div class="cat-meta">
+<div class="cat-meta-item"><span class="cat-meta-label">Срок</span><span class="cat-meta-value">3–4 дня</span></div>
+<div class="cat-meta-item cat-meta-item--price"><span class="cat-meta-label">Цена</span><span class="cat-meta-value tnum">9 900 ₽</span></div>
+</div>
+<div class="cat-actions">
+<a class="btn btn--primary cat-btn" href="mailto:ip.zhavoronkov.ka@yandex.ru?subject=%D0%9E%D0%B1%D1%81%D1%83%D0%B4%D0%B8%D1%82%D1%8C%3A%20%D0%AE%D0%BD%D0%B8%D1%82-%D1%8D%D0%BA%D0%BE%D0%BD%D0%BE%D0%BC%D0%B8%D0%BA%D0%B0%20%2B%20%D0%A0%D0%A0%D0%A6%20%2B%20%D1%81%D1%82%D1%80%D0%B0%D1%82%D0%B5%D0%B3%D0%B8%D1%8F%20%289%20900%20%E2%82%BD%29">Обсудить</a>
+<a class="btn cat-btn" href="https://max.ru/u/f9LHodD0cOLdp8PLl5xLOgbVyMIGA-CzKgczzqM_HK-bc2fsqmhaWQNg7Lk" target="_blank" rel="noopener">MAX</a>
+</div>
+</div>
+</article>
+<article class="card cat-card" id="p8" data-price="14900" data-level="main" data-kind="one">
+<div class="card-head">
+<div>
+<h3 class="card-title cat-card-title">Карточка под ключ</h3>
+<p class="card-sub">№ 8 · разово</p>
+</div>
+<span class="badge badge--neutral cat-num tnum">8</span>
+</div>
+<p class="cat-lead">Собираю карточку целиком — от анализа конкурентов до готовых материалов.</p>
+<div class="cat-gets">
+<div class="cat-gets-label">Что получите</div>
+<ul class="cat-list">
+<li>Анализ ниши и 5–7 конкурентов</li>
+<li>Позиционирование и смысловая структура карточки</li>
+<li>Готовое название, описание и SEO-семантика</li>
+<li>ТЗ на инфографику и список фотосъёмки</li>
+<li>Итоговые рекомендации по цене</li>
+</ul>
+</div>
+<div class="cat-result"><span class="cat-result-label">Пример результата</span><p class="cat-result-text">Пример: «Карточка пересобрана, средняя позиция в выдаче поднялась с 40-й на 12-ю за четыре недели».</p></div>
+<div class="cat-foot-row">
+<div class="cat-meta">
+<div class="cat-meta-item"><span class="cat-meta-label">Срок</span><span class="cat-meta-value">5–7 дней</span></div>
+<div class="cat-meta-item cat-meta-item--price"><span class="cat-meta-label">Цена</span><span class="cat-meta-value tnum">14 900 ₽</span></div>
+</div>
+<div class="cat-actions">
+<a class="btn btn--primary cat-btn" href="mailto:ip.zhavoronkov.ka@yandex.ru?subject=%D0%9E%D0%B1%D1%81%D1%83%D0%B4%D0%B8%D1%82%D1%8C%3A%20%D0%9A%D0%B0%D1%80%D1%82%D0%BE%D1%87%D0%BA%D0%B0%20%D0%BF%D0%BE%D0%B4%20%D0%BA%D0%BB%D1%8E%D1%87%20%2814%20900%20%E2%82%BD%29">Обсудить</a>
+<a class="btn cat-btn" href="https://max.ru/u/f9LHodD0cOLdp8PLl5xLOgbVyMIGA-CzKgczzqM_HK-bc2fsqmhaWQNg7Lk" target="_blank" rel="noopener">MAX</a>
+</div>
+</div>
+</article>
+<article class="card cat-card" id="p9" data-price="24900" data-level="main" data-kind="one">
+<div class="card-head">
+<div>
+<h3 class="card-title cat-card-title">Аудит магазина WB</h3>
+<p class="card-sub">№ 9 · разово</p>
+</div>
+<span class="badge badge--neutral cat-num tnum">9</span>
+</div>
+<p class="cat-lead">Проверяю магазин целиком: экономика, ассортимент, выдача, риски.</p>
+<div class="cat-gets">
+<div class="cat-gets-label">Что получите</div>
+<ul class="cat-list">
+<li>Экономика по всем SKU с ранжированием по вкладу в прибыль</li>
+<li>Аудит ассортимента: что масштабировать, что выводить, чего не хватает</li>
+<li>Проверка карточек по чек-листу и рискам площадки</li>
+<li>Разбор поставок и складских остатков</li>
+<li>Отчёт с планом на квартал</li>
+</ul>
+</div>
+<div class="cat-result"><span class="cat-result-label">Пример результата</span><p class="cat-result-text">Пример: «Из 24 SKU половина даёт 80 % выручки и почти всю прибыль. 4 позиции — чистый убыток, их в сезон выводить нельзя».</p></div>
+<div class="cat-foot-row">
+<div class="cat-meta">
+<div class="cat-meta-item"><span class="cat-meta-label">Срок</span><span class="cat-meta-value">5–7 дней</span></div>
+<div class="cat-meta-item cat-meta-item--price"><span class="cat-meta-label">Цена</span><span class="cat-meta-value tnum">24 900 ₽</span></div>
+</div>
+<div class="cat-actions">
+<a class="btn btn--primary cat-btn" href="mailto:ip.zhavoronkov.ka@yandex.ru?subject=%D0%9E%D0%B1%D1%81%D1%83%D0%B4%D0%B8%D1%82%D1%8C%3A%20%D0%90%D1%83%D0%B4%D0%B8%D1%82%20%D0%BC%D0%B0%D0%B3%D0%B0%D0%B7%D0%B8%D0%BD%D0%B0%20WB%20%2824%20900%20%E2%82%BD%29">Обсудить</a>
+<a class="btn cat-btn" href="https://max.ru/u/f9LHodD0cOLdp8PLl5xLOgbVyMIGA-CzKgczzqM_HK-bc2fsqmhaWQNg7Lk" target="_blank" rel="noopener">MAX</a>
+</div>
+</div>
+</article>
+<article class="card cat-card" id="p10" data-price="29900" data-level="main" data-kind="one">
+<div class="card-head">
+<div>
+<h3 class="card-title cat-card-title">Запуск нового товара</h3>
+<p class="card-sub">№ 10 · разово</p>
+</div>
+<span class="badge badge--neutral cat-num tnum">10</span>
+</div>
+<p class="cat-lead">Веду товар от идеи до первых продаж: экономика, позиционирование, карточка.</p>
+<div class="cat-gets">
+<div class="cat-gets-label">Что получите</div>
+<ul class="cat-list">
+<li>Расчёт юнит-экономики и безубыточности до старта продаж</li>
+<li>Проверка ниши и выбор позиционирования</li>
+<li>Конкурентный анализ по выбранному сегменту</li>
+<li>Готовая карточка: название, описание, ТЗ на инфографику</li>
+<li>План первых продаж и ценообразование на запуск</li>
+</ul>
+</div>
+<div class="cat-result"><span class="cat-result-label">Пример результата</span><p class="cat-result-text">Пример: «До запуска посчитали: при плане 200 шт./мес. точка безубыточности — 1 109 ₽. На старте ставим 1 450 ₽».</p></div>
+<div class="cat-foot-row">
+<div class="cat-meta">
+<div class="cat-meta-item"><span class="cat-meta-label">Срок</span><span class="cat-meta-value">10–14 дней</span></div>
+<div class="cat-meta-item cat-meta-item--price"><span class="cat-meta-label">Цена</span><span class="cat-meta-value tnum">29 900 ₽</span></div>
+</div>
+<div class="cat-actions">
+<a class="btn btn--primary cat-btn" href="mailto:ip.zhavoronkov.ka@yandex.ru?subject=%D0%9E%D0%B1%D1%81%D1%83%D0%B4%D0%B8%D1%82%D1%8C%3A%20%D0%97%D0%B0%D0%BF%D1%83%D1%81%D0%BA%20%D0%BD%D0%BE%D0%B2%D0%BE%D0%B3%D0%BE%20%D1%82%D0%BE%D0%B2%D0%B0%D1%80%D0%B0%20%2829%20900%20%E2%82%BD%29">Обсудить</a>
+<a class="btn cat-btn" href="https://max.ru/u/f9LHodD0cOLdp8PLl5xLOgbVyMIGA-CzKgczzqM_HK-bc2fsqmhaWQNg7Lk" target="_blank" rel="noopener">MAX</a>
+</div>
+</div>
+</article>
+<article class="card cat-card" id="p11" data-price="19900" data-level="main" data-kind="one">
+<div class="card-head">
+<div>
+<h3 class="card-title cat-card-title">Экономика категории (5–10 SKU)</h3>
+<p class="card-sub">№ 11 · разово</p>
+</div>
+<span class="badge badge--neutral cat-num tnum">11</span>
+</div>
+<p class="cat-lead">Считаю экономику группы связанных товаров и сравниваю их между собой.</p>
+<div class="cat-gets">
+<div class="cat-gets-label">Что получите</div>
+<ul class="cat-list">
+<li>Юнит-экономика по каждой позиции в группе</li>
+<li>Сравнение позиций по марже, скорости продаж и вкладу в прибыль</li>
+<li>Рекомендации по цене для каждой позиции</li>
+<li>Разбор сезонности и рисков по группе</li>
+<li>План работы с ассортиментом</li>
+</ul>
+</div>
+<div class="cat-result"><span class="cat-result-label">Пример результата</span><p class="cat-result-text">Пример: «Из 8 позиций две дают 70 % прибыли группы. У них лучше рейтинг — на них и держим ассортимент».</p></div>
+<div class="cat-foot-row">
+<div class="cat-meta">
+<div class="cat-meta-item"><span class="cat-meta-label">Срок</span><span class="cat-meta-value">5–7 дней</span></div>
+<div class="cat-meta-item cat-meta-item--price"><span class="cat-meta-label">Цена</span><span class="cat-meta-value tnum">19 900 ₽</span></div>
+</div>
+<div class="cat-actions">
+<a class="btn btn--primary cat-btn" href="mailto:ip.zhavoronkov.ka@yandex.ru?subject=%D0%9E%D0%B1%D1%81%D1%83%D0%B4%D0%B8%D1%82%D1%8C%3A%20%D0%AD%D0%BA%D0%BE%D0%BD%D0%BE%D0%BC%D0%B8%D0%BA%D0%B0%20%D0%BA%D0%B0%D1%82%D0%B5%D0%B3%D0%BE%D1%80%D0%B8%D0%B8%20%285%E2%80%9310%20SKU%29%20%2819%20900%20%E2%82%BD%29">Обсудить</a>
+<a class="btn cat-btn" href="https://max.ru/u/f9LHodD0cOLdp8PLl5xLOgbVyMIGA-CzKgczzqM_HK-bc2fsqmhaWQNg7Lk" target="_blank" rel="noopener">MAX</a>
+</div>
+</div>
+</article>
+<article class="card cat-card" id="p12" data-price="24900" data-level="main" data-kind="one">
+<div class="card-head">
+<div>
+<h3 class="card-title cat-card-title">Автоматизация отчётов через API</h3>
+<p class="card-sub">№ 12 · разово</p>
+</div>
+<span class="badge badge--neutral cat-num tnum">12</span>
+</div>
+<p class="cat-lead">Настраиваю выгрузку данных с площадки: отчёты приходят сами.</p>
+<div class="cat-gets">
+<div class="cat-gets-label">Что получите</div>
+<ul class="cat-list">
+<li>Разбор API площадки и выбор нужных методов</li>
+<li>Настройка регулярной выгрузки: продажи, остатки, возвраты, реклама</li>
+<li>Сводный отчёт в удобном виде — таблица и графики</li>
+<li>Алерты: падение продаж, конец остатков, резкий рост возвратов</li>
+<li>Инструкция и передача доступа</li>
+</ul>
+</div>
+<div class="cat-result"><span class="cat-result-label">Пример результата</span><p class="cat-result-text">Пример: «Ежедневный отчёт в 9:00, ручной сбор ушёл с 2 часов в неделю. Остатки присылают предупреждение за 3 дня до конца».</p></div>
+<div class="cat-foot-row">
+<div class="cat-meta">
+<div class="cat-meta-item"><span class="cat-meta-label">Срок</span><span class="cat-meta-value">7–10 дней</span></div>
+<div class="cat-meta-item cat-meta-item--price"><span class="cat-meta-label">Цена</span><span class="cat-meta-value tnum">24 900 ₽</span></div>
+</div>
+<div class="cat-actions">
+<a class="btn btn--primary cat-btn" href="mailto:ip.zhavoronkov.ka@yandex.ru?subject=%D0%9E%D0%B1%D1%81%D1%83%D0%B4%D0%B8%D1%82%D1%8C%3A%20%D0%90%D0%B2%D1%82%D0%BE%D0%BC%D0%B0%D1%82%D0%B8%D0%B7%D0%B0%D1%86%D0%B8%D1%8F%20%D0%BE%D1%82%D1%87%D1%91%D1%82%D0%BE%D0%B2%20%D1%87%D0%B5%D1%80%D0%B5%D0%B7%20API%20%2824%20900%20%E2%82%BD%29">Обсудить</a>
+<a class="btn cat-btn" href="https://max.ru/u/f9LHodD0cOLdp8PLl5xLOgbVyMIGA-CzKgczzqM_HK-bc2fsqmhaWQNg7Lk" target="_blank" rel="noopener">MAX</a>
+</div>
+</div>
+</article>
+</div>
+</section>
+<section class="section" id="packs">
+<div class="section-head">
+<h2 class="section-title">Пакеты и абонементы</h2>
+<span class="section-note">для регулярной работы</span>
+</div>
+<p class="cat-blurb">Когда задачи повторяются каждый месяц, разовый проект перестаёт окупаться — дешевле держать поток, чем заказывать его по частям.</p>
+<div class="grid grid-2 cat-grid">
+<article class="card cat-card" id="p13" data-price="24900" data-level="packs" data-kind="pack">
+<div class="card-head">
+<div>
+<h3 class="card-title cat-card-title">Пакет «Старт»</h3>
+<p class="card-sub">№ 13 · разово</p>
+</div>
+<span class="badge badge--neutral cat-num tnum">13</span>
+</div>
+<p class="cat-lead">Всё необходимое, чтобы запустить продажи без набора разовых задач.</p>
+<div class="cat-gets">
+<div class="cat-gets-label">Что получите</div>
+<ul class="cat-list">
+<li>Юнит-экономика магазина и рекомендации по ценам</li>
+<li>Разбор карточек под ключ для 3 позиций</li>
+<li>Чек-листы и проверка на нарушения</li>
+<li>ТЗ на инфографику для 3 карточек</li>
+<li>План действий на первый месяц</li>
+</ul>
+</div>
+<div class="cat-result"><span class="cat-result-label">Пример результата</span><p class="cat-result-text">Пример: «За 7 дней закрыты экономика, три карточки и цены — старт без оставшихся вопросов по экономике».</p></div>
+<div class="cat-foot-row">
+<div class="cat-meta">
+<div class="cat-meta-item"><span class="cat-meta-label">Срок</span><span class="cat-meta-value">разовый проект</span></div>
+<div class="cat-meta-item cat-meta-item--price"><span class="cat-meta-label">Цена</span><span class="cat-meta-value tnum">от 24 900 ₽</span></div>
+</div>
+<div class="cat-actions">
+<a class="btn btn--primary cat-btn" href="mailto:ip.zhavoronkov.ka@yandex.ru?subject=%D0%9E%D0%B1%D1%81%D1%83%D0%B4%D0%B8%D1%82%D1%8C%3A%20%D0%9F%D0%B0%D0%BA%D0%B5%D1%82%20%C2%AB%D0%A1%D1%82%D0%B0%D1%80%D1%82%C2%BB%20%28%D0%BE%D1%82%2024%20900%20%E2%82%BD%29">Обсудить</a>
+<a class="btn cat-btn" href="https://max.ru/u/f9LHodD0cOLdp8PLl5xLOgbVyMIGA-CzKgczzqM_HK-bc2fsqmhaWQNg7Lk" target="_blank" rel="noopener">MAX</a>
+</div>
+</div>
+</article>
+<article class="card cat-card" id="p14" data-price="59000" data-level="packs" data-kind="pack">
+<div class="card-head">
+<div>
+<h3 class="card-title cat-card-title">Пакет «Рост»</h3>
+<p class="card-sub">№ 14 · разово</p>
+</div>
+<span class="badge badge--neutral cat-num tnum">14</span>
+</div>
+<p class="cat-lead">Полный разбор магазина с позиционированием и запуском новых товаров.</p>
+<div class="cat-gets">
+<div class="cat-gets-label">Что получите</div>
+<ul class="cat-list">
+<li>Аудит магазина целиком</li>
+<li>Экономика категории и план по ассортименту</li>
+<li>Карточка под ключ для 5 позиций</li>
+<li>Запуск 1 нового товара с расчётом безубыточности</li>
+<li>План на квартал с приоритетами</li>
+</ul>
+</div>
+<div class="cat-result"><span class="cat-result-label">Пример результата</span><p class="cat-result-text">Пример: «Аудит 24 SKU, план на квартал и один товар, запущенный с посчитанной точкой безубыточности».</p></div>
+<div class="cat-foot-row">
+<div class="cat-meta">
+<div class="cat-meta-item"><span class="cat-meta-label">Срок</span><span class="cat-meta-value">разовый проект</span></div>
+<div class="cat-meta-item cat-meta-item--price"><span class="cat-meta-label">Цена</span><span class="cat-meta-value tnum">от 59 000 ₽</span></div>
+</div>
+<div class="cat-actions">
+<a class="btn btn--primary cat-btn" href="mailto:ip.zhavoronkov.ka@yandex.ru?subject=%D0%9E%D0%B1%D1%81%D1%83%D0%B4%D0%B8%D1%82%D1%8C%3A%20%D0%9F%D0%B0%D0%BA%D0%B5%D1%82%20%C2%AB%D0%A0%D0%BE%D1%81%D1%82%C2%BB%20%28%D0%BE%D1%82%2059%20000%20%E2%82%BD%29">Обсудить</a>
+<a class="btn cat-btn" href="https://max.ru/u/f9LHodD0cOLdp8PLl5xLOgbVyMIGA-CzKgczzqM_HK-bc2fsqmhaWQNg7Lk" target="_blank" rel="noopener">MAX</a>
+</div>
+</div>
+</article>
+<article class="card cat-card" id="p15" data-price="30000" data-level="packs" data-kind="pack">
+<div class="card-head">
+<div>
+<h3 class="card-title cat-card-title">Пакет «Масштаб»</h3>
+<p class="card-sub">№ 15 · в месяц</p>
+</div>
+<span class="badge badge--neutral cat-num tnum">15</span>
+</div>
+<p class="cat-lead">Ежемесячное ведение: экономика, отчёты и решения по ценам.</p>
+<div class="cat-gets">
+<div class="cat-gets-label">Что получите</div>
+<ul class="cat-list">
+<li>Ежемесячный пересчёт юнит-экономики по всем SKU</li>
+<li>Регулярные отчёты через API площадки</li>
+<li>Сопровождение карточек: обновления, проверки, правки</li>
+<li>Еженедельные рекомендации по ценам и скидкам</li>
+<li>Приоритетная связь по вопросам</li>
+</ul>
+</div>
+<div class="cat-result"><span class="cat-result-label">Пример результата</span><p class="cat-result-text">Пример: «Три месяца подряд: цены пересматриваются по отчёту, убыточные SKU в сезон не входят».</p></div>
+<div class="cat-foot-row">
+<div class="cat-meta">
+<div class="cat-meta-item"><span class="cat-meta-label">Срок</span><span class="cat-meta-value">помесячно</span></div>
+<div class="cat-meta-item cat-meta-item--price"><span class="cat-meta-label">Цена</span><span class="cat-meta-value tnum">от 30 000 ₽/мес</span></div>
+</div>
+<div class="cat-actions">
+<a class="btn btn--primary cat-btn" href="mailto:ip.zhavoronkov.ka@yandex.ru?subject=%D0%9E%D0%B1%D1%81%D1%83%D0%B4%D0%B8%D1%82%D1%8C%3A%20%D0%9F%D0%B0%D0%BA%D0%B5%D1%82%20%C2%AB%D0%9C%D0%B0%D1%81%D1%88%D1%82%D0%B0%D0%B1%C2%BB%20%28%D0%BE%D1%82%2030%20000%20%E2%82%BD%2F%D0%BC%D0%B5%D1%81%29">Обсудить</a>
+<a class="btn cat-btn" href="https://max.ru/u/f9LHodD0cOLdp8PLl5xLOgbVyMIGA-CzKgczzqM_HK-bc2fsqmhaWQNg7Lk" target="_blank" rel="noopener">MAX</a>
+</div>
+</div>
+</article>
+<article class="card cat-card" id="p16" data-price="15000" data-level="packs" data-kind="pack">
+<div class="card-head">
+<div>
+<h3 class="card-title cat-card-title">Абонемент «Экономист»</h3>
+<p class="card-sub">№ 16 · в месяц</p>
+</div>
+<span class="badge badge--neutral cat-num tnum">16</span>
+</div>
+<p class="cat-lead">Регулярный разбор экономики без работы с карточками.</p>
+<div class="cat-gets">
+<div class="cat-gets-label">Что получите</div>
+<ul class="cat-list">
+<li>Пересчёт юнит-экономики по всему ассортименту</li>
+<li>Контроль цен и маржи по месяцам</li>
+<li>Отчёт по API: продажи, возвраты, реклама</li>
+<li>Разбор отклонений: что изменилось и почему</li>
+<li>Алерты по критичным позициям</li>
+</ul>
+</div>
+<div class="cat-result"><span class="cat-result-label">Пример результата</span><p class="cat-result-text">Пример: «Каждый месяц видно, какие SKU теряют маржу и какие позиции пора поднимать в цене».</p></div>
+<div class="cat-foot-row">
+<div class="cat-meta">
+<div class="cat-meta-item"><span class="cat-meta-label">Срок</span><span class="cat-meta-value">помесячно</span></div>
+<div class="cat-meta-item cat-meta-item--price"><span class="cat-meta-label">Цена</span><span class="cat-meta-value tnum">от 15 000 ₽/мес</span></div>
+</div>
+<div class="cat-actions">
+<a class="btn btn--primary cat-btn" href="mailto:ip.zhavoronkov.ka@yandex.ru?subject=%D0%9E%D0%B1%D1%81%D1%83%D0%B4%D0%B8%D1%82%D1%8C%3A%20%D0%90%D0%B1%D0%BE%D0%BD%D0%B5%D0%BC%D0%B5%D0%BD%D1%82%20%C2%AB%D0%AD%D0%BA%D0%BE%D0%BD%D0%BE%D0%BC%D0%B8%D1%81%D1%82%C2%BB%20%28%D0%BE%D1%82%2015%20000%20%E2%82%BD%2F%D0%BC%D0%B5%D1%81%29">Обсудить</a>
+<a class="btn cat-btn" href="https://max.ru/u/f9LHodD0cOLdp8PLl5xLOgbVyMIGA-CzKgczzqM_HK-bc2fsqmhaWQNg7Lk" target="_blank" rel="noopener">MAX</a>
+</div>
+</div>
+</article>
+<article class="card cat-card" id="p17" data-price="25000" data-level="packs" data-kind="pack">
+<div class="card-head">
+<div>
+<h3 class="card-title cat-card-title">Абонемент «Контент»</h3>
+<p class="card-sub">№ 17 · в месяц</p>
+</div>
+<span class="badge badge--neutral cat-num tnum">17</span>
+</div>
+<p class="cat-lead">Регулярная работа с карточками: контент, инфографика, проверки.</p>
+<div class="cat-gets">
+<div class="cat-gets-label">Что получите</div>
+<ul class="cat-list">
+<li>Обновление карточек: описания, семантика, структура</li>
+<li>ТЗ на инфографику по согласованному плану</li>
+<li>Проверка карточек на нарушения и чек-листы</li>
+<li>Анализ конкурентов по обновляемым позициям</li>
+<li>План контента на месяц</li>
+</ul>
+</div>
+<div class="cat-result"><span class="cat-result-label">Пример результата</span><p class="cat-result-text">Пример: «Карточки обновляются регулярно, конкуренты не обгоняют по содержанию — позиции в выдаче держатся».</p></div>
+<div class="cat-foot-row">
+<div class="cat-meta">
+<div class="cat-meta-item"><span class="cat-meta-label">Срок</span><span class="cat-meta-value">помесячно</span></div>
+<div class="cat-meta-item cat-meta-item--price"><span class="cat-meta-label">Цена</span><span class="cat-meta-value tnum">от 25 000 ₽/мес</span></div>
+</div>
+<div class="cat-actions">
+<a class="btn btn--primary cat-btn" href="mailto:ip.zhavoronkov.ka@yandex.ru?subject=%D0%9E%D0%B1%D1%81%D1%83%D0%B4%D0%B8%D1%82%D1%8C%3A%20%D0%90%D0%B1%D0%BE%D0%BD%D0%B5%D0%BC%D0%B5%D0%BD%D1%82%20%C2%AB%D0%9A%D0%BE%D0%BD%D1%82%D0%B5%D0%BD%D1%82%C2%BB%20%28%D0%BE%D1%82%2025%20000%20%E2%82%BD%2F%D0%BC%D0%B5%D1%81%29">Обсудить</a>
+<a class="btn cat-btn" href="https://max.ru/u/f9LHodD0cOLdp8PLl5xLOgbVyMIGA-CzKgczzqM_HK-bc2fsqmhaWQNg7Lk" target="_blank" rel="noopener">MAX</a>
+</div>
+</div>
+</article>
+<article class="card cat-card" id="p18" data-price="40000" data-level="packs" data-kind="pack">
+<div class="card-head">
+<div>
+<h3 class="card-title cat-card-title">Комбо «Продажи»</h3>
+<p class="card-sub">№ 18 · в месяц</p>
+</div>
+<span class="badge badge--neutral cat-num tnum">18</span>
+</div>
+<p class="cat-lead">Экономика и контент вместе — работает как система, а не как два потока.</p>
+<div class="cat-gets">
+<div class="cat-gets-label">Что получите</div>
+<ul class="cat-list">
+<li>Всё из абонемента «Экономист»</li>
+<li>Всё из абонемента «Контент»</li>
+<li>Связка цен и карточек: акции под контролем маржи</li>
+<li>Единый квартальный план по деньгам и контенту</li>
+<li>Один контакт по всем вопросам</li>
+</ul>
+</div>
+<div class="cat-result"><span class="cat-result-label">Пример результата</span><p class="cat-result-text">Пример: «Скидки и обновления карточек согласуются между собой: маржа не проседает из-за контентных активностей».</p></div>
+<div class="cat-foot-row">
+<div class="cat-meta">
+<div class="cat-meta-item"><span class="cat-meta-label">Срок</span><span class="cat-meta-value">помесячно</span></div>
+<div class="cat-meta-item cat-meta-item--price"><span class="cat-meta-label">Цена</span><span class="cat-meta-value tnum">от 40 000 ₽/мес</span></div>
+</div>
+<div class="cat-actions">
+<a class="btn btn--primary cat-btn" href="mailto:ip.zhavoronkov.ka@yandex.ru?subject=%D0%9E%D0%B1%D1%81%D1%83%D0%B4%D0%B8%D1%82%D1%8C%3A%20%D0%9A%D0%BE%D0%BC%D0%B1%D0%BE%20%C2%AB%D0%9F%D1%80%D0%BE%D0%B4%D0%B0%D0%B6%D0%B8%C2%BB%20%28%D0%BE%D1%82%2040%20000%20%E2%82%BD%2F%D0%BC%D0%B5%D1%81%29">Обсудить</a>
+<a class="btn cat-btn" href="https://max.ru/u/f9LHodD0cOLdp8PLl5xLOgbVyMIGA-CzKgczzqM_HK-bc2fsqmhaWQNg7Lk" target="_blank" rel="noopener">MAX</a>
+</div>
+</div>
+</article>
+</div>
+</section>
+<section class="section cat-contacts" id="contacts">
+<div class="section-head"><h2 class="section-title">Обсудить</h2><span class="section-note">отвечаю в течение рабочего дня</span></div>
+<div class="card cat-contact-card">
+<p class="cat-contact-text">Опишите задачу — подберу формат и скажу, что можно сделать дешевле или быстрее. Если задача нестандартная, соберу индивидуальный расчёт.</p>
+<div class="cat-contact-actions">
+<a class="btn btn--primary" href="mailto:ip.zhavoronkov.ka@yandex.ru">Написать на почту</a>
+<a class="btn" href="https://max.ru/u/f9LHodD0cOLdp8PLl5xLOgbVyMIGA-CzKgczzqM_HK-bc2fsqmhaWQNg7Lk" target="_blank" rel="noopener">Написать в MAX</a>
+</div>
+<p class="metric-hint cat-contact-mail">ip.zhavoronkov.ka@yandex.ru</p>
+</div>
+</section>
+<footer class="cat-foot">
+<p class="metric-hint">Цены указаны за полный объём работ по каждой позиции. Итоговая стоимость фиксируется до начала работ и не меняется в процессе.</p>
+</footer>
+</div>
+<script>
+/* ── каталог: тема и фильтр по цене ───────────────────────────────────── */
+(function () {
+  'use strict';
+  var root = document.documentElement;
+  var btn = document.getElementById('theme-toggle');
+  if (btn) {
+    btn.addEventListener('click', function () {
+      var dark = root.getAttribute('data-theme') === 'dark';
+      root.setAttribute('data-theme', dark ? 'light' : 'dark');
+      btn.textContent = dark ? 'Тёмная тема' : 'Светлая тема';
+    });
+  }
+
+  var FILTERS = [["all", "все"], ["cheap", "до 2 500 ₽"], ["mid", "2 500 – 15 000 ₽"], ["high", "от 15 000 ₽"]];
+  var MIN = 990, MAX = 59000;
+
+  function price(card) { return parseInt(card.dataset.price, 10) || 0; }
+  function match(card, f) {
+    var v = price(card);
+    if (f === 'all') return true;
+    if (f === 'cheap') return v <= 2500;
+    if (f === 'mid') return v > 2500 && v < 15000;
+    return v >= 15000;
+  }
+
+  var cards = Array.prototype.slice.call(document.querySelectorAll('.cat-card'));
+  var filterBtns = Array.prototype.slice.call(document.querySelectorAll('.cat-filter-btn'));
+
+  function apply(f) {
+    cards.forEach(function (c) { c.hidden = !match(c, f); });
+    document.querySelectorAll('section.section').forEach(function (s) {
+      if (!s.id) return;
+      var any = s.querySelector('.cat-card:not([hidden])');
+      s.classList.toggle('cat-section--empty', !!s.querySelector('.cat-card') && !any);
+    });
+    filterBtns.forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.dataset.filter === f));
+    });
+  }
+
+  filterBtns.forEach(function (b) {
+    b.addEventListener('click', function () { apply(b.dataset.filter); });
+  });
+
+  // перед печатью показываем всё — иначе на печать попадёт фильтр
+  window.addEventListener('beforeprint', function () { apply('all'); });
+})();
+
+</script>
+</body>
+</html>

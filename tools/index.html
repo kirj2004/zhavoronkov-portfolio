@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Инструменты — Жаворонков Кирилл</title>
+<meta name="description" content="Калькулятор юнит-экономики FBS/FBW, чек-лист карточки WB, шаблон инфографики. Бесплатно, без регистрации.">
+<link rel="stylesheet" href="../assets/style.css">
+<script src="https://cdn.jsdelivr.net/npm/lucide@0.454.0/dist/umd/lucide.min.js" defer></script>
+<script type="module" src="../assets/site.js"></script>
+<script type="module" src="tools.js"></script>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="site-header__inner">
+    <a class="brand" href="../index.html">
+      <span class="brand__name">Жаворонков Кирилл</span>
+      <span class="brand__sub">Инструменты · бесплатно, без регистрации</span>
+    </a>
+
+    <nav class="nav" aria-label="Инструменты">
+      <a class="nav-link" href="#calc">Калькулятор</a>
+      <a class="nav-link" href="#checklist">Чек-лист карточки</a>
+      <a class="nav-link" href="#infographic">Шаблон инфографики</a>
+    </nav>
+
+    <a class="btn btn--ghost" href="../index.html">
+      <i data-lucide="arrow-left" width="16" height="16" aria-hidden="true"></i>
+      На главную
+    </a>
+  </div>
+</header>
+
+<main class="page">
+
+  <header class="page-head">
+    <div>
+      <h1 class="page-title">Инструменты</h1>
+      <p class="page-sub">
+        Считайте сами, до заказа. Все три инструмента показывают методику,
+        по которой считаю я, — цифры должны сходиться с разбором кейсов.
+      </p>
+    </div>
+  </header>
+
+  <div id="live-region" class="sr-only" role="status" aria-live="polite"></div>
+
+  <!-- ── Калькулятор ───────────────────────────────────────────────────── -->
+  <section class="section" id="calc" aria-labelledby="calc-title">
+    <div class="section-head">
+      <h2 class="section-title" id="calc-title">Калькулятор юнит-экономики</h2>
+      <span class="section-note">FBS и FBW · пересчёт на каждый ввод</span>
+    </div>
+
+    <div class="calc">
+      <div class="calc-inputs">
+        <div class="field">
+          <label class="field-label" for="in-rrp">Цена до скидки (РРЦ), ₽</label>
+          <div class="field-row">
+            <input class="input" id="in-rrp" type="number" min="0" step="10" value="1000">
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="field-label" for="in-disc">Скидка продавца, %</label>
+          <div class="field-row">
+            <input class="input" id="in-disc" type="number" min="0" max="90" step="1" value="30">
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="field-label" for="in-fbs">Комиссия FBS, %</label>
+          <input class="range" id="in-fbs" type="range" min="5" max="50" step="0.5" value="33">
+          <div class="field-row">
+            <span class="field-value" id="out-fbs">33 %</span>
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="field-label" for="in-fbw">Комиссия FBW, %</label>
+          <input class="range" id="in-fbw" type="range" min="5" max="50" step="0.5" value="29.5">
+          <div class="field-row">
+            <span class="field-value" id="out-fbw">29,5 %</span>
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="field-label" for="in-vol">Объём, л</label>
+          <div class="field-row">
+            <input class="input" id="in-vol" type="number" min="0.01" step="0.01" value="1.25">
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="field-label" for="in-cost">Себестоимость, ₽</label>
+          <div class="field-row">
+            <input class="input" id="in-cost" type="number" min="0" step="10" value="0">
+          </div>
+        </div>
+      </div>
+
+      <div class="calc-out">
+        <div class="calc-headline">
+          <div class="calc-hero">
+            <span class="calc-hero-label">Прибыль FBS с единицы</span>
+            <span class="calc-hero-value kpi-profit" id="o-fbs">—</span>
+          </div>
+          <div class="calc-side">
+            <span class="calc-side-label">BE FBS</span>
+            <span class="calc-side-value" id="o-be-fbs">—</span>
+          </div>
+        </div>
+
+        <div class="calc-headline">
+          <div class="calc-hero">
+            <span class="calc-hero-label">Прибыль FBW с единицы</span>
+            <span class="calc-hero-value kpi-profit" id="o-fbw">—</span>
+          </div>
+          <div class="calc-side">
+            <span class="calc-side-label">BE FBW</span>
+            <span class="calc-side-value" id="o-be-fbw">—</span>
+          </div>
+        </div>
+
+        <div class="breakdown">
+          <div class="breakdown-row">
+            <span class="breakdown-label">Цена покупателя после скидки</span>
+            <span class="breakdown-value" id="o-buyer">—</span>
+          </div>
+          <div class="breakdown-row">
+            <span class="breakdown-label">Логистика (по объёму)</span>
+            <span class="breakdown-value" id="o-logi">—</span>
+          </div>
+          <div class="breakdown-row">
+            <span class="breakdown-label">Цена под 20 % маржи, FBS</span>
+            <span class="breakdown-value" id="o-m20-fbs">—</span>
+          </div>
+          <div class="breakdown-row">
+            <span class="breakdown-label">Цена под 20 % маржи, FBW</span>
+            <span class="breakdown-value" id="o-m20-fbw">—</span>
+          </div>
+          <div class="breakdown-row breakdown-row--total">
+            <span class="breakdown-label">Выгодная схема</span>
+            <span class="breakdown-value" id="o-verdict">—</span>
+          </div>
+        </div>
+
+        <p class="footnote">
+          Модель: цена покупателя = РРЦ × (1 − скидка); логистика — 46 ₽ за первый
+          литр и по 14 ₽ за каждый следующий, с коэффициентом 1,70; FBW дополнительно
+          платит приёмку и хранение, FBS — обработку в ПВЗ и фулфилмент; штраф за
+          просрочку передачи заложен только в FBS. Маржа считается от РРЦ.
+          Себестоимость вводится вручную — в кейсах она не участвовала,
+          поэтому цифры там выше.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Чек-лист ──────────────────────────────────────────────────────── -->
+  <section class="section" id="checklist" aria-labelledby="checklist-title">
+    <div class="section-head">
+      <h2 class="section-title" id="checklist-title">Чек-лист карточки WB</h2>
+      <span class="section-note">проверять до публикации</span>
+    </div>
+
+    <div class="grid grid-2">
+      <article class="card">
+        <div class="card-head">
+          <h3 class="card-title">Данные и экономика</h3>
+          <span class="badge badge--info">экономика</span>
+        </div>
+        <ul class="about__list">
+          <li class="about__item"><i data-lucide="square" width="16" height="16" aria-hidden="true"></i><span>Категория выбрана верно, ставка комиссии взята из КВВ, а не «на глаз».</span></li>
+          <li class="about__item"><i data-lucide="square" width="16" height="16" aria-hidden="true"></i><span>Посчитана точка безубыточности отдельно для FBS и FBW.</span></li>
+          <li class="about__item"><i data-lucide="square" width="16" height="16" aria-hidden="true"></i><span>Себестоимость внесена в модель, маржа посчитана от цены покупателя.</span></li>
+          <li class="about__item"><i data-lucide="square" width="16" height="16" aria-hidden="true"></i><span>Скидка не съедает маржу: проверена цена покупателя, а не РРЦ.</span></li>
+          <li class="about__item"><i data-lucide="square" width="16" height="16" aria-hidden="true"></i><span>Логистика проверена по фактическим габаритам упаковки.</span></li>
+          <li class="about__item"><i data-lucide="square" width="16" height="16" aria-hidden="true"></i><span>Схема FBS/FBW выбрана осознанно, а не по остаточному принципу.</span></li>
+        </ul>
+      </article>
+
+      <article class="card">
+        <div class="card-head">
+          <h3 class="card-title">Карточка и контент</h3>
+          <span class="badge badge--info">конверсия</span>
+        </div>
+        <ul class="about__list">
+          <li class="about__item"><i data-lucide="square" width="16" height="16" aria-hidden="true"></i><span>Заголовок содержит бренд, тип товара и ключевое слово по спросу.</span></li>
+          <li class="about__item"><i data-lucide="square" width="16" height="16" aria-hidden="true"></i><span>Rich-контент заполнен: характеристики, размеры, состав.</span></li>
+          <li class="about__item"><i data-lucide="square" width="16" height="16" aria-hidden="true"></i><span>Главное фото читается в превью каталога: 3–5 слов максимум.</span></li>
+          <li class="about__item"><i data-lucide="square" width="16" height="16" aria-hidden="true"></i><span>Фото от 5 штук, углы и ракурсы не повторяются.</span></li>
+          <li class="about__item"><i data-lucide="square" width="16" height="16" aria-hidden="true"></i><span>Видео есть либо есть причина его отсутствия.</span></li>
+          <li class="about__item"><i data-lucide="square" width="16" height="16" aria-hidden="true"></i><span>Нет обещаний и формулировок, нарушающих правила площадки.</span></li>
+        </ul>
+      </article>
+
+      <article class="card">
+        <div class="card-head">
+          <h3 class="card-title">Склад и логистика</h3>
+          <span class="badge badge--info">операции</span>
+        </div>
+        <ul class="about__list">
+          <li class="about__item"><i data-lucide="square" width="16" height="16" aria-hidden="true"></i><span>Остаток на складе покрывает прогноз продаж, иначе карточка «уходит» в ноль.</span></li>
+          <li class="about__item"><i data-lucide="square" width="16" height="16" aria-hidden="true"></i><span>Стоимость хранения и возвратов внесена в модель.</span></li>
+          <li class="about__item"><i data-lucide="square" width="16" height="16" aria-hidden="true"></i><span>Штрихкод и маркировка на всех упаковках.</span></li>
+          <li class="about__item"><i data-lucide="square" width="16" height="16" aria-hidden="true"></i><span>Размеры в карточке совпадают с упаковкой — иначе неверная логистика.</span></li>
+        </ul>
+      </article>
+
+      <article class="card">
+        <div class="card-head">
+          <h3 class="card-title">Перед запуском</h3>
+          <span class="badge badge--info">финал</span>
+        </div>
+        <ul class="about__list">
+          <li class="about__item"><i data-lucide="square" width="16" height="16" aria-hidden="true"></i><span>Участие в акциях площадки пересчитано: скидка акции — не скидка продавца.</span></li>
+          <li class="about__item"><i data-lucide="square" width="16" height="16" aria-hidden="true"></i><span>Цена в карточке и цена в прайсе совпадают.</span></li>
+          <li class="about__item"><i data-lucide="square" width="16" height="16" aria-hidden="true"></i><span>Установлен лимит на скидку: ниже BE товар не продаём.</span></li>
+          <li class="about__item"><i data-lucide="square" width="16" height="16" aria-hidden="true"></i><span>Первая неделя после запуска — контроль выкупа и маржи.</span></li>
+        </ul>
+      </article>
+    </div>
+  </section>
+
+  <!-- ── Шаблон инфографики ────────────────────────────────────────────── -->
+  <section class="section" id="infographic" aria-labelledby="infographic-title">
+    <div class="section-head">
+      <h2 class="section-title" id="infographic-title">Шаблон инфографики</h2>
+      <span class="section-note">структура слайдов и требования к размеру</span>
+    </div>
+
+    <div class="table-wrap">
+      <table class="table table--compact">
+        <thead>
+          <tr>
+            <th>Слайд</th>
+            <th>Задача</th>
+            <th class="col-md">Что писать</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="lead">1 · Главный</td>
+            <td>Видно на превью в каталоге</td>
+            <td class="col-md">3–5 слов, максимальный контраст с фоном</td>
+          </tr>
+          <tr>
+            <td class="lead">2 · Сценарий</td>
+            <td>Зачем товар покупают</td>
+            <td class="col-md">Одна выгода, одно действие</td>
+          </tr>
+          <tr>
+            <td class="lead">3 · Характеристики</td>
+            <td>Снять вопрос «а какие размеры»</td>
+            <td class="col-md">Размеры, материал, вес — таблицей</td>
+          </tr>
+          <tr>
+            <td class="lead">4 · Сравнение</td>
+            <td>Показать отличие от аналогов</td>
+            <td class="col-md">3 пункта «почему у нас»</td>
+          </tr>
+          <tr>
+            <td class="lead">5 · Комплект</td>
+            <td>Что входит в поставку</td>
+            <td class="col-md">Перечень предметов в кадре</td>
+          </tr>
+          <tr>
+            <td class="lead">6 · Доверие</td>
+            <td>Снять риск</td>
+            <td class="col-md">Гарантия, возврат, документы</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="grid grid-3" style="margin-top:var(--space-4)">
+      <div class="metric">
+        <div class="metric-top"><span class="metric-label">Главный кадр</span><i class="metric-icon" data-lucide="crop" width="16" height="16" aria-hidden="true"></i></div>
+        <p class="metric--sm metric-value">1:1</p>
+        <span class="metric-foot metric-hint">не менее 1000 × 1000 px</span>
+      </div>
+      <div class="metric">
+        <div class="metric-top"><span class="metric-label">Вертикаль</span><i class="metric-icon" data-lucide="crop" width="16" height="16" aria-hidden="true"></i></div>
+        <p class="metric--sm metric-value">3:4</p>
+        <span class="metric-foot metric-hint">900 × 1200 px, вся площадь полезна</span>
+      </div>
+      <div class="metric">
+        <div class="metric-top"><span class="metric-label">Шрифт на превью</span><i class="metric-icon" data-lucide="type" width="16" height="16" aria-hidden="true"></i></div>
+        <p class="metric--sm metric-value">≥ 8 %</p>
+        <span class="metric-foot metric-hint">высоты кадра — иначе не читается</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Контакты ──────────────────────────────────────────────────────── -->
+  <section class="section" id="contacts" aria-labelledby="contacts-title">
+    <div class="section-head">
+      <h2 class="section-title" id="contacts-title">Что дальше</h2>
+    </div>
+
+    <div class="grid grid-2">
+      <a class="contact" href="https://max.ru/u/f9LHodD0cOLdp8PLl5xLOgbVyMIGA-CzKgczzqM_HK-bc2fsqmhaWQNg7Lk" rel="noopener">
+        <span class="contact__icon"><i data-lucide="message-circle" width="20" height="20" aria-hidden="true"></i></span>
+        <span class="contact__body">
+          <span class="contact__label">MAX</span>
+          <span class="contact__value tnum">+7 914 194-83-16</span>
+        </span>
+        <i data-lucide="arrow-up-right" width="16" height="16" aria-hidden="true"></i>
+      </a>
+      <a class="contact" href="mailto:ip.zhavoronkov.ka@yandex.ru">
+        <span class="contact__icon"><i data-lucide="mail" width="20" height="20" aria-hidden="true"></i></span>
+        <span class="contact__body">
+          <span class="contact__label">Email</span>
+          <span class="contact__value">ip.zhavoronkov.ka@yandex.ru</span>
+        </span>
+        <i data-lucide="arrow-up-right" width="16" height="16" aria-hidden="true"></i>
+      </a>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="site-footer__inner">
+    <span class="site-footer__copy">© 2026 Жаворонков Кирилл</span>
+    <nav class="site-footer__nav" aria-label="Разделы страницы">
+      <a class="nav-link" href="#calc">Калькулятор</a>
+      <a class="nav-link" href="#checklist">Чек-лист</a>
+      <a class="nav-link" href="#infographic">Инфографика</a>
+      <a class="nav-link" href="../index.html">На главную</a>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>

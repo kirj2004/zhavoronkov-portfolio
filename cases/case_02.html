@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Покрытие для унитаза — выход из минуса — кейс CASE 02</title>
+<meta name="description" content="Категория с дорогой логистикой и глубокой скидкой. Разбор юнит-экономики карточки: контекст, проблема, решение, результат.">
+<link rel="stylesheet" href="../assets/style.css">
+<script src="https://cdn.jsdelivr.net/npm/lucide@0.454.0/dist/umd/lucide.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js" defer></script>
+<style>
+
+/* Специфика страниц кейсов. Общие компоненты (крошки, титул, инсайт,
+   фильтр, кнопки) живут в assets/style.css, раздел 17 — здесь только
+   то, что не нужно ни главной, ни каталогу. */
+
+@media (max-width: 720px) {
+  .case-hero { padding: var(--space-4) 0; }
+}
+
+/* ТЁМНАЯ ПАЛИТРА ПЕЧАТИ.
+
+   Раздел 18 style.css переводит печать на белый лист — это сделано
+   осознанно для резюме (тёмная заливка на бумаге не печатается
+   большинством принтеров). Здесь решение обратное: PDF кейсов и
+   каталога выходит тёмным, премиум-версией. Поэтому палитра
+   переопределяется явно, а не через var() — var() здесь уже указывал
+   бы на белые значения из раздела 18.
+
+   Значения совпадают с палитрой раздела 1 (тёмная тема): меняются
+   только кегль и отступы. */
+@media print{
+  @page{size:A4;margin:12mm 10mm}
+  html,[data-theme]{-webkit-print-color-adjust:exact;print-color-adjust:exact;color-scheme:dark;background-color:#0a0e1a}
+  :root{
+    --color-bg: #0a0e1a;
+    --color-surface: #121a2b;
+    --color-surface-raised: #182236;
+    --color-well: #0d1422;
+    --color-hover: #151e2f;
+    --color-border: #1e2a3f;
+    --color-border-strong: #33425c;
+    --color-border-control: #5a6b86;
+    --color-text-primary: #e8edf7;
+    --color-text-secondary: #a3b0c7;
+    --color-text-tertiary: #7b8aa3;
+    --color-accent: #5b9bff;
+    --color-accent-strong: #8ab6ff;
+    --color-profit: #3ddc97;
+    --color-loss: #ff958c;
+    --color-warning: #fbbf24;
+    --color-profit-kpi: #3ddc97;
+    --color-loss-kpi: #ff958c;
+    --color-warning-kpi: #fbbf24;
+    --color-info: #38bdf8;
+    --color-text-on-accent: #0a0e1a;
+    --color-focus-ring: #8ab6ff;
+  }
+  body{background:var(--color-bg)!important;color:var(--color-text-primary)!important;
+    font-size:10.2pt;line-height:1.45}
+  /* печать компактнее экрана: кегль и отступы уменьшены */
+  /* Кегли в px, потому что токены --text-* читают элементы как font-size.
+     9 pt ровно = 12 px при 96 dpi (9 * 96/72). Ниже 12 не опускаемся:
+     8.6 px давали 6,45 pt и в PDF текст был нечитаем. */
+  :root{--text-3xl:26px;--text-2xl:17px;--text-xl:15px;--text-lg:14px;
+    --text-base:12px;--text-sm:12px;--text-xs:12px;--text-2xs:12px;
+    --space-16:14px;--space-10:10px;--space-8:9px;--space-6:8px;
+    --space-5:7px;--space-4:6px;--space-3:5px;--row-h-md:24px;
+    --radius-lg:6px;--radius-sm:4px}
+  .page{max-width:none;padding:0}
+  .no-print,.site-header,.site-footer .site-footer__nav,.cs-filter{display:none!important}
+  .section{break-inside:avoid;page-break-inside:avoid}
+  .card,.metric,.alert,.table-wrap{break-inside:avoid;page-break-inside:avoid}
+  .case-hero{border-bottom:1px solid var(--color-border-strong)}
+  .grid-2,.grid-3{grid-template-columns:1fr 1fr!important;gap:var(--space-4)}
+  .site-footer{margin-top:var(--space-8);padding-top:var(--space-4);
+    border-top:1px solid var(--color-border)}
+  .site-footer__copy{color:var(--color-text-tertiary)}
+  a[href^="http"]::after{content:none!important}
+  .case-prose{gap:var(--space-2)}
+}
+
+</style>
+</head>
+<body>
+<header class="site-header no-print">
+<div class="site-header__inner">
+<a class="brand" href="../index.html"><span class="brand__name">Жаворонков Кирилл</span><span class="brand__sub">Юнит-экономика маркетплейсов</span></a>
+<nav class="nav" aria-label="Разделы">
+<a class="nav-link" href="../index.html">Главная</a>
+<a class="nav-link" href="../resume.html">Резюме</a>
+<a class="nav-link" href="../products/index.html">Каталог</a>
+<a class="nav-link nav-link--active" href="index.html">Кейсы</a>
+<a class="nav-link" href="tools.html">Инструменты</a>
+</nav>
+<a class="btn btn--primary cs-max" href="https://max.ru/u/f9LHodD0cOLdp8PLl5xLOgbVyMIGA-CzKgczzqM_HK-bc2fsqmhaWQNg7Lk" target="_blank" rel="noopener"><i data-lucide="message-circle" width="16" height="16" aria-hidden="true"></i>Написать в MAX</a>
+</div></header>
+<main class="page case-page">
+<nav class="crumbs" aria-label="Хлебные крошки"><ol>
+<li><a href="../index.html">Портфолио</a></li>
+<li><a href="index.html">Кейсы</a></li>
+<li aria-current="page">Покрытие для унитаза — выход из минуса</li>
+</ol></nav>
+<div class="case-hero">
+<div class="case-hero__main">
+<div class="case__num">CASE 02</div>
+<h1 class="page-title case-hero__title">Покрытие для унитаза — выход из минуса</h1>
+<p class="page-sub">Категория с дорогой логистикой и глубокой скидкой</p>
+<div class="case-tags">
+<span class="badge badge--neutral"><i data-lucide="layers" width="12" height="12" aria-hidden="true"></i>Другие хозяйственные принадлежности</span>
+<span class="badge badge--info">FBS</span>
+</div></div>
+<div class="case-hero__kpi">
+<span class="calc-hero-label">FBS при реальных ценах</span>
+<p class="calc-hero-value kpi-loss" data-money="-23.49" data-dec="2">—</p>
+</div></div>
+<p class="case-headline">При реальных ценах FBS убыточен, FBW прибылен</p>
+<section class="section" id="context" aria-labelledby="context-t">
+<div class="section-head">
+<h2 class="section-title" id="context-t">Контекст</h2>
+</div>
+<div class="card case-prose">
+<p class="service__text">Чехол-накладка на унитаз, объём 0,992 л, вес 61 г. Категория «Другие хозяйственные принадлежности», кВВ 33 % FBS и 28,5 % FBW.</p>
+<p class="service__text">За период с 05.04 по 12.09.2026 — 410 заказов, 379 продаж. Карточка работает постоянно, проблема не в спросе.</p>
+<p class="service__text">Себестоимость 32,45 ₽ подтверждена продавцом: партия 400 шт, товар с доставкой 17,50 ₽, доставка по России 5,00 ₽, коробки 1,20 ₽, отправка на WB 8,75 ₽.</p>
+</div>
+</section>
+<section class="section" id="problem" aria-labelledby="problem-t">
+<div class="section-head">
+<h2 class="section-title" id="problem-t">Проблема</h2>
+</div>
+<div class="card case-prose">
+<p class="service__text">Последний реальный заказ 12.09.2026: РРЦ 600 ₽, скидка продавца 66 %, СПП 23 %. Цена покупателя 157,08 ₽ — при такой цене FBS даёт −23,49 ₽.</p>
+<p class="service__text">Причина в скидке: она опустила базу так сильно, что фиксированные расходы FBS (60 ₽ ПВЗ и фулфилмента плюс логистика 78,20 ₽) перестали покрываться выплатой.</p>
+</div>
+</section>
+<section class="section" id="did" aria-labelledby="did-t">
+<div class="section-head">
+<h2 class="section-title" id="did-t">Что сделали</h2>
+</div>
+<div class="card case-prose">
+<p class="service__text">Разложил себестоимость по статьям — видно, что экономить на закупке почти бесполезно: товар с доставкой 17,50 ₽ против 78,20 ₽ логистики WB.</p>
+<p class="service__text">Посчитал пороговую скидку: FBS выходит в ноль при скидке 60,57 %, то есть текущие 66 % — это 5,4 п.п. за точкой.</p>
+<p class="service__text">Проверил альтернативу: FBW при тех же ценах даёт +36,82 ₽, потому что не несёт расходов на ПВЗ и фулфилмент.</p>
+<p class="service__text">Зафиксировал безубыточность: 320,64 ₽ FBS и 206,83 ₽ FBW.</p>
+</div>
+</section>
+<section class="section" id="plan" aria-labelledby="plan-t">
+<div class="section-head"><h2 class="section-title" id="plan-t">План выхода из минуса</h2><span class="section-note">все три сценария считаны на фактическом РРЦ 600 ₽, СПП 23 % и подтверждённой себестоимости 32,45 ₽</span></div>
+<div class="plan-grid">
+<article class="card plan-card"><p class="plan-card__tag">Сценарий A</p><h3 class="plan-card__name">Снизить скидку</h3><p class="plan-card__lever">66 % → 50 %</p><p class="service__text">Цена покупателя растёт, FBS перестаёт терять. Спрос просядет, но экономика сходится без смены модели.</p></article>
+<article class="card plan-card"><p class="plan-card__tag">Сценарий B</p><h3 class="plan-card__name">Поднять РРЦ</h3><p class="plan-card__lever">600 → 900 ₽</p><p class="service__text">Скидка остаётся высокой, маржа FBS положительная. Но карточка уходит из массовой выдачи по цене 235,62 ₽.</p></article>
+<article class="card plan-card"><p class="plan-card__tag">Сценарий C</p><h3 class="plan-card__name">Перевести в FBW</h3><p class="plan-card__lever">без скидки</p><p class="service__text">Ничего не меняем в ценах и спросе: FBW снимает ПВЗ и фулфилмент и сразу даёт плюс. Требует своего склада.</p></article>
+</div>
+<div class="table-wrap"><table class="table table--compact"><thead><tr><th>Показатель</th><th class="num">Сценарий A</th><th class="num">Сценарий B</th><th class="num">Сценарий C</th></tr></thead><tbody>
+<tr><td class="lead">Цена покупателя</td><td class="num">231,00 ₽</td><td class="num">235,62 ₽</td><td class="num">157,08 ₽</td></tr>
+<tr><td class="lead">Прибыль с единицы</td><td class="num">+45,77 ₽</td><td class="num">+50,10 ₽</td><td class="num">+36,82 ₽</td></tr>
+<tr><td class="lead">Маржа к РРЦ</td><td class="num">+7,6 %</td><td class="num">+5,6 %</td><td class="num">+6,1 %</td></tr>
+<tr><td class="lead">Спрос</td><td class="num">просядет</td><td class="num">упадёт заметно</td><td class="num">не изменится</td></tr>
+<tr><td class="lead">Свои затраты</td><td class="num">нет</td><td class="num">нет</td><td class="num">склад и доставка до него</td></tr>
+</tbody></table></div>
+<div class="card plan-verdict"><p class="plan-verdict__label">Вывод</p><p class="service__text">Выбрать A. Первый рычаг — скидка: FBS выходит в +45,77 ₽ без единицы новых затрат, тогда как B требует роста цены на 50 % и риска потери позиций, а C добавляет складской оборот к карточке, которая сейчас даёт 36,82 ₽. Порог безубыточности FBS — скидка 60,57 %, то есть текущие 66 % зашли за него на 5,4 п.п.</p></div>
+<div class="card plan-next"><p class="plan-verdict__label">Что дальше: 2–3 недели</p><ul class="list-checks">
+<li class="service__text">Неделя 1: снизить скидку 66 % → 55 % и снять первые 50 заказов. Контроль: FBS не ниже +24,13 ₽, доля возвратов не выросла.</li>
+<li class="service__text">Неделя 2: довести до 50 %, сравнить выручку и число продаж с периодом 05.04–12.09 (379 продаж).</li>
+<li class="service__text">Неделя 3: если спрос просел больше чем на треть — вернуть 55 % и перевести карточку в FBW как запасной вариант.</li>
+</ul></div>
+</section>
+<section class="section" id="cost" aria-labelledby="cost-t">
+<div class="section-head"><h2 class="section-title" id="cost-t">Себестоимость по статьям</h2><span class="section-note">партия 400 шт, на единицу</span></div>
+<div class="table-wrap"><table class="table table--compact"><thead><tr><th>Статья</th><th class="num">На единицу</th><th class="num">Доля</th></tr></thead><tbody>
+<tr><td class="lead">Товар + доставка по Китаю</td><td class="num" data-money="17.5" data-dec="2">—</td><td class="num" data-pct-num="53.9">—</td></tr>
+<tr><td class="lead">Доставка по России</td><td class="num" data-money="5.0" data-dec="2">—</td><td class="num" data-pct-num="15.4">—</td></tr>
+<tr><td class="lead">Коробки</td><td class="num" data-money="1.2" data-dec="2">—</td><td class="num" data-pct-num="3.7">—</td></tr>
+<tr><td class="lead">Отправка на WB</td><td class="num" data-money="8.75" data-dec="2">—</td><td class="num" data-pct-num="27.0">—</td></tr>
+<tr><td class="lead">Итого</td><td class="num" data-money="32.45" data-dec="2">—</td><td class="num">100,0 %</td></tr>
+</tbody></table></div>
+<p class="footnote">Логистика WB по этому объёму — <span data-money="78.2" data-dec="2">—</span>. Это больше всей себестоимости и в 15,6 раза больше доставки товара до склада.</p>
+</section>
+<section class="section" id="result" aria-labelledby="result-t">
+<div class="section-head"><h2 class="section-title" id="result-t">Результат</h2><span class="section-note">по фактическим ценам последнего заказа</span></div>
+<div class="grid grid-3">
+<div class="metric">
+<span class="metric-label">Скидка 66 % (факт), FBS</span>
+<p class="metric--sm metric-value tone-loss">−23,49 ₽</p>
+</div>
+<div class="metric">
+<span class="metric-label">Скидка 66 % (факт), FBW</span>
+<p class="metric--sm metric-value tone-profit">+36,82 ₽</p>
+</div>
+<div class="metric">
+<span class="metric-label">Порог скидки для FBS</span>
+<p class="metric--sm metric-value tone-warning">60,57 %</p>
+</div>
+<div class="metric">
+<span class="metric-label">BE FBS</span>
+<p class="metric--sm metric-value tone-loss">320,64 ₽</p>
+</div>
+<div class="metric">
+<span class="metric-label">BE FBW</span>
+<p class="metric--sm metric-value tone-profit">206,83 ₽</p>
+</div>
+<div class="metric">
+<span class="metric-label">Скидка 50 %, FBS</span>
+<p class="metric--sm metric-value tone-profit">+45,77 ₽</p>
+</div>
+</div></section>
+<section class="section" id="chart" aria-labelledby="chart-t">
+<div class="section-head">
+<h2 class="section-title" id="chart-t">Прибыль с единицы при скидке продавца</h2>
+<span class="section-note">на 5 п.п. скидки</span>
+</div>
+<div class="card">
+<div class="chart-box">
+<canvas id="sens" role="img" aria-label="Прибыль с единицы при скидке продавца: две линии, FBS и FBW"></canvas>
+</div>
+<div class="chart-legend">
+<span class="legend-dot legend-dot--fbs"></span>FBS
+<span class="legend-dot legend-dot--fbw"></span>FBW
+<span class="legend-line legend-line--zero"></span>точка безубыточности FBS
+</div>
+<p class="footnote">РРЦ 600 ₽, СПП 23 %, реальные ставки и себестоимость. Ноль profit = 60,57 % скидки для FBS.</p>
+</div>
+</section>
+<section class="section" id="insight" aria-labelledby="insight-t">
+<div class="section-head"><h2 class="section-title" id="insight-t">Ключевой инсайт</h2></div>
+<div class="alert alert--info case-insight"><i data-lucide="lightbulb" width="16" height="16" aria-hidden="true"></i><span>Логистика WB 78,20 ₽ в 15,6 раза дороже доставки товара до склада (5,00 ₽) и в 2,4 раза дороже всей себестоимости (32,45 ₽). Экономить 1 ₽ на закупке бессмысленно, пока фиксированные 78,20 ₽ не покрыты ценой: сначала скидка и модель, потом закупка.</span></div>
+</section>
+<div class="case-actions no-print">
+<a class="btn btn--primary cs-max" href="https://max.ru/u/f9LHodD0cOLdp8PLl5xLOgbVyMIGA-CzKgczzqM_HK-bc2fsqmhaWQNg7Lk" target="_blank" rel="noopener"><i data-lucide="message-circle" width="16" height="16" aria-hidden="true"></i>Написать в MAX</a>
+<button class="btn" type="button" onclick="window.print()"><i data-lucide="download" width="16" height="16" aria-hidden="true"></i>Скачать PDF</button>
+<a class="btn btn--ghost" href="index.html"><i data-lucide="arrow-left" width="16" height="16" aria-hidden="true"></i>Все кейсы</a>
+</div>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  var CFG = {"labels": ["0", "5", "10", "15", "20", "25", "30", "35", "40", "45", "50", "55", "60", "65", "70"], "series": [{"name": "FBS", "values": [262.18, 240.54, 218.9, 197.26, 175.62, 153.98, 132.33, 110.69, 89.05, 67.41, 45.77, 24.13, 2.48, -19.16, -40.8]}, {"name": "FBW", "values": [340.65, 317.63, 294.61, 271.59, 248.58, 225.56, 202.54, 179.53, 156.51, 133.49, 110.47, 87.46, 64.44, 41.42, 18.41]}], "zeroLabel": "60,57 %"};
+  var cv = document.getElementById('sens');
+  if (!cv || typeof Chart === 'undefined') return;
+  var css = getComputedStyle(document.documentElement);
+  var tok = function (name) { return css.getPropertyValue(name).trim(); };
+  var accent = tok('--color-accent');
+  var profit = tok('--color-profit');
+  var loss = tok('--color-loss');
+  var grid = tok('--color-border');
+  var text = tok('--color-text-tertiary');
+
+  var fmt = function (v) {
+    var s = Math.abs(v).toFixed(0);
+    s = s.replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+    return (v < 0 ? '−' : '') + s + ' ₽';
+  };
+
+  // Линия рисуется сплошной: отрицательные значения идут ниже нуля
+  // цветом loss, положительные — profit. Отрезки разделяются по знаку.
+  var segmentColor = function (ctx, base, zeroColor) {
+    var zero = ctx.p0.parsed.y;
+    return zero < base ? base : zeroColor;
+  };
+
+  var datasets = CFG.series.map(function (sr) {
+    return {
+      label: sr.name,
+      data: sr.values,
+      borderWidth: 2,
+      pointRadius: 2,
+      pointHoverRadius: 4,
+      tension: 0.15,
+      fill: false,
+      borderColor: sr.name === 'FBS' ? accent : profit,
+      pointBackgroundColor: sr.name === 'FBS' ? accent : profit,
+      segment: {
+        borderColor: function (ctx) {
+          var zero = ctx.p0.parsed.y;
+          return zero < 0 ? loss : (sr.name === 'FBS' ? accent : profit);
+        },
+      },
+    };
+  });
+
+  new Chart(cv, {
+    type: 'line',
+    data: { labels: CFG.labels.map(function (l) { return l + ' %'; }),
+            datasets: datasets },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      interaction: { mode: 'index', intersect: false },
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          backgroundColor: tok('--color-surface-overlay'),
+          borderColor: tok('--color-border-strong'),
+          borderWidth: 1,
+          titleColor: tok('--color-text-primary'),
+          bodyColor: tok('--color-text-secondary'),
+          padding: 10,
+          displayColors: true,
+          callbacks: {
+            label: function (item) { return item.dataset.label + ': ' + fmt(item.parsed.y); },
+          },
+        },
+      },
+      scales: {
+        x: {
+          title: { display: true, text: 'скидка продавца',
+                    color: text, font: { size: 11 } },
+          grid: { color: grid, drawTicks: false },
+          ticks: { color: text, font: { size: 11 } },
+          border: { color: grid },
+        },
+        y: {
+          title: { display: true, text: 'прибыль с единицы',
+                    color: text, font: { size: 11 } },
+          grid: { color: grid, drawTicks: false },
+          ticks: {
+            color: text, font: { size: 11 },
+            callback: function (v) { return fmt(v); },
+          },
+          border: { color: grid },
+        },
+      },
+    },
+    plugins: [{
+      id: 'zeroLine',
+      afterDatasetsDraw: function (chart) {
+        var y = chart.scales.y.getPixelForValue(0);
+        var ctx = chart.ctx;
+        ctx.save();
+        ctx.strokeStyle = text;
+        ctx.setLineDash([4, 4]);
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.moveTo(chart.chartArea.left, y);
+        ctx.lineTo(chart.chartArea.right, y);
+        ctx.stroke();
+        ctx.setLineDash([]);
+        ctx.fillStyle = text;
+        ctx.font = '11px Inter, system-ui, sans-serif';
+        ctx.textAlign = 'right';
+        ctx.fillText('безубыточность FBS ' + CFG.zeroLabel,
+                     chart.chartArea.right - 6, y - 6);
+        ctx.restore();
+      },
+    }],
+  });
+
+});
+</script>
+<p class="case-source">Расчёт по данным Seller API и оферты WB. Модель: <span class="code">econ_v3</span>, вероятность штрафа 0,30 % по эмпирике продавца. Себестоимость подтверждена продавцом.</p>
+</main>
+<footer class="site-footer">
+<div class="site-footer__inner">
+<span class="site-footer__copy">© 2026 Жаворонков Кирилл</span>
+<nav class="site-footer__nav" aria-label="Разделы">
+<a class="nav-link" href="../index.html">Главная</a>
+<a class="nav-link" href="index.html">Все кейсы</a>
+<a class="nav-link" href="../products/index.html">Каталог</a>
+<a class="nav-link" href="../resume.html">Резюме</a>
+</nav>
+<span class="site-footer__copy">Дата сборки: 2026-09-30</span>
+</div></footer>
+<script type="module" src="../assets/site.js"></script>
+</body></html>

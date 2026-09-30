@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Жаворонков Кирилл — резюме</title>
+<meta name="description" content="Резюме Жаворонкова Кирилла: юнит-экономика маркетплейсов, аналитика карточек, промт-инжиниринг.">
+<meta name="robots" content="noindex">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+<!-- Шапка: только имя, роль и контакты. Навигация по документу — в боковой
+     колонке, чтобы не спорить с шапкой на печати. -->
+<header class="site-header no-print">
+  <div class="site-header__inner">
+    <a class="brand" href="resume.html">
+      <span class="brand__name">Жаворонков Кирилл</span>
+      <span class="brand__sub">Юнит-экономика маркетплейсов</span>
+    </a>
+    <nav class="nav" aria-label="Разделы резюме">
+      <a class="nav-link" href="#about">О себе</a>
+      <a class="nav-link" href="#exp">Опыт</a>
+      <a class="nav-link" href="#skills">Навыки</a>
+      <a class="nav-link" href="#edu">Образование</a>
+    </nav>
+    <button class="btn btn--primary" type="button" id="print-btn">
+      <i data-lucide="file-down" size="16" stroke-width="1.5" aria-hidden="true"></i>
+      Скачать PDF
+    </button>
+  </div>
+</header>
+
+<main class="page resume">
+
+  <!-- ── Шапка документа ──────────────────────────────────────────────── -->
+  <div class="resume-head">
+    <!-- Плейсхолдер: фото не выдумываем. Замена на реальное фото —
+         <img class="resume-photo" src="assets/photo.jpg" alt="Жаворонков Кирилл">.
+         Размеры (132×176) и скругление заданы в style.css, отдельная
+         настройка не потребуется. -->
+    <div class="resume-photo" role="img" aria-label="Место для фотографии">[ФОТО]</div>
+
+    <div>
+      <h1 class="resume-name">Жаворонков Кирилл</h1>
+      <p class="resume-role">
+        Селлер Wildberries и Ozon с 2020 года. Считаю юнит-экономику по данным
+        API площадки, разбираю карточки и оферту, автоматизирую отчёты через ИИ.
+      </p>
+
+      <ul class="resume-contacts">
+        <li>
+          <a href="tel:+79141948316">
+            <i data-lucide="smartphone" size="14" stroke-width="1.5" aria-hidden="true"></i>
+            +7 914 194-83-16
+          </a>
+        </li>
+        <li>
+          <a href="mailto:ip.zhavoronkov.ka@yandex.ru">
+            <i data-lucide="mail" size="14" stroke-width="1.5" aria-hidden="true"></i>
+            ip.zhavoronkov.ka@yandex.ru
+          </a>
+        </li>
+        <li>
+          <span>
+            <i data-lucide="map-pin" size="14" stroke-width="1.5" aria-hidden="true"></i>
+            Великий Новгород
+          </span>
+        </li>
+        <li>
+          <a href="https://max.ru/u/f9LHodD0cOLdp8PLl5xLOgbVyMIGA-CzKgczzqM_HK-bc2fsqmhaWQNg7Lk" target="_blank" rel="noopener">
+            <i data-lucide="message-circle" size="14" stroke-width="1.5" aria-hidden="true"></i>
+            MAX
+          </a>
+        </li>
+        <li>
+          <a href="index.html">
+            <i data-lucide="folder-open" size="14" stroke-width="1.5" aria-hidden="true"></i>
+            Портфолио: 4 кейса
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="resume-grid">
+
+    <!-- ── Основная колонка ───────────────────────────────────────────── -->
+    <div class="resume-main">
+
+      <section class="resume-block" id="about">
+        <div class="resume-block__head">
+          <h2 class="resume-block__title">Коротко</h2>
+          <span class="resume-block__rule" aria-hidden="true"></span>
+        </div>
+
+        <div class="resume-facts">
+          <div class="resume-fact">
+            <span class="resume-fact__value tnum">6 лет</span>
+            <span class="resume-fact__label">на маркетплейсах, с 2020</span>
+          </div>
+          <div class="resume-fact">
+            <span class="resume-fact__value tnum">30</span>
+            <span class="resume-fact__label">SKU в работе</span>
+          </div>
+          <div class="resume-fact">
+            <span class="resume-fact__value tnum">10 лет</span>
+            <span class="resume-fact__label">в международном туризме</span>
+          </div>
+          <div class="resume-fact">
+            <span class="resume-fact__value tnum">2–3</span>
+            <span class="resume-fact__label">недели на ввоз партии</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="resume-block" id="usp">
+        <div class="resume-block__head">
+          <h2 class="resume-block__title">Чем отличаюсь</h2>
+          <span class="resume-block__rule" aria-hidden="true"></span>
+        </div>
+
+        <ol class="usp">
+          <li>
+            <span>
+              <strong>Считаю экономику до рублей, а не «на глаз».</strong><br>
+              Юнит-экономика по каждому SKU: комиссия, логистика, хранение,
+              реклама, возвраты. Видно, какие товары приносят прибыль,
+              а какие дают только оборот.
+            </span>
+          </li>
+          <li>
+            <span>
+              <strong>Разбираю оферту по пунктам.</strong><br>
+              Нахожу условия, которые незаметно съедают маржу: пороги
+              стоимости хранения, правила пошлин, изменения в комиссиях.
+            </span>
+          </li>
+          <li>
+            <span>
+              <strong>Использую API и ИИ — точные данные вместо догадок.</strong><br>
+              Выгрузка отчётов площадки, расчёт в таблицах, промты для
+              ИИ-агентов на анализ отчётов и генерацию контента.
+            </span>
+          </li>
+        </ol>
+      </section>
+
+      <section class="resume-block" id="exp">
+        <div class="resume-block__head">
+          <h2 class="resume-block__title">Опыт работы</h2>
+          <span class="resume-block__rule" aria-hidden="true"></span>
+        </div>
+
+        <div class="resume-item">
+          <div class="resume-item__head">
+            <h3 class="resume-item__title">
+              Селлер Wildberries и Ozon
+            </h3>
+            <span class="resume-item__period">2020 — настоящее время</span>
+          </div>
+          <ul class="resume-item__list">
+            <li>
+              30 SKU: товары для дома, реквизит для фото, электроника.
+            </li>
+            <li>
+              Полный цикл: закупка в Китае (1688) → ввоз и логистика →
+              карточка товара → продвижение → аналитика продаж.
+            </li>
+            <li>
+              Срок ввоза партии — 2–3 недели, доставка любой транспортной
+              компанией.
+            </li>
+            <li>
+              Юнит-экономика по каждому SKU, работа с отчётами площадки,
+              разбор оферты, ценообразование, анализ конкурентов.
+            </li>
+            <li>
+              Продвижение карточек, SEO, генерация контента и постановка
+              задач ИИ-агентам.
+            </li>
+          </ul>
+        </div>
+
+        <div class="resume-item">
+          <div class="resume-item__head">
+            <h3 class="resume-item__title">
+              Старший агент по туризму
+              <span class="resume-item__org">· ООО «Трэвэл Люкс-ДВ»</span>
+            </h3>
+            <span class="resume-item__period">10 лет</span>
+          </div>
+          <ul class="resume-item__list">
+            <li>Международный туризм: подбор направлений, работа с клиентами.</li>
+            <li>Продажи, клиентский сервис, ведение сделок в CRM.</li>
+            <li>Переговоры, составление технических заданий, письменные коммуникации.</li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="resume-block" id="skills">
+        <div class="resume-block__head">
+          <h2 class="resume-block__title">Навыки</h2>
+          <span class="resume-block__rule" aria-hidden="true"></span>
+        </div>
+
+        <div class="skill-list">
+          <div class="skill">
+            <span class="skill__name">
+              <i data-lucide="shopping-bag" size="16" stroke-width="1.5" aria-hidden="true"></i>
+              Маркетплейсы
+            </span>
+            <p class="skill__text">
+              Юнит-экономика FBS и FBW · SEO карточек · ценообразование ·
+              разбор оферты · работа с отчётами · анализ конкурентов ·
+              ввоз из Китая
+            </p>
+          </div>
+
+          <div class="skill">
+            <span class="skill__name">
+              <i data-lucide="bot" size="16" stroke-width="1.5" aria-hidden="true"></i>
+              Промт-инжиниринг
+            </span>
+            <p class="skill__text">
+              Постановка задач ИИ-агентам · генерация контента ·
+              автоматизация отчётов
+            </p>
+          </div>
+
+          <div class="skill">
+            <span class="skill__name">
+              <i data-lucide="code" size="16" stroke-width="1.5" aria-hidden="true"></i>
+              Технические
+            </span>
+            <p class="skill__text">
+              API Wildberries · HTML, CSS, JS · Chart.js · Python (базовый) ·
+              Excel и Google Sheets
+            </p>
+          </div>
+
+          <div class="skill">
+            <span class="skill__name">
+              <i data-lucide="messages-square" size="16" stroke-width="1.5" aria-hidden="true"></i>
+              Клиентская работа
+            </span>
+            <p class="skill__text">
+              Переговоры · составление ТЗ · работа в письменных каналах
+            </p>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- ── Боковая колонка ────────────────────────────────────────────── -->
+    <aside class="resume-side">
+
+      <section class="resume-block" id="look">
+        <div class="resume-block__head">
+          <h2 class="resume-block__title">Что ищу</h2>
+          <span class="resume-block__rule" aria-hidden="true"></span>
+        </div>
+        <ul class="resume-item__list">
+          <li>Удалённая работа.</li>
+          <li>Аудит, юнит-экономика, аналитика карточек.</li>
+          <li>Только письменные каналы связи.</li>
+        </ul>
+      </section>
+
+      <section class="resume-block" id="edu">
+        <div class="resume-block__head">
+          <h2 class="resume-block__title">Образование</h2>
+          <span class="resume-block__rule" aria-hidden="true"></span>
+        </div>
+        <p class="skill__text" style="padding-left: 0;">
+          Высшее, туризм.
+        </p>
+      </section>
+
+      <section class="resume-block" id="portfolio">
+        <div class="resume-block__head">
+          <h2 class="resume-block__title">Портфолио</h2>
+          <span class="resume-block__rule" aria-hidden="true"></span>
+        </div>
+        <div class="resume-portfolio">
+          <a class="btn" href="index.html" style="align-self: flex-start;">
+            <i data-lucide="external-link" size="16" stroke-width="1.5" aria-hidden="true"></i>
+            5 кейсов на реальных данных
+          </a>
+          <p class="resume-portfolio__note">
+            Разборы юнит-экономики, расчёты по выгрузкам API, калькулятор
+            цены и проверка гипотез.
+          </p>
+        </div>
+      </section>
+
+    </aside>
+  </div>
+</main>
+
+<footer class="site-footer no-print">
+  <div class="site-footer__inner">
+    <p class="site-footer__copy">Жаворонков Кирилл · Великий Новгород</p>
+    <div class="site-footer__nav">
+      <a class="nav-link" href="mailto:ip.zhavoronkov.ka@yandex.ru">Написать</a>
+      <a class="nav-link" href="index.html">Портфолио</a>
+    </div>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/lucide@0.454.0/dist/umd/lucide.min.js" defer></script>
+<script type="module" src="assets/resume.js"></script>
+</body>
+</html>

@@ -1,0 +1,18 @@
+# Данные (служебное)
+data/
+tmp_shots/
+*.log
+
+# Скрипты (служебное)
+*.py
+__pycache__/
+STATUS.md
+DESIGN_PLAN.md
+
+# Служебные
+.DS_Store
+.env
+*.env
+
+# Временное
+tmp_*
