@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Экспресс-аудит WB за 24 часа — Жаворонков Кирилл</title>
+<meta name="description" content="Аудит одного товара на Wildberries за 24 часа: юнит-экономика по реальным данным, точка безубыточности, топ-3 проблемы и 3 рекомендации с цифрами. PDF-отчёт и интерактивный HTML. 6 900 ₽.">
+<link rel="canonical" href="https://kirj2004.github.io/zhavoronkov-portfolio/express-audit.html">
+<link rel="stylesheet" href="assets/style.css">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+
+<style>
+/* Стили лендинга экспресс-аудита. Локальные: страница самодостаточна,
+   и правила не текут в общий style.css. Токены и сетка — оттуда же. */
+
+.ea-eyebrow{display:inline-flex;margin:0 0 var(--space-3)}
+
+.ea-cta{display:flex;flex-wrap:wrap;align-items:center;gap:var(--space-4);
+  margin:var(--space-6) 0 var(--space-8)}
+.ea-cta__note{margin:0;font-size:var(--text-sm);color:var(--color-text-tertiary)}
+
+.ea-steps{list-style:none;margin:0;padding:0;display:grid;
+  grid-template-columns:repeat(4,1fr);gap:var(--space-4);counter-reset:ea}
+.ea-step{position:relative;padding:var(--space-5);border-radius:var(--radius-lg);
+  background:var(--color-surface);border:1px solid var(--color-border);
+  display:flex;flex-direction:column;gap:var(--space-2)}
+.ea-step__num{display:inline-flex;align-items:center;justify-content:center;
+  width:32px;height:32px;border-radius:var(--radius-full);
+  background:var(--color-accent-subtle);color:var(--color-accent);
+  font-weight:700;font-size:var(--text-base)}
+.ea-step p{margin:0;font-size:var(--text-sm);
+  color:var(--color-text-secondary);line-height:1.5}
+
+.ea-out{display:flex;flex-direction:column;gap:var(--space-3)}
+.ea-out p{margin:0;font-size:var(--text-sm);
+  color:var(--color-text-secondary);line-height:1.5;flex:1}
+.ea-out__link{font-size:var(--text-sm);color:var(--color-accent);
+  text-decoration:none;border-bottom:1px solid currentColor}
+.ea-out__link:hover{color:var(--color-text-primary)}
+
+.ea-sample{display:flex;flex-direction:column;gap:var(--space-3);align-items:flex-start}
+.ea-sample__rows{list-style:none;margin:0;padding:0;width:100%;
+  display:flex;flex-direction:column}
+.ea-sample__rows li{display:flex;flex-wrap:wrap;justify-content:space-between;
+  gap:var(--space-2);padding:var(--space-3) 0;
+  border-top:1px solid var(--color-border)}
+.ea-sample__label{font-size:var(--text-sm);color:var(--color-text-tertiary)}
+.ea-sample__value{font-size:var(--text-sm);color:var(--color-text-primary);
+  font-weight:600;text-align:right}
+.ea-sample__note{margin:0;font-size:var(--text-xs);color:var(--color-text-tertiary);
+  line-height:1.45}
+.ea-sample__btn{margin-top:auto}
+
+.ea-td-win{color:var(--color-text-primary);font-weight:600}
+
+.ea-compare__note{margin:var(--space-5) 0 0;max-width:70ch;
+  font-size:var(--text-sm);color:var(--color-text-secondary);line-height:1.5}
+
+/* Акцентные поля формы: обводка должна читаться как «пропущено», а не как
+   дизайнерский элемент, иначе ошибку легко не заметить. */
+.input.is-invalid{border-color:var(--color-loss);
+  box-shadow:0 0 0 3px var(--color-loss-subtle)}
+
+@media (max-width:1024px){
+  .ea-steps{grid-template-columns:repeat(2,1fr)}
+}
+@media (max-width:640px){
+  .ea-steps{grid-template-columns:1fr}
+  .ea-cta{gap:var(--space-3)}
+}
+/* Кнопка крупного размера: главный CTA лендинга должен быть заметно крупнее
+   второстепенных кнопок, иначе не выделяется среди них. */
+.btn--lg{height:48px;padding:0 var(--space-6);font-size:var(--text-base)}
+
+/* Таблица сравнения уходит в горизонтальный скролл на узких экранах:
+   прятать текст в колонки значит терять смысл строк. */
+@media (max-width:640px){
+  .table{min-width:520px}
+}
+
+/* Скрыть визуально, оставить для скринридера. */
+.visually-hidden{position:absolute;width:1px;height:1px;padding:0;margin:-1px;
+  overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+</style>
+<script src="https://cdn.jsdelivr.net/npm/lucide@0.454.0/dist/umd/lucide.min.js" defer></script>
+<script type="module" src="assets/site.js"></script>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="site-header__inner">
+    <a class="brand" href="index.html">
+      <span class="brand__name">Жаворонков Кирилл</span>
+      <span class="brand__sub">экспресс-аудит WB</span>
+    </a>
+    <nav class="nav" aria-label="Разделы страницы">
+      <a class="nav-link" href="#how">Как это работает</a>
+      <a class="nav-link" href="#whats">Что входит</a>
+      <a class="nav-link" href="#not">Что не входит</a>
+      <a class="nav-link" href="#compare">Сравнение</a>
+      <a class="nav-link" href="#order">Заявка</a>
+    </nav>
+    <a class="btn btn--primary" href="#order">
+      <i data-lucide="timer" width="16" height="16" aria-hidden="true"></i>
+      Заказать
+    </a>
+  </div>
+</header>
+
+<main class="page">
+
+  <!-- ── Hero ────────────────────────────────────────────────────────── -->
+  <section class="section" id="top" aria-labelledby="top-title">
+    <p class="badge badge--accent ea-eyebrow">Стартовый формат</p>
+    <h1 class="page-title" id="top-title">Аудит вашего товара на WB за 24 часа</h1>
+    <p class="page-sub">
+      Пришлите артикул и API-ключ — завтра получите отчёт с диагнозом
+      и рекомендациями.
+    </p>
+
+    <div class="ea-cta">
+      <a class="btn btn--primary btn--lg" href="#order">Заказать — 6 900 ₽</a>
+      <p class="ea-cta__note">
+        Оплата после того, как отчёт готов. Предоплата не нужна.
+      </p>
+    </div>
+
+    <div class="grid grid-3">
+      <div class="metric">
+        <span class="metric-value">24 часа</span>
+        <span class="metric-label">срок от данных до отчёта</span>
+      </div>
+      <div class="metric">
+        <span class="metric-value">1 товар</span>
+        <span class="metric-label">глубокий разбор одного SKU</span>
+      </div>
+      <div class="metric">
+        <span class="metric-value">PDF + HTML</span>
+        <span class="metric-label">отчёт и интерактивная модель</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Как это работает ────────────────────────────────────────────── -->
+  <section class="section" id="how" aria-labelledby="how-title">
+    <div class="section-head">
+      <h2 class="section-title" id="how-title">Как это работает</h2>
+      <span class="section-note">четыре шага, без встреч и созвонов</span>
+    </div>
+
+    <ol class="ea-steps">
+      <li class="ea-step">
+        <span class="ea-step__num tnum">1</span>
+        <h3 class="card-title">Вы оставляете заявку</h3>
+        <p>Форма на этой странице: артикул, себестоимость, контакты. Отвечаю в MAX или на почту — как удобнее.</p>
+      </li>
+      <li class="ea-step">
+        <span class="ea-step__num tnum">2</span>
+        <h3 class="card-title">Даёте API-ключ на чтение</h3>
+        <p>Присылаю инструкцию в два шага со скриншотами. Ключ только читает данные — никаких действий в кабинете он сделать не может.</p>
+      </li>
+      <li class="ea-step">
+        <span class="ea-step__num tnum">3</span>
+        <h3 class="card-title">Я считаю 24 часа</h3>
+        <p>Считаю юнит-экономику на реальных данных продавца: комиссия категории, логистика по вашим габаритам, хранение, скидка, возвраты, реклама.</p>
+      </li>
+      <li class="ea-step">
+        <span class="ea-step__num tnum">4</span>
+        <h3 class="card-title">Вы получаете PDF + HTML</h3>
+        <p>PDF — чтобы показать партнёру или бухгалтеру. HTML — чтобы покрутить ползунки и самому увидеть, как меняется маржа.</p>
+      </li>
+    </ol>
+  </section>
+
+  <!-- ── Что входит ──────────────────────────────────────────────────── -->
+  <section class="section" id="whats" aria-labelledby="whats-title">
+    <div class="section-head">
+      <h2 class="section-title" id="whats-title">Что входит</h2>
+      <span class="section-note">шесть пунктов отчёта</span>
+    </div>
+
+    <div class="grid grid-2">
+      <article class="card service">
+        <span class="service__icon"><i data-lucide="calculator" width="18" height="18" aria-hidden="true"></i></span>
+        <div>
+          <h3 class="card-title">Расчёты</h3>
+          <p class="card-sub">на ваших реальных данных</p>
+        </div>
+        <ul class="resume-item__list">
+          <li>Юнит-экономика по одному товару: что остаётся с единицы после всех расходов.</li>
+          <li>Точка безубыточности отдельно для FBS и FBW — у них разная операционка.</li>
+          <li>Цена под целевую маржу: сколько стоит товар, чтобы зарабатывать, а не просто продавать.</li>
+        </ul>
+      </article>
+
+      <article class="card service">
+        <span class="service__icon"><i data-lucide="list-checks" width="18" height="18" aria-hidden="true"></i></span>
+        <div>
+          <h3 class="card-title">Выводы</h3>
+          <p class="card-sub">что делать в первую очередь</p>
+        </div>
+        <ul class="resume-item__list">
+          <li>Топ-3 проблемы товара: в карточке или в цене, с указанием, что именно не так.</li>
+          <li>3 рекомендации с цифрами — не «улучшить карточку», а «снизить скидку с 66 % до 50 % даёт +45,77 ₽ с единицы».</li>
+          <li>Интерактивный HTML с ползунками: меняете цену и скидку, видите новую маржу.</li>
+        </ul>
+      </article>
+    </div>
+  </section>
+
+  <!-- ── Что НЕ входит ───────────────────────────────────────────────── -->
+  <section class="section" id="not" aria-labelledby="not-title">
+    <div class="section-head">
+      <h2 class="section-title" id="not-title">Что не входит</h2>
+      <span class="section-note">границы формата, чтобы не было сюрпризов</span>
+    </div>
+
+    <div class="grid grid-3">
+      <article class="card ea-out">
+        <h3 class="card-title">Не аудит всего магазина</h3>
+        <p>Разбираю один товар. Остальные SKU в отчёт не попадают.</p>
+        <a class="ea-out__link" href="products/index.html#p9">Полный аудит магазина</a>
+      </article>
+      <article class="card ea-out">
+        <h3 class="card-title">Не внедрение рекомендаций</h3>
+        <p>Отчёт с планом правок. Правки в кабинете вы вносите сами или с помощью.</p>
+        <a class="ea-out__link" href="products/index.html#p8">Ценообразование и внедрение</a>
+      </article>
+      <article class="card ea-out">
+        <h3 class="card-title">Не создание карточки</h3>
+        <p>Диагностика существующей карточки, а не разработка новой с нуля.</p>
+        <a class="ea-out__link" href="products/index.html#p2">Аудит карточки</a>
+      </article>
+    </div>
+  </section>
+
+  <!-- ── Пример отчёта ──────────────────────────────────────────────── -->
+  <section class="section" id="sample" aria-labelledby="sample-title">
+    <div class="section-head">
+      <h2 class="section-title" id="sample-title">Пример результата</h2>
+      <span class="section-note">вот что вы получите</span>
+    </div>
+
+    <div class="grid grid-2">
+      <article class="card ea-sample">
+        <h3 class="card-title">Что показывает отчёт</h3>
+        <p class="card-sub">по одному товару, на реальных цифрах продавца</p>
+        <ul class="ea-sample__rows">
+          <li>
+            <span class="ea-sample__label">Маржа сейчас</span>
+            <span class="ea-sample__value">−23,49 ₽ с единицы (FBS)</span>
+          </li>
+          <li>
+            <span class="ea-sample__label">Порог безубыточности</span>
+            <span class="ea-sample__value">цена 320,64 ₽</span>
+          </li>
+          <li>
+            <span class="ea-sample__label">Главная проблема</span>
+            <span class="ea-sample__value">скидка 66 % съедает маржу</span>
+          </li>
+        </ul>
+        <p class="ea-sample__note">
+          Это пример на данных одного из кейсов. Ваши цифры будут другими —
+          смысл отчёта в том, что они ваши.
+        </p>
+        <a class="btn ea-sample__btn" href="cases/case_02.html">
+          <i data-lucide="file-text" width="16" height="16" aria-hidden="true"></i>
+          Открыть полный кейс
+        </a>
+      </article>
+
+      <article class="card ea-sample">
+        <h3 class="card-title">Что делает HTML-отчёт</h3>
+        <p class="card-sub">интерактивная модель, а не картинка</p>
+        <ul class="resume-item__list">
+          <li>Ползунки цены и скидки: сдвигаете и сразу видите, что происходит с маржой.</li>
+          <li>Переключатель FBS / FBW с пересчётом операционки.</li>
+          <li>Таблица расхода по статьям — видно, какая именно съедает маржу.</li>
+          <li>Работает без интернета: можно открыть и показать коллеге.</li>
+        </ul>
+      </article>
+    </div>
+  </section>
+
+  <!-- ── Сравнение ───────────────────────────────────────────────────── -->
+  <section class="section" id="compare" aria-labelledby="compare-title">
+    <div class="section-head">
+      <h2 class="section-title" id="compare-title">Экспресс и обычный аудит</h2>
+      <span class="section-note">разница только в скорости и объёме</span>
+    </div>
+
+    <div class="table-wrap">
+      <table class="table">
+        <caption class="visually-hidden">Сравнение экспресс-аудита и обычного аудита магазина</caption>
+        <thead>
+          <tr>
+            <th scope="col">Параметр</th>
+            <th scope="col">Экспресс</th>
+            <th scope="col">Обычный аудит магазина</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">Срок</th>
+            <td class="ea-td-win">24 часа</td>
+            <td>7–10 дней</td>
+          </tr>
+          <tr>
+            <th scope="row">Что разбираем</th>
+            <td class="ea-td-win">1 товар</td>
+            <td>Все SKU магазина</td>
+          </tr>
+          <tr>
+            <th scope="row">Юнит-экономика</th>
+            <td class="ea-td-win">есть</td>
+            <td>есть</td>
+          </tr>
+          <tr>
+            <th scope="row">Точка безубыточности</th>
+            <td class="ea-td-win">есть</td>
+            <td>есть</td>
+          </tr>
+          <tr>
+            <th scope="row">Рекомендации</th>
+            <td class="ea-td-win">3 главные</td>
+            <td>полный план работ с приоритетами</td>
+          </tr>
+          <tr>
+            <th scope="row">Аудит карточек, поставщиков, документов</th>
+            <td>нет</td>
+            <td class="ea-td-win">есть</td>
+          </tr>
+          <tr>
+            <th scope="row">Цена</th>
+            <td class="ea-td-win">6 900 ₽</td>
+            <td>24 900 ₽</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p class="ea-compare__note">
+      Наценка 40 % — за срочность. Выигрыш по деньгам: 6 900 ₽ против 24 900 ₽,
+      а дальше решаете по результату — если экспресс показал, где теряете
+      деньги, обычный аудит можно не заказывать.
+    </p>
+  </section>
+
+  <!-- ── Заявка ──────────────────────────────────────────────────────── -->
+  <section class="section" id="order" aria-labelledby="order-title">
+    <div class="section-head">
+      <h2 class="section-title" id="order-title">Оставить заявку</h2>
+      <span class="section-note">три коротких шага, перезвонить не буду</span>
+    </div>
+
+    <div class="order">
+      <div class="order__steps" role="list">
+        <button class="order-step is-active" type="button" role="listitem"
+                  data-goto="1" aria-current="step">
+            <span class="order-step__num tnum">1</span>
+            <span class="order-step__label">Товар</span>
+          </button>
+        <button class="order-step" type="button" role="listitem" data-goto="2">
+            <span class="order-step__num tnum">2</span>
+            <span class="order-step__label">Данные</span>
+          </button>
+        <button class="order-step" type="button" role="listitem" data-goto="3">
+            <span class="order-step__num tnum">3</span>
+            <span class="order-step__label">Контакты</span>
+          </button>
+      </div>
+
+      <form class="order-form" id="order-form" novalidate data-product="Экспресс-аудит WB за 24 часа">
+
+        <!-- Шаг 1: какой товар -->
+        <fieldset class="order-panel is-open" data-step="1">
+          <legend class="order-panel__title">Какой товар разбираем</legend>
+
+          <p class="field">
+            <label class="field-label" for="ea-sku">Артикул или ссылка на карточку</label>
+            <input class="input" type="text" id="ea-sku" name="ea-sku" data-required
+                   placeholder="Например: 1234567890 или ссылка на карточку"
+                   autocomplete="off">
+            <span class="field-hint">Одного товара. Ссылка удобнее — по ней я найду артикул сам.</span>
+          </p>
+        </fieldset>
+
+        <!-- Шаг 2: цифры -->
+        <fieldset class="order-panel" data-step="2" hidden>
+          <legend class="order-panel__title">Цифры по товару</legend>
+
+          <p class="field">
+            <label class="field-label" for="ea-cost">Себестоимость единицы, ₽</label>
+            <input class="input tnum" type="text" id="ea-cost" name="ea-cost" data-required
+                   inputmode="numeric" placeholder="320" autocomplete="off">
+            <span class="field-hint">Закупка плюс доставка до склада и упаковка. Без неё точка безубыточности не считается.</span>
+          </p>
+
+          <p class="field">
+            <label class="field-label" for="ea-api">API-ключ Wildberries</label>
+            <input class="input" type="text" id="ea-api" name="ea-api"
+                   placeholder="необязательно — пришлю позже"
+                   autocomplete="off">
+            <span class="field-hint">Если ключа нет — выгрузите отчёт из кабинета в CSV. Можно прислать позже, это не задерживает отчёт.</span>
+          </p>
+        </fieldset>
+
+        <!-- Шаг 3: контакты -->
+        <fieldset class="order-panel" data-step="3" hidden>
+          <legend class="order-panel__title">Как ответить</legend>
+          <p class="field-hint order-panel__lead">
+            Только письменные каналы: MAX или почта. Звонков нет.
+          </p>
+
+          <div class="field">
+            <span class="field-label" id="ea-channel-label">Удобный канал</span>
+            <div class="chips" role="radiogroup" aria-labelledby="ea-channel-label">
+              <label class="chip">
+                <input type="radio" name="channel" value="MAX" checked>
+                <span>MAX</span></label>
+              <label class="chip">
+                <input type="radio" name="channel" value="Email">
+                <span>Почта</span></label>
+            </div>
+          </div>
+
+          <p class="field">
+            <label class="field-label" for="ea-name">Как к вам обращаться</label>
+            <input class="input" type="text" id="ea-name" name="name" data-required
+                   placeholder="Имя или как в кабинете" autocomplete="name">
+          </p>
+
+          <p class="field">
+            <label class="field-label" for="ea-comment">Комментарий</label>
+            <textarea class="input order-textarea" id="ea-comment" name="comment" rows="3"
+                      placeholder="Что уже пробовали и что не получилось"></textarea>
+          </p>
+        </fieldset>
+
+        <div class="order-nav">
+          <button class="btn order-btn order-btn--back" type="button" id="of-back" hidden>
+            <i data-lucide="arrow-left" width="16" height="16" aria-hidden="true"></i>
+            Назад
+          </button>
+
+          <p class="order-status" id="of-status" role="status" aria-live="polite"></p>
+
+          <button class="btn btn--primary order-btn" type="button" id="of-next">
+            Дальше
+            <i data-lucide="arrow-right" width="16" height="16" aria-hidden="true"></i>
+          </button>
+          <button class="btn btn--primary order-btn" type="submit" id="of-send" hidden>
+            <i data-lucide="send" width="16" height="16" aria-hidden="true"></i>
+            Отправить заявку
+          </button>
+        </div>
+      </form>
+
+      <p class="order-note">
+        Форма ничего не отправляет сама. При выборе почты она собирает письмо
+        и открывает ваш почтовый клиент; при выборе MAX — копирует текст
+        в буфер и открывает чат, остаётся вставить.
+      </p>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="site-footer__inner">
+    <span class="site-footer__copy">© <span data-pfx-year>2026</span> Жаворонков Кирилл</span>
+    <nav class="site-footer__nav" aria-label="Разделы страницы">
+      <a class="nav-link" href="#how">Как это работает</a>
+      <a class="nav-link" href="#whats">Что входит</a>
+      <a class="nav-link" href="#compare">Сравнение</a>
+      <a class="nav-link" href="#order">Заявка</a>
+      <a class="nav-link" href="index.html">Портфолио</a>
+    </nav>
+    <p class="site-footer__note">
+      Цена 6 900 ₽ фиксируется до начала работ. Цифры в примере — расчёт
+      по данным одного из кейсов, а не по вашим данным.
+    </p>
+  </div>
+</footer>
+
+</body>
+</html>

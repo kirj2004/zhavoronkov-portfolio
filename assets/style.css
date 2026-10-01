@@ -644,6 +644,51 @@ body {
   color: var(--color-text-secondary);
 }
 
+/* Чекбокс экспресс-формата: отдельная строка, а не одна из подряд идущих
+   фишек — у него другая роль (он меняет обязательность поля).
+   Оформление лежит на span — как у остальных .chip. */
+.chip--express { display: block; cursor: pointer; }
+.chip--express span {
+  display: flex;
+  align-items: flex-start;
+  height: auto;
+  min-height: var(--row-h-md);
+  padding: var(--space-3);
+  text-align: left;
+  line-height: 1.4;
+}
+.chip--express input:checked + span { border-color: var(--color-accent); }
+
+.field-link { color: var(--color-accent); text-decoration: none;
+  border-bottom: 1px solid currentColor; }
+.field-link:hover { color: var(--color-text-primary); }
+
+/* ── Баннер экспресс-аудита ─────────────────────────────────────────── */
+
+.ea-banner{display:flex;flex-wrap:wrap;align-items:center;
+  justify-content:space-between;gap:var(--space-5);
+  margin:var(--space-12) 0;padding:var(--space-6) var(--space-8);
+  border:1px solid var(--color-accent);border-radius:var(--radius-xl);
+  background:var(--color-accent-subtle)}
+.ea-banner__body{display:flex;flex-direction:column;gap:var(--space-2);
+  align-items:flex-start;max-width:62ch}
+.ea-banner__title{margin:0;font-size:var(--text-2xl);line-height:1.2}
+.ea-banner__text{margin:0;font-size:var(--text-sm);
+  color:var(--color-text-secondary);line-height:1.5}
+
+@media (max-width:640px){
+  .ea-banner{margin:var(--space-8) 0;padding:var(--space-5)}
+  .ea-banner .btn{width:100%}
+}
+
+/* Акцентный бейдж — про акцент действия, а не про состояние.
+   Зелёный «profit» на карточке услуги читался бы как «прибыльно». */
+.badge--accent {
+  border-color: color-mix(in srgb, var(--color-accent) 45%, transparent);
+  background: var(--color-accent-subtle);
+  color: var(--color-accent);
+}
+
 /* ==========================================================================
    11. BUTTON / INPUT / RANGE
    ========================================================================== */

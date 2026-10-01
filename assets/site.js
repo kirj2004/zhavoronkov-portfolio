@@ -203,16 +203,28 @@ const ORDER_STEPS = 3;
 const ORDER_EMAIL = "ip.zhavoronkov.ka@yandex.ru";
 const ORDER_MAX = "https://max.ru/u/f9LHodD0cOLdp8PLl5xLOgbVyMIGA-CzKgczzqM_HK-bc2fsqmhaWQNg7Lk";
 
-/** Собирает тему и текст письма из полей формы. Чистая функция: DOM не трогает. */
-export function buildOrderMail(fd) {
+/** Собирает тему и текст письма из полей формы. Чистая функция: DOM не трогает.
+ *
+ *  Поддерживает две формы: общую (главная) и экспресс-аудит. Поля экспресса
+ *  помечены префиксом ea-, поэтому одна функция покрывает обе без копипасты.
+ *  Приоритет у формы — значение data-product на <form>.
+ */
+export function buildOrderMail(fd, product) {
   const val = (k) => String(fd.get(k) ?? "").trim();
   const briefs = fd.getAll("brief").map(String);
   const channel = String(fd.get("channel") ?? "MAX");
 
   const lines = [
-    "Заявка с портфолио",
+    product ? `Услуга: ${product}` : "Заявка с портфолио",
     "",
-    `Задача: ${val("task") || "не указана"}`,
+    product ? "" : `Задача: ${val("task") || "не указана"}`,
+    // Экспресс-аудит
+    fd.get("express") ? "Формат: экспресс-аудит за 24 часа (6 900 ₽)" : "",
+    val("cost") ? `Себестоимость: ${val("cost")} ₽` : "",
+    val("ea-sku") ? `Артикул или ссылка: ${val("ea-sku")}` : "",
+    val("ea-cost") ? `Себестоимость: ${val("ea-cost")} ₽` : "",
+    val("ea-api") ? `API-ключ получен: да` : "",
+    // Общая форма
     val("shop") ? `Магазин: ${val("shop")}` : "",
     val("sku") ? `SKU: ${val("sku")}` : "",
     val("price") ? `Средняя цена: ${val("price")} ₽` : "",
@@ -224,16 +236,55 @@ export function buildOrderMail(fd) {
     val("comment") ? `Комментарий: ${val("comment")}` : "",
   ].filter(Boolean);
 
-  return {
-    subject: `Заявка: ${val("task") || "консультация по маркетплейсам"}`,
-    body: lines.join("\n"),
-    channel,
-  };
+  const subject = product
+    ? `Заявка: ${product}`
+    : `Заявка: ${val("task") || "консультация по маркетплейсам"}`;
+
+  return { subject, body: lines.join("\n"), channel };
+}
+
+/** Проверяет поля шага, помеченные data-required.
+ *  Пустое обязательное поле останавливает переход: отчёт без себестоимости
+ *  или без артикула считать нечем. */
+function validateStep(panel) {
+  const required = Array.from(panel.querySelectorAll("[data-required]"));
+  const bad = required.find((el) => !el.value.trim());
+  if (!bad) return null;
+  bad.classList.add("is-invalid");
+  bad.focus();
+  return bad;
 }
 
 function orderForm() {
   const form = document.getElementById("order-form");
   if (!form) return;
+
+  const product = form.dataset.product || "";
+  const hasRequired = Boolean(form.querySelector("[data-required]"));
+
+  // Экспресс-формат делает себестоимость обязательной: без неё точку
+  // безубыточности посчитать нельзя, а ради неё форма и заказана.
+  const express = form.querySelector('input[name="express"]');
+  const cost = form.querySelector("#of-cost");
+  const costHint = form.querySelector("[data-cost-hint]");
+  if (express && cost) {
+    const syncCost = () => {
+      const on = express.checked;
+      // Атрибут data-required читает валидатор, а required — браузер.
+      // Без чекбокса оба снимаются: поле остаётся необязательным, как
+      // и было до появления экспресс-формата.
+      if (on) cost.dataset.required = "required";
+      else delete cost.dataset.required;
+      cost.required = on;
+      if (costHint) costHint.hidden = !on;
+      if (!on) cost.classList.remove("is-invalid");
+    };
+    express.addEventListener("change", syncCost);
+    syncCost();
+  }
+  form.querySelectorAll("[data-required]").forEach((el) => {
+    el.addEventListener("input", () => el.classList.remove("is-invalid"));
+  });
 
   const panels = Array.from(form.querySelectorAll(".order-panel"));
   const dots = Array.from(document.querySelectorAll(".order-step"));
@@ -261,13 +312,27 @@ function orderForm() {
     next.hidden = step === ORDER_STEPS;
     send.hidden = step !== ORDER_STEPS;
     // На первом шаге подсказка нужна, дальше она молчит.
-    status.textContent = step === 1 ? "Поля со звёздочкой необязательны" : "";
+    status.textContent = step === 1
+      ? (hasRequired ? "Поля со звёздочкой обязательны" : "Поля со звёздочкой необязательны")
+      : "";
     status.classList.remove("is-warn");
+  };
+
+  // Вперёд идут только после проверки текущего шага: назад — всегда,
+  // иначе застрять в пустом поле было бы невозможно.
+  const goNext = () => {
+    const bad = validateStep(panels.find((p) => Number(p.dataset.step) === step));
+    if (bad) {
+      status.textContent = "Заполните обязательное поле";
+      status.classList.add("is-warn");
+      return;
+    }
+    show(step + 1);
   };
 
   dots.forEach((d) => d.addEventListener("click", () => show(Number(d.dataset.goto))));
   back.addEventListener("click", () => show(step - 1));
-  next.addEventListener("click", () => show(step + 1));
+  next.addEventListener("click", goNext);
 
   // Enter в одном поле не должен отправлять форму, пока шаг не третий:
   // иначе «дальше» пришлось бы жать мышью.
@@ -275,14 +340,14 @@ function orderForm() {
     if (e.key !== "Enter") return;
     if (e.target.tagName === "TEXTAREA") return;
     e.preventDefault();
-    if (step < ORDER_STEPS) show(step + 1);
+    if (step < ORDER_STEPS) goNext();
   });
 
   /* Бэкенда нет и не будет: форма пишет письмо, дальше его отправляет
      почтовый клиент пользователя. Так токены и доступы нигде не оседают. */
   form.addEventListener("submit", (e) => {
     e.preventDefault();
-    const { subject, body, channel } = buildOrderMail(new FormData(form));
+    const { subject, body, channel } = buildOrderMail(new FormData(form), product);
 
     // MAX не умеет deep-link с готовым текстом письма: ссылка-приглашение
     // открывает чат, а сообщение пользователь вставляет сам. Поэтому

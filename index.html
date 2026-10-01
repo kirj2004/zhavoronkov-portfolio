@@ -353,6 +353,23 @@
     </div>
   </section>
 
+  <!-- ── Экспресс-аудит: быстрый вход в услугу ───────────────────────────── -->
+  <aside class="ea-banner" aria-labelledby="ea-banner-title">
+    <div class="ea-banner__body">
+      <span class="badge badge--accent">За 24 часа</span>
+      <h2 class="ea-banner__title" id="ea-banner-title">Нужен ответ срочно?</h2>
+      <p class="ea-banner__text">
+        Экспресс-аудит одного товара на WB: присылаете артикул и API-ключ —
+        на следующий день получаете разбор с цифрами и тремя рекомендациями.
+        6 900 ₽ вместо полного аудита за 24 900 ₽.
+      </p>
+    </div>
+    <a class="btn btn--primary" href="express-audit.html">
+      Экспресс-аудит за 24 часа
+      <i data-lucide="arrow-right" width="16" height="16" aria-hidden="true"></i>
+    </a>
+  </aside>
+
   <!-- ── Как я работаю (процесс из 5 шагов) ────────────────────────────── -->
   <section class="section" id="process" aria-labelledby="process-title">
     <div class="section-head">
@@ -1117,6 +1134,17 @@
                 <span>Пока ничего</span></label>
             </div>
           </div>
+
+          <div class="field">
+            <label class="chip chip--express">
+              <input type="checkbox" id="of-express" name="express" value="Экспресс-аудит">
+              <span>Хочу экспресс-формат: 24 часа, 6 900 ₽ (+40% к цене аудита одного товара)</span>
+            </label>
+            <p class="field-hint">
+              Разбор одного товара с расчётом и точкой безубыточности.
+              <a class="field-link" href="express-audit.html">Подробнее об экспресс-аудите</a>
+            </p>
+          </div>
         </fieldset>
 
         <!-- Шаг 2: контекст магазина -->
@@ -1141,6 +1169,15 @@
               <label class="field-label" for="of-price">Средняя цена, ₽</label>
               <input class="input tnum" type="text" id="of-price" name="price"
                      inputmode="numeric" placeholder="1 200" autocomplete="off">
+            </p>
+            <p class="field">
+              <label class="field-label" for="of-cost">Себестоимость единицы, ₽</label>
+              <input class="input tnum" type="text" id="of-cost" name="cost"
+                     inputmode="numeric" placeholder="320" autocomplete="off">
+              <span class="field-hint" data-cost-hint hidden>
+                Для экспресс-аудита себестоимость обязательна: без неё точку
+                безубыточности посчитать нельзя.
+              </span>
             </p>
             <p class="field">
               <label class="field-label" for="of-term">Когда нужно</label>
