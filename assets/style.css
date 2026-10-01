@@ -1138,44 +1138,13 @@ body {
 }
 
 /* ==========================================================================
-   16. STEP CALC (калькулятор)
+   16. БЛОК KPI И СНОСКИ
+   --------------------------------------------------------------------------
+   Раньше здесь был калькулятор юнит-экономики. Его разметка и логика
+   удалены, класс .calc-hero* остался — он используется как KPI-плитка
+   в титуле страницы кейса. Новый калькулятор себестоимости использует
+   .csc-*, чтобы не плодить два калькулятора в одной кодовой базе.
    ========================================================================== */
-
-.calc {
-  display: grid;
-  grid-template-columns: minmax(280px, 360px) 1fr;
-  gap: var(--space-6);
-  align-items: start;
-}
-
-@media (max-width: 860px) {
-  .calc { grid-template-columns: 1fr; }
-}
-
-.calc-inputs {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-4);
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-lg);
-  padding: var(--space-4);
-}
-
-.calc-out {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-4);
-  min-width: 0;
-}
-
-.calc-headline {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: var(--space-4);
-}
 
 .calc-hero { display: flex; flex-direction: column; gap: 2px; }
 .calc-hero-label { font-size: var(--text-sm); color: var(--color-text-secondary); }
@@ -1186,20 +1155,12 @@ body {
   font-variant-numeric: tabular-nums;
 }
 
-.calc-side { display: flex; flex-direction: column; align-items: flex-end; gap: 2px; }
-.calc-side-label { font-size: var(--text-sm); color: var(--color-text-secondary); }
-.calc-side-value {
-  font-size: var(--text-2xl);
-  line-height: 1;
-  font-weight: 600;
-  font-variant-numeric: tabular-nums;
-}
-
 .footnote {
   font-size: var(--text-xs);
   color: var(--color-text-tertiary);
   line-height: var(--leading);
 }
+
 
 /* ==========================================================================
    17. КАРТОЧКА ТОКЕНА (страница токенов)
@@ -1403,6 +1364,35 @@ body {
 
 .header-contact:hover { color: var(--color-accent-strong); }
 .header-contact svg { color: var(--color-text-tertiary); }
+
+/* ── Прогресс чтения ──────────────────────────────────────────────────── */
+/* Полоса в 2 px: в 1 px на Retina она почти не видна, а смысл в том,
+   «где я на странице» именно в заметности. transform вместо width —
+   иначе каждый кадр скролла вызывает пересчёт layout. */
+.nav-progress {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 2px;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.nav-progress__bar {
+  height: 100%;
+  width: 100%;
+  background: linear-gradient(90deg,
+    var(--color-accent) 0%,
+    var(--color-accent-strong) 100%);
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+  will-change: transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nav-progress__bar { transition: none; }
+}
 
 /* ── Секции: якорь не должен уезжать под липкую шапку ─────────────────── */
 
@@ -2275,6 +2265,13 @@ a.contact:hover .contact__value { color: var(--color-accent-strong); }
     line-height: 1.45;
   }
 
+  /* Подписи фактов в резюме — 11 px = 8.25 pt, ниже минимума 9 pt.
+     Поднимаем до 12 px = 9 pt. */
+  .resume-fact__label,
+  .brand__sub {
+    font-size: 12px;
+  }
+
   .page {
     max-width: none;
     padding: 0;
@@ -2481,4 +2478,805 @@ a.contact:hover .contact__value { color: var(--color-accent-strong); }
   .case-hero__kpi { align-items: flex-start; }
   .case-headline { font-size: var(--text-lg); }
   .case-actions .btn { flex: 1 1 100%; }
+}
+
+
+/* ============================================================================
+   18. ПРЕМИУМ-СЛОЙ — флагманская воронка (этап 1)
+
+   Слой добавлен ПОВЕРХ базовой системы, а не вместо неё: те же четыре
+   страницы (resume, products, cases, tools) используют этот файл, и полная
+   замена токенов разъехалась бы с их вёрсткой. Здесь только новые токены
+   (префикс --pfx) и новые компоненты; всё, что уже было, продолжает работать.
+
+   Перенос в продукт: блок токенов, .pfx-glass, .pfx-btn, keyframes и
+   .pain-card не зависят от разметки портфолио — копируются как есть.
+   ============================================================================ */
+
+:root {
+  /* Поверхности: неоновый градиент вместо плоского фона */
+  --pfx-bg-from: #0a0a0f;
+  --pfx-bg-to: #12121a;
+  --pfx-glow: 255, 107, 53;
+
+  /* Акценты */
+  --pfx-primary: #ff6b35;
+  --pfx-primary-strong: #ff8c5f;
+  --pfx-primary-soft: rgba(255, 107, 53, 0.12);
+  --pfx-secondary: #10b981;
+  --pfx-success: #10b981;
+  --pfx-danger: #ef4444;
+  --pfx-warning: #f59e0b;
+
+  /* Стекло */
+  /* Поверхность стекла: непрозрачная, чтобы под текстом был гарантированный фон */
+  --pfx-surface: #14141d;
+  --pfx-glass: rgba(255, 255, 255, 0.03);
+  --pfx-glass-2: rgba(255, 255, 255, 0.05);
+  --pfx-glass-border: rgba(255, 255, 255, 0.08);
+  --pfx-glass-border-hi: rgba(255, 107, 53, 0.28);
+
+  /* Свечение */
+  --pfx-glow-btn: 0 0 40px rgba(255, 107, 53, 0.4);
+  --pfx-glow-btn-hi: 0 0 56px rgba(255, 107, 53, 0.55);
+  --pfx-glow-card: 0 0 60px rgba(255, 107, 53, 0.15);
+
+  /* Типографика */
+  --pfx-font-head: "Manrope", "Inter", -apple-system, "Segoe UI", system-ui, sans-serif;
+  --pfx-font-body: "Inter", -apple-system, "Segoe UI", system-ui, sans-serif;
+  --pfx-fs-1: 64px;
+  --pfx-fs-2: 48px;
+  --pfx-fs-3: 36px;
+  --pfx-fs-4: 28px;
+  --pfx-tracking: -0.02em;
+}
+
+/* Светлая тема премиум-слоя. Без неё фон страницы оставался тёмным
+   при data-theme="light": токены ниже заданы только в :root, а весь фон
+   идёт от --pfx-bg-from/--pfx-bg-to. Стекло на светлом фоне — с тёмной
+   подложкой, иначе под текстом окажется белый на белом. */
+[data-theme="light"] {
+  --pfx-bg-from: #f6f8fb;
+  --pfx-bg-to: #eef2f8;
+  --pfx-surface: #ffffff;
+
+  --pfx-glass: rgba(13, 21, 38, 0.02);
+  --pfx-glass-2: rgba(13, 21, 38, 0.04);
+  --pfx-glass-border: rgba(13, 21, 38, 0.1);
+  --pfx-glass-border-hi: rgba(255, 107, 53, 0.42);
+
+  /* Оранжевый на белом не читается: для текста нужен тёмный акцент. */
+  --pfx-primary: #c2410c;
+  --pfx-primary-strong: #9a3412;
+  --pfx-primary-soft: rgba(194, 65, 12, 0.1);
+
+  --pfx-secondary: #047857;
+  --pfx-success: #047857;
+  --pfx-warning: #b45309;
+  --pfx-danger: #c81e1e;
+}
+
+
+/* ── Фон страницы: градиент + оранжевое свечение ────────────────────────── */
+body {
+  background:
+    radial-gradient(1100px 620px at 78% -10%, rgba(var(--pfx-glow), 0.32), transparent 64%),
+    radial-gradient(820px 480px at 6% 2%, rgba(16, 185, 129, 0.1), transparent 62%),
+    linear-gradient(180deg, var(--pfx-bg-from) 0%, var(--pfx-bg-to) 100%) fixed,
+    var(--pfx-bg-to); /* сплошная подложка: градиент лежит поверх неё */
+  background-attachment: fixed;
+}
+
+.page,
+.page > .section { position: relative; z-index: 1; }
+
+/* ── Типографика ─────────────────────────────────────────────────────────── */
+.hero__title,
+.section-title,
+.page-title,
+.case-hero__title,
+.brand__name,
+.pfx-h1,
+.pfx-h2 { font-family: var(--pfx-font-head); letter-spacing: var(--pfx-tracking); }
+
+body { font-family: var(--pfx-font-body); }
+
+/* ── Стекло ──────────────────────────────────────────────────────────────── */
+.pfx-glass,
+.pain-card,
+.pfx-stat {
+  /* Непрозрачная тёмная основа + стеклянный блик сверху. Без основы
+     полупрозрачный белый слой висит на прозрачном фоне, и контраст текста
+     внутри карточки нечем посчитать — он считается от самого белого. */
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.035), rgba(255, 255, 255, 0.015)),
+    var(--pfx-surface);
+  border: 1px solid var(--pfx-glass-border);
+  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(20px);
+  border-radius: 16px;
+}
+
+/* ── Кнопки ──────────────────────────────────────────────────────────────── */
+.pfx-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 26px;
+  border-radius: 12px;
+  font-family: var(--pfx-font-head);
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.22s ease, background-color 0.22s ease,
+              border-color 0.22s ease;
+}
+
+.pfx-btn--primary {
+  color: #fff;
+  background: linear-gradient(135deg, var(--pfx-primary) 0%, #e8551f 100%);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  box-shadow: var(--pfx-glow-btn);
+  animation: pfx-glow-pulse 2s ease-in-out infinite;
+}
+
+.pfx-btn--primary:hover,
+.pfx-btn--primary:focus-visible {
+  transform: translateY(-2px);
+  box-shadow: var(--pfx-glow-btn-hi);
+  animation-play-state: paused;
+}
+
+.pfx-btn--ghost {
+  color: var(--color-text-primary);
+  background: transparent;
+  border: 1px solid var(--pfx-glass-border);
+}
+
+.pfx-btn--ghost:hover,
+.pfx-btn--ghost:focus-visible {
+  transform: translateY(-2px);
+  border-color: var(--pfx-glass-border-hi);
+  background: var(--pfx-glass-2);
+}
+
+/* ── Анимации ────────────────────────────────────────────────────────────── */
+@keyframes pfx-fade-in {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pfx-scale-in {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes pfx-glow-pulse {
+  0%, 100% { box-shadow: 0 0 40px rgba(255, 107, 53, 0.4); }
+  50% { box-shadow: 0 0 58px rgba(255, 107, 53, 0.62); }
+}
+
+@keyframes pfx-shimmer {
+  from { background-position: 0% 50%; }
+  to { background-position: 200% 50%; }
+}
+
+.pfx-shimmer {
+  background: linear-gradient(100deg,
+      var(--color-text-primary) 0%,
+      var(--pfx-primary-strong) 42%,
+      var(--color-text-primary) 60%);
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: pfx-shimmer 6s linear infinite;
+}
+
+/* Появление при скролле. Ставится скриптом, который вешает .pfx-in-view
+   через IntersectionObserver; без JS элементы остаются видимыми. */
+.pfx-reveal { opacity: 0; }
+.pfx-reveal.pfx-in-view { animation: pfx-fade-in 0.6s ease forwards; }
+
+@media (prefers-reduced-motion: reduce) {
+  .pfx-reveal,
+  .pfx-reveal.pfx-in-view { opacity: 1; animation: none; }
+  .pfx-btn--primary { animation: none; }
+  .pfx-shimmer { animation: none; color: var(--color-text-primary); }
+  * { scroll-behavior: auto !important; }
+}
+
+/* ── HERO новый ──────────────────────────────────────────────────────────── */
+.pfx-hero {
+  position: relative;
+  padding: 72px 0 56px;
+}
+
+.pfx-hero__title {
+  margin: 0 0 20px;
+  font-family: var(--pfx-font-head);
+  font-size: var(--pfx-fs-1);
+  line-height: 1.06;
+  letter-spacing: var(--pfx-tracking);
+  font-weight: 800;
+  color: var(--color-text-primary);
+  max-width: 15ch;
+}
+
+.pfx-hero__title em {
+  font-style: normal;
+  color: var(--pfx-primary);
+}
+
+.pfx-hero__sub {
+  margin: 0 0 32px;
+  max-width: 46ch;
+  font-size: 18px;
+  line-height: 1.55;
+  color: var(--color-text-secondary);
+  /* Без этого «Юнит-экономика» рвётся по дефису на две строки. */
+  hyphens: none;
+  overflow-wrap: normal;
+}
+
+.pfx-hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-bottom: 28px;
+}
+
+.pfx-proof {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 18px;
+  padding-top: 20px;
+  border-top: 1px solid var(--pfx-glass-border);
+  font-size: 14px;
+  color: var(--color-text-tertiary);
+}
+
+.pfx-proof__item { display: inline-flex; align-items: center; gap: 7px; }
+.pfx-proof__item svg { color: var(--pfx-secondary); flex-shrink: 0; }
+
+/* ── Цифры рынка ─────────────────────────────────────────────────────────── */
+.pfx-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: 40px;
+}
+
+.pfx-stat { padding: 22px 20px; }
+
+.pfx-stat__value {
+  display: block;
+  font-family: var(--pfx-font-head);
+  font-size: var(--pfx-fs-3);
+  line-height: 1.1;
+  font-weight: 800;
+  letter-spacing: var(--pfx-tracking);
+  /* Светлее базового --pfx-primary: на стекле поверх свечения фона
+     оранжевый давал контраст 2.84 при норме 3 для крупного текста. */
+  color: var(--pfx-primary-strong);
+  margin-bottom: 6px;
+}
+
+/* Подписи светлее базовых токенов: карточка лежит на стекле поверх
+   свечения фона, и вторичный цвет давал контраст 2.19 при норме 4.5. */
+.pfx-stat__label {
+  display: block;
+  font-size: 14px;
+  line-height: 1.4;
+  /* Явный цвет вместо opacity: полупрозрачный текст часть инструментов
+     не composites и считает контраст по нулю альфы. */
+  color: #c9cdd8;
+}
+
+.pfx-stat__was {
+  display: block;
+  margin-top: 6px;
+  font-size: 12.5px;
+  color: #a3a9b8;
+}
+
+/* ── Боли селлера ────────────────────────────────────────────────────────── */
+.pain-head { max-width: 62ch; margin-bottom: 32px; }
+
+.pain-head__title {
+  margin: 0 0 12px;
+  font-family: var(--pfx-font-head);
+  font-size: var(--pfx-fs-2);
+  line-height: 1.1;
+  font-weight: 800;
+  letter-spacing: var(--pfx-tracking);
+  color: var(--color-text-primary);
+}
+
+.pain-head__sub {
+  margin: 0;
+  font-size: 17px;
+  line-height: 1.5;
+  color: var(--color-text-secondary);
+}
+
+.pain-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+.pain-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: 22px 20px 18px;
+  text-align: left;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+  transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.22s ease, box-shadow 0.22s ease;
+}
+
+/* Курсорная подсветка: JS ставит --pfx-mx/--pfx-my от позиции указателя. */
+.pain-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(340px circle at var(--pfx-mx, 50%) var(--pfx-my, 0%),
+              rgba(255, 107, 53, 0.13), transparent 62%);
+  opacity: 0;
+  transition: opacity 0.22s ease;
+  pointer-events: none;
+}
+
+.pain-card:hover { transform: translateY(-3px); box-shadow: var(--pfx-glow-card); }
+.pain-card:hover::before { opacity: 1; }
+.pain-card.is-open { border-color: var(--pfx-glass-border-hi); box-shadow: var(--pfx-glow-card); }
+
+.pain-card__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  margin-bottom: 14px;
+  border-radius: 12px;
+  color: var(--pfx-primary);
+  background: rgba(255, 107, 53, 0.1);
+  border: 1px solid rgba(255, 107, 53, 0.2);
+}
+
+.pain-card__title {
+  margin: 0 0 8px;
+  font-family: var(--pfx-font-head);
+  font-size: 18px;
+  line-height: 1.25;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--color-text-primary);
+}
+
+.pain-card__quote {
+  margin: 0 0 14px;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--color-text-tertiary);
+  font-style: italic;
+}
+
+.pain-card__toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: auto;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--pfx-primary);
+}
+
+.pain-card__chevron { transition: transform 0.4s ease; flex-shrink: 0; }
+.pain-card.is-open .pain-card__chevron { transform: rotate(180deg); }
+
+/* max-height transition обязателен: без него блок нельзя плавно раскрыть,
+   grid-template-rows не даёт задать конечную высоту по контенту. */
+.pain-card__body {
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: max-height 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
+}
+
+.pain-card.is-open .pain-card__body { max-height: 520px; opacity: 1; }
+
+.pain-card__body-inner { padding-top: 14px; margin-top: 14px; border-top: 1px solid var(--pfx-glass-border); }
+
+.pain-block + .pain-block { margin-top: 12px; }
+.pain-block__label {
+  display: block;
+  margin-bottom: 4px;
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--pfx-primary);
+}
+
+.pain-block__text {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--color-text-secondary);
+}
+
+.pain-card__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  margin-top: 16px;
+  padding: 10px 16px;
+  border-radius: 10px;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: #fff;
+  text-decoration: none;
+  background: linear-gradient(135deg, var(--pfx-primary) 0%, #e8551f 100%);
+  box-shadow: 0 0 20px rgba(255, 107, 53, 0.3);
+  transition: box-shadow 0.22s ease, transform 0.22s ease;
+}
+
+.pain-card__cta:hover,
+.pain-card__cta:focus-visible {
+  transform: translateY(-1px);
+  box-shadow: 0 0 32px rgba(255, 107, 53, 0.48);
+}
+
+.pain-card:focus-visible { outline: 2px solid var(--pfx-primary); outline-offset: 3px; }
+
+/* ── Адаптив премиум-слоя ────────────────────────────────────────────────── */
+@media (max-width: 1100px) {
+  .pfx-stats { grid-template-columns: repeat(2, 1fr); }
+  .pain-grid { grid-template-columns: repeat(2, 1fr); }
+  .pfx-hero__title { font-size: var(--pfx-fs-2); }
+  .pain-head__title { font-size: var(--pfx-fs-3); }
+}
+
+@media (max-width: 720px) {
+  .pfx-hero { padding: 44px 0 36px; }
+  .pfx-hero__title { font-size: 34px; line-height: 1.1; }
+  .pfx-hero__sub { font-size: 16px; margin-bottom: 24px; }
+  .pfx-hero__actions .pfx-btn { width: 100%; justify-content: center; }
+  .pfx-stats { grid-template-columns: 1fr; gap: 12px; }
+  .pfx-stat__value { font-size: 30px; }
+  .pain-grid { grid-template-columns: 1fr; }
+  .pain-head__title { font-size: 27px; }
+}
+
+/* ==========================================================================
+   19. ПРОЦЕСС — шаги работы
+
+   Список ol: нумерованные шаги читаются как последовательность, а не как
+   набор карточек. Номер вынесен в отдельную колонку, чтобы длинный текст
+   не сдвигал счётчик.
+   ========================================================================== */
+
+.steps {
+  display: grid;
+  gap: var(--space-4);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: step;
+}
+
+.step {
+  display: grid;
+  grid-template-columns: 40px 1fr;
+  gap: var(--space-4);
+  padding: var(--space-4);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+}
+
+.step__num {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-full);
+  background: var(--color-accent-subtle);
+  color: var(--color-accent);
+  font-size: var(--text-lg);
+  font-weight: 600;
+  line-height: 1;
+}
+
+.step__body { min-width: 0; }
+
+.step__title {
+  margin: 0 0 var(--space-2);
+  font-size: var(--text-lg);
+  font-weight: 600;
+  color: var(--color-text-primary);
+  line-height: var(--leading-tight);
+}
+
+.step__text {
+  margin: 0 0 var(--space-3);
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+  line-height: var(--leading);
+  max-width: 68ch;
+}
+
+.step__meta {
+  margin: 0;
+  padding-top: var(--space-3);
+  border-top: 1px solid var(--color-border);
+  font-size: var(--text-xs);
+  color: var(--color-accent);
+}
+
+/* На узком экране номер уходит в строку заголовка: колонка в 40 px
+   при ширине 390 px съедает заметную часть полосы набора. */
+@media (max-width: 560px) {
+  .step { grid-template-columns: 1fr; gap: var(--space-3); }
+  .step__num { width: 32px; height: 32px; font-size: var(--text-base); }
+}
+
+/* ==========================================================================
+   20. API-гайд
+   ========================================================================== */
+
+.api-flow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2) var(--space-3);
+  margin-bottom: var(--space-6);
+  padding: var(--space-4);
+  background: var(--color-well);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+}
+
+.api-flow__node {
+  display: inline-flex;
+  align-items: center;
+  height: var(--row-h-lg);
+  padding: 0 var(--space-3);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  white-space: nowrap;
+}
+
+/* Последний узел — результат, а не вход: выделяем цветом. */
+.api-flow__node--out {
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+  font-weight: 500;
+}
+
+.api-flow svg { color: var(--color-text-tertiary); flex: 0 0 auto; }
+
+.api-table code {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--color-accent);
+  background: var(--color-well);
+  padding: 2px 6px;
+  border-radius: var(--radius-sm);
+}
+
+.api-note {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-2);
+  margin: var(--space-5) 0 0;
+  padding: var(--space-3) var(--space-4);
+  background: var(--color-well);
+  border: 1px solid var(--color-border);
+  border-left: 2px solid var(--color-accent);
+  border-radius: var(--radius-sm);
+  font-size: var(--text-xs);
+  color: var(--color-text-secondary);
+  line-height: var(--leading);
+}
+
+.api-note svg { color: var(--color-accent); flex: 0 0 auto; margin-top: 2px; }
+
+@media (max-width: 560px) {
+  .api-flow { gap: var(--space-2); padding: var(--space-3); }
+  /* Стрелки-разделители на мобильном только мешают: схема и так
+     читается сверху вниз. */
+  .api-flow svg { display: none; }
+  .api-flow__node { flex: 1 1 100%; }
+}
+
+/* ==========================================================================
+   21. ФОРМА ЗАЯВКИ — три шага
+   ========================================================================== */
+
+.order { max-width: 760px; }
+
+.order__steps {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-bottom: var(--space-5);
+}
+
+.order-step {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: 0;
+  background: none;
+  border: 0;
+  cursor: pointer;
+  font: inherit;
+  color: var(--color-text-tertiary);
+}
+
+.order-step__num {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  line-height: 1;
+  transition: background var(--dur-fast) var(--ease-out),
+              color var(--dur-fast) var(--ease-out),
+              border-color var(--dur-fast) var(--ease-out);
+}
+
+.order-step__label { font-size: var(--text-sm); }
+
+.order-step.is-active { color: var(--color-text-primary); }
+
+.order-step.is-active .order-step__num {
+  background: var(--color-accent);
+  border-color: var(--color-accent);
+  color: var(--color-bg);
+}
+
+.order-step.is-done .order-step__num {
+  background: var(--color-accent-subtle);
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+}
+
+.order-step:hover .order-step__num { border-color: var(--color-accent); }
+
+.order-step__sep {
+  flex: 1 1 auto;
+  height: 1px;
+  background: var(--color-border);
+}
+
+.order-form {
+  padding: var(--space-6);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+}
+
+.order-panel { margin: 0; padding: 0; border: 0; }
+.order-panel[hidden] { display: none; }
+
+.order-panel__title {
+  padding: 0;
+  margin-bottom: var(--space-4);
+  font-size: var(--text-lg);
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.order-panel__lead { margin-bottom: var(--space-4); }
+
+/* Чекбоксы и радио прячем, но не display:none — иначе они выпадают
+   из дерева доступности и перестают получать фокус с клавиатуры. */
+.chip input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.chip span {
+  display: inline-flex;
+  align-items: center;
+  height: var(--row-h-md);
+  padding: 0 var(--space-3);
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  transition: background var(--dur-fast) var(--ease-out),
+              border-color var(--dur-fast) var(--ease-out),
+              color var(--dur-fast) var(--ease-out);
+}
+
+.chip:hover span { border-color: var(--color-border-control); }
+
+.chip input:checked + span {
+  background: var(--color-accent-subtle);
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+}
+
+.chip input:focus-visible + span {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+.chips { display: flex; flex-wrap: wrap; gap: var(--space-2); }
+
+.order-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-4);
+}
+
+.order-textarea { min-height: 76px; resize: vertical; }
+
+.order-nav {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin-top: var(--space-6);
+  padding-top: var(--space-5);
+  border-top: 1px solid var(--color-border);
+}
+
+.order-btn[hidden] { display: none; }
+
+/* Статус занимает свободное место слева, чтобы кнопки прижались
+   вправо и не прыгали при смене текста подсказки. */
+.order-status {
+  flex: 1 1 auto;
+  margin: 0;
+  font-size: var(--text-xs);
+  color: var(--color-text-tertiary);
+  min-height: 1.4em;
+}
+
+.order-status.is-warn { color: var(--color-warning); }
+
+.order-note {
+  margin: var(--space-3) 0 0;
+  font-size: var(--text-xs);
+  color: var(--color-text-tertiary);
+  line-height: var(--leading);
+}
+
+@media (max-width: 560px) {
+  .order__steps { gap: var(--space-1); }
+  .order-step__label { display: none; }
+  .order-step__sep { flex: 1 1 auto; }
+  .order-form { padding: var(--space-4); }
+  .order-grid { grid-template-columns: 1fr; }
+  .order-nav { flex-wrap: wrap; }
+  .order-status { order: 3; flex-basis: 100%; }
+  .order-btn { flex: 1 1 auto; justify-content: center; }
 }

@@ -4,8 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Кейсы — аналитика маркетплейсов</title>
-<meta name="description" content="Четыре кейса юнит-экономики карточек WB: контекст, проблема, решение и результат по фактическим ценам.">
+<meta name="description" content="Восемь разборов: четыре по данным Seller API и четыре обобщённых — по реальным болям селлеров.">
 <link rel="stylesheet" href="../assets/style.css">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
 <script src="https://cdn.jsdelivr.net/npm/lucide@0.454.0/dist/umd/lucide.min.js" defer></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js" defer></script>
 <style>
@@ -57,7 +58,7 @@
     --color-focus-ring: #8ab6ff;
   }
   body{background:var(--color-bg)!important;color:var(--color-text-primary)!important;
-    font-size:10.2pt;line-height:1.45}
+    font-size:10.2pt;line-height:1.36}
   /* печать компактнее экрана: кегль и отступы уменьшены */
   /* Кегли в px, потому что токены --text-* читают элементы как font-size.
      9 pt ровно = 12 px при 96 dpi (9 * 96/72). Ниже 12 не опускаемся:
@@ -69,15 +70,27 @@
     --radius-lg:6px;--radius-sm:4px}
   .page{max-width:none;padding:0}
   .no-print,.site-header,.site-footer .site-footer__nav,.cs-filter{display:none!important}
-  .section{break-inside:avoid;page-break-inside:avoid}
+  /* Секции НЕ фиксируем целиком: с avoid заголовок уезжает на
+     следующую страницу вместе со всем блоком и оставляет хвостовую
+     страницу в 3 строки. Разрываем свободно, но заголовок не отрываем
+     от содержимого, а карточки и таблицы держим целиком. */
+  .section{break-inside:auto;page-break-inside:auto}
+  .section-head{break-after:avoid;page-break-after:avoid}
   .card,.metric,.alert,.table-wrap{break-inside:avoid;page-break-inside:avoid}
   .case-hero{border-bottom:1px solid var(--color-border-strong)}
   .grid-2,.grid-3{grid-template-columns:1fr 1fr!important;gap:var(--space-4)}
-  .site-footer{margin-top:var(--space-8);padding-top:var(--space-4);
+  .site-footer{margin-top:var(--space-5);padding-top:var(--space-3);
     border-top:1px solid var(--color-border)}
   .site-footer__copy{color:var(--color-text-tertiary)}
   a[href^="http"]::after{content:none!important}
   .case-prose{gap:var(--space-2)}
+  /* Полоса набора A4 при полях 16/14 мм — 1000 px. Коротким кейсам
+     (01, 03, 04) не хватало 51-82 px, из-за чего уезжал подвал на
+     отдельную страницу. Ужимаем вертикальные отступы секций. */
+  .section{margin-top:var(--space-4)}
+  .case-hero{padding:0 0 var(--space-4)}
+  .case-headline{margin-bottom:var(--space-4)}
+  .case-source{margin-top:var(--space-4)}
 }
 
 </style>
@@ -98,10 +111,10 @@
 <main class="page">
 <header class="page-head"><div>
 <h1 class="page-title">Кейсы</h1>
-<p class="page-sub">Четыре разбора юнит-экономики карточек WB. Все цифры — из данных Seller API по последнему реальному заказу, а не из брифа: именно на фактических ценах видно, где карточка теряет деньги.</p>
+<p class="page-sub">Восемь разборов. Кейсы 01–04 посчитаны по данным Seller API по последнему реальному заказу, а не из брифа: именно на фактических ценах видно, где карточка теряет деньги. Кейсы 05–08 — обобщённые разборы реальных болей, их цифры примерные и помечены.</p>
 </div></header>
 <div class="grid grid-kpi">
-<div class="metric"><div class="metric-top"><span class="metric-label">Разборов</span></div><p class="metric--sm metric-value">4</p><span class="metric-foot metric-hint">FBS и FBW в каждом</span></div>
+<div class="metric"><div class="metric-top"><span class="metric-label">Разборов</span></div><p class="metric--sm metric-value">8</p><span class="metric-foot metric-hint">4 по API, 4 обобщённых</span></div>
 <div class="metric"><div class="metric-top"><span class="metric-label">Сценарий</span></div><p class="metric--sm metric-value">факт WB</p><span class="metric-foot metric-hint">последний реальный заказ</span></div>
 <div class="metric"><div class="metric-top"><span class="metric-label">Комиссия в кейсах</span></div><p class="metric--sm metric-value">28,5 – 42 %</p><span class="metric-foot metric-hint">разброс категорий</span></div>
 <div class="metric"><div class="metric-top"><span class="metric-label">Модель</span></div><p class="metric--sm metric-value">econ_v3</p><span class="metric-foot metric-hint">верифицирована 5/5</span></div>
@@ -111,8 +124,15 @@
 <button class="btn btn--ghost cs-filter__btn" type="button" data-model="fbs" aria-pressed="false">FBS</button>
 <button class="btn btn--ghost cs-filter__btn" type="button" data-model="fbw" aria-pressed="false">FBW</button>
 </div>
+<div class="cs-filter" role="group" aria-label="Фильтр по теме"><span class="cs-filter__label">Тема:</span>
+<button class="btn btn--ghost cs-filter__btn" type="button" data-topic="all" aria-pressed="true">Все</button>
+<button class="btn btn--ghost cs-filter__btn" type="button" data-topic="экономика" aria-pressed="false">экономика</button>
+<button class="btn btn--ghost cs-filter__btn" type="button" data-topic="логистика" aria-pressed="false">логистика</button>
+<button class="btn btn--ghost cs-filter__btn" type="button" data-topic="реклама" aria-pressed="false">реклама</button>
+<button class="btn btn--ghost cs-filter__btn" type="button" data-topic="комплаенс" aria-pressed="false">комплаенс</button>
+</div>
 <div class="grid grid-2">
-<article class="card case" data-model="both">
+<article class="card case" data-model="both" data-tags="экономика">
 <div class="case__num">CASE 01</div>
 <div><h2 class="card-title">ParaMagic — набор «9 планет»</h2><p class="card-sub">Подарочный набор натуральных камней</p></div>
 <div class="case__kpi"><span class="case__kpi-value kpi-profit" data-money="84.9" data-dec="2">—</span><span class="case__kpi-label">разрыв в пользу FBW</span></div>
@@ -121,7 +141,7 @@
 <span class="badge badge--neutral">Рукоделие → Природные камни</span>
 <a class="case__link" href="case_01.html">Смотреть<i data-lucide="arrow-up-right" width="14" height="14" aria-hidden="true"></i></a>
 </div></article>
-<article class="card case" data-model="fbs">
+<article class="card case" data-model="fbs" data-tags="экономика,логистика">
 <div class="case__num">CASE 02</div>
 <div><h2 class="card-title">Покрытие для унитаза — выход из минуса</h2><p class="card-sub">Категория с дорогой логистикой и глубокой скидкой</p></div>
 <div class="case__kpi"><span class="case__kpi-value kpi-loss" data-money="-23.49" data-dec="2">—</span><span class="case__kpi-label">FBS при реальных ценах</span></div>
@@ -130,7 +150,7 @@
 <span class="badge badge--neutral">Другие хозяйственные принадлежности</span>
 <a class="case__link" href="case_02.html">Смотреть<i data-lucide="arrow-up-right" width="14" height="14" aria-hidden="true"></i></a>
 </div></article>
-<article class="card case" data-model="fbw">
+<article class="card case" data-model="fbw" data-tags="экономика">
 <div class="case__num">CASE 03</div>
 <div><h2 class="card-title">Карта серого — СПП повышает маржу</h2><p class="card-sub">Реквизит для фотографа</p></div>
 <div class="case__kpi"><span class="case__kpi-value kpi-profit" data-money="216.57" data-dec="2">—</span><span class="case__kpi-label">маржа FBW при реальных ценах</span></div>
@@ -139,7 +159,7 @@
 <span class="badge badge--neutral">Реквизит для фотографа</span>
 <a class="case__link" href="case_03.html">Смотреть<i data-lucide="arrow-up-right" width="14" height="14" aria-hidden="true"></i></a>
 </div></article>
-<article class="card case" data-model="fbs">
+<article class="card case" data-model="fbs" data-tags="экономика,логистика">
 <div class="case__num">CASE 04</div>
 <div><h2 class="card-title">Рефлектор — комиссия 42 % съедает FBS</h2><p class="card-sub">Отражатели для фотовспышки</p></div>
 <div class="case__kpi"><span class="case__kpi-value kpi-warning" data-money="27.59" data-dec="2">—</span><span class="case__kpi-label">FBS при реальных ценах</span></div>
@@ -148,31 +168,87 @@
 <span class="badge badge--neutral">Отражатели для фотовспышки</span>
 <a class="case__link" href="case_04.html">Смотреть<i data-lucide="arrow-up-right" width="14" height="14" aria-hidden="true"></i></a>
 </div></article>
+<article class="card case" data-model="both" data-tags="экономика,реклама,комплаенс">
+<div class="case__num">CASE 05</div>
+<div><h2 class="card-title">Маржа упала с 22 % до 8 % — и никто не заметил</h2><p class="card-sub">10 SKU в категории «товары для дома»</p></div>
+<div class="case__kpi"><span class="case__kpi-value kpi-loss" data-money="-14.0" data-dec="0">—</span><span class="case__kpi-label">изменение маржи за год</span></div>
+<p class="service__text">Комиссии и логистика выросли вместе, а РРЦ остался прежним</p>
+<div class="case__foot">
+<span class="badge badge--neutral">Товары для дома</span>
+<a class="case__link" href="case_05.html">Смотреть<i data-lucide="arrow-up-right" width="14" height="14" aria-hidden="true"></i></a>
+</div></article>
+<article class="card case" data-model="both" data-tags="логистика,комплаенс">
+<div class="case__num">CASE 06</div>
+<div><h2 class="card-title">Занизил габариты, чтобы платить меньше логистики</h2><p class="card-sub">Штраф за несоответствие размеров</p></div>
+<div class="case__kpi"><span class="case__kpi-value kpi-warning" data-money="100.0" data-dec="0">—</span><span class="case__kpi-label">штраф против экономии</span></div>
+<p class="service__text">Экономия 1 см по каждой из трёх сторон дала штраф, кратный ней</p>
+<div class="case__foot">
+<span class="badge badge--neutral">Комплаенс</span>
+<a class="case__link" href="case_06.html">Смотреть<i data-lucide="arrow-up-right" width="14" height="14" aria-hidden="true"></i></a>
+</div></article>
+<article class="card case" data-model="both" data-tags="экономика,логистика">
+<div class="case__num">CASE 07</div>
+<div><h2 class="card-title">Демпинг из Китая: на 20 % дешевле и в разы хуже</h2><p class="card-sub">Категория, где 80 % товара из Китая</p></div>
+<div class="case__kpi"><span class="case__kpi-value kpi-profit" data-money="25.0" data-dec="0">—</span><span class="case__kpi-label">маржа в премиум-сегменте</span></div>
+<p class="service__text">В ценовом бою проиграл бы любой — выход был в сегмент выше</p>
+<div class="case__foot">
+<span class="badge badge--neutral">Позиционирование</span>
+<a class="case__link" href="case_07.html">Смотреть<i data-lucide="arrow-up-right" width="14" height="14" aria-hidden="true"></i></a>
+</div></article>
+<article class="card case" data-model="fbs" data-tags="логистика,экономика">
+<div class="case__num">CASE 08</div>
+<div><h2 class="card-title">FBS не спас: операционка дороже, чем FBS даёт</h2><p class="card-sub">Переход на FBS и возвращение на FBW</p></div>
+<div class="case__kpi"><span class="case__kpi-value kpi-loss" data-money="-38.0" data-dec="0">—</span><span class="case__kpi-label">разница FBS и FBW</span></div>
+<p class="service__text">Каждая единица FBS стоила дороже, чем давала</p>
+<div class="case__foot">
+<span class="badge badge--neutral">Fulfilment</span>
+<a class="case__link" href="case_08.html">Смотреть<i data-lucide="arrow-up-right" width="14" height="14" aria-hidden="true"></i></a>
+</div></article>
 </div>
 <div class="case-actions no-print">
 <a class="btn btn--primary cs-max" href="https://max.ru/u/f9LHodD0cOLdp8PLl5xLOgbVyMIGA-CzKgczzqM_HK-bc2fsqmhaWQNg7Lk" target="_blank" rel="noopener"><i data-lucide="message-circle" width="16" height="16" aria-hidden="true"></i>Написать в MAX</a>
 <a class="btn btn--ghost" href="../index.html"><i data-lucide="arrow-left" width="16" height="16" aria-hidden="true"></i>На главную</a>
 </div>
-<p class="case-source">Четыре кейса в портфолио — это честная выборка: два товара были убыточны на ценах из брифа и вышли в плюс на фактических, один держится на грани из-за комиссии 42 %, один оказался лучше, чем выглядел по ТЗ.</p>
+<p class="case-source">Кейсы 01–04 — честная выборка по этому аккаунту: два товара были убыточны на ценах из брифа и вышли в плюс на фактических, один держится на грани из-за комиссии 42 %, один оказался лучше, чем выглядел по ТЗ. Кейсы 05–08 — обобщённые разборы болей; их цифры примерные, источник — рыночное исследование, а не Seller API.</p>
 <script>
 
-/* Фильтр кейсов по модели. Работает без сборки — кнопки уже в разметке. */
+/* Фильтр кейсов: по модели (FBS/FBW) и по теме. Два независимых
+   фильтра складываются — «FBS + логистика» покажет только пересечение.
+   Кнопки и карточки уже в разметке, сборка не нужна. */
 document.addEventListener('DOMContentLoaded', function () {
-  var btns = document.querySelectorAll('.cs-filter__btn');
   var cards = document.querySelectorAll('.case[data-model]');
-  if (!btns.length) return;
-  btns.forEach(function (btn) {
-    btn.addEventListener('click', function () {
-      var want = btn.dataset.model;
-      btns.forEach(function (b) {
-        b.setAttribute('aria-pressed', String(b === btn));
-      });
-      cards.forEach(function (c) {
-        var m = c.dataset.model;
-        c.hidden = !(want === 'all' || m === want || m === 'both');
+  var modelBtns = document.querySelectorAll('.cs-filter__btn[data-model]');
+  var topicBtns = document.querySelectorAll('.cs-filter__btn[data-topic]');
+  if (!cards.length) return;
+
+  var curModel = 'all';
+  var curTopic = 'all';
+
+  function apply() {
+    cards.forEach(function (c) {
+      var mOk = curModel === 'all' || c.dataset.model === curModel
+                || c.dataset.model === 'both';
+      var tags = (c.dataset.tags || '').split(',').filter(Boolean);
+      var tOk = curTopic === 'all' || tags.indexOf(curTopic) !== -1;
+      c.hidden = !(mOk && tOk);
+    });
+  }
+
+  function bind(btns, key) {
+    btns.forEach(function (b) {
+      b.addEventListener('click', function () {
+        var want = b.dataset[key];
+        if (key === 'model') curModel = want; else curTopic = want;
+        btns.forEach(function (x) {
+          x.setAttribute('aria-pressed', String(x === b));
+        });
+        apply();
       });
     });
-  });
+  }
+
+  bind(modelBtns, 'model');
+  bind(topicBtns, 'topic');
 });
 
 </script>

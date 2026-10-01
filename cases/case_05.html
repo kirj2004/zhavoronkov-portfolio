@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Карта серого — СПП повышает маржу — кейс CASE 03</title>
-<meta name="description" content="Реквизит для фотографа. Разбор юнит-экономики карточки: контекст, проблема, решение, результат.">
+<title>Маржа упала с 22 % до 8 % — и никто не заметил — кейс CASE 05</title>
+<meta name="description" content="10 SKU в категории «товары для дома». Разбор юнит-экономики карточки: контекст, проблема, решение, результат.">
 <link rel="stylesheet" href="../assets/style.css">
 <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
 <script src="https://cdn.jsdelivr.net/npm/lucide@0.454.0/dist/umd/lucide.min.js" defer></script>
@@ -112,30 +112,35 @@
 <nav class="crumbs" aria-label="Хлебные крошки"><ol>
 <li><a href="../index.html">Портфолио</a></li>
 <li><a href="index.html">Кейсы</a></li>
-<li aria-current="page">Карта серого — СПП повышает маржу</li>
+<li aria-current="page">Маржа упала с 22 % до 8 % — и никто не заметил</li>
 </ol></nav>
 <div class="case-hero">
 <div class="case-hero__main">
-<div class="case__num">CASE 03</div>
-<h1 class="page-title case-hero__title">Карта серого — СПП повышает маржу</h1>
-<p class="page-sub">Реквизит для фотографа</p>
+<div class="case__num">CASE 05</div>
+<h1 class="page-title case-hero__title">Маржа упала с 22 % до 8 % — и никто не заметил</h1>
+<p class="page-sub">10 SKU в категории «товары для дома»</p>
 <div class="case-tags">
-<span class="badge badge--neutral"><i data-lucide="layers" width="12" height="12" aria-hidden="true"></i>Реквизит для фотографа</span>
+<span class="badge badge--neutral"><i data-lucide="layers" width="12" height="12" aria-hidden="true"></i>Товары для дома</span>
+<span class="badge badge--info">FBS</span>
 <span class="badge badge--info">FBW</span>
 <span class="badge badge--neutral" data-tag="экономика">экономика</span>
+<span class="badge badge--neutral" data-tag="реклама">реклама</span>
+<span class="badge badge--neutral" data-tag="комплаенс">комплаенс</span>
 </div></div>
 <div class="case-hero__kpi">
-<span class="calc-hero-label">маржа FBW при реальных ценах</span>
-<p class="calc-hero-value kpi-profit" data-money="216.57" data-dec="2">—</p>
+<span class="calc-hero-label">изменение маржи за год</span>
+<p class="calc-hero-value kpi-loss" data-money="-14.0" data-dec="0">—</p>
 </div></div>
-<p class="case-headline">Скидка покупателя увеличивает, а не уменьшает маржу</p>
+<p class="case-headline">Комиссии и логистика выросли вместе, а РРЦ остался прежним</p>
+<div class="alert alert--warning" style="margin:var(--space-4) 0"><i data-lucide="info" width="16" height="16" aria-hidden="true"></i><span><strong>Обобщённый разбор.</strong> Кейс описывает реальную боль селлеров, но цифры в нём <strong>примерные</strong>: они показывают порядок величин и соотношения, а не расчёт по конкретному аккаунту. Кейсы 01–04, наоборот, посчитаны по данным Seller API.</span></div>
 <section class="section" id="context" aria-labelledby="context-t">
 <div class="section-head">
 <h2 class="section-title" id="context-t">Контекст</h2>
 </div>
 <div class="card case-prose">
-<p class="service__text">Карта серого для фото и видео, объём 0,162 л, вес 30 г. Категория «Реквизит для фотографа», кВВ 35 % FBS и 30,5 % FBW.</p>
-<p class="service__text">За период с 06.04 по 18.09.2026 — 60 заказов, 56 продаж. Себестоимость 50 ₽, подтверждена продавцом.</p>
+<p class="service__text">Селлер с 10 SKU в категории «товары для дома». Категория не самая дорогая: кВВ порядка 25–29 %, но за год ставка выросла примерно на 3 п.п.</p>
+<p class="service__text">Средняя маржа к РРЦ в начале периода была около 22 %. РРЦ карточек не пересматривали с начала года.</p>
+<p class="service__text">Объём партии — примерно 300–800 шт на SKU, закупка из Китая, логистика до склада селлера.</p>
 </div>
 </section>
 <section class="section" id="problem" aria-labelledby="problem-t">
@@ -143,8 +148,10 @@
 <h2 class="section-title" id="problem-t">Проблема</h2>
 </div>
 <div class="card case-prose">
-<p class="service__text">По ценам из ТЗ (скидка 60 %, СПП 0) карточка выглядит убыточной: FBS даёт −65,47 ₽, FBW — около нуля. Вывод «FBS отключить, FBW оставить на грани» рисковал быть неверным.</p>
-<p class="service__text">Реальный заказ 18.09.2026 другой: РРЦ 599 ₽, скидка продавца 25 %, СПП 27 %, цена покупателя 327,95 ₽.</p>
+<p class="service__text">За год маржа просела до 8 % при формально неизменной цене. Выручка и продажи выглядели нормально, поэтому в отчётности это не показывалось как проблема.</p>
+<p class="service__text">Причина распалась на три слагаемых: рост кВВ примерно на 3 п.п., рост логистики по объёму и скрытые удержания, которые в отчёте селлера не выделены отдельной строкой.</p>
+<p class="service__text">Скидка постоянного покупателя (СПП) выросла с 10 до 20 % — при снижении базы это уменьшало выручку сильнее, чем росла ставка.</p>
+<p class="service__text">Отдельно вырос ДРР: примерно с 8 до 14 % выручки. В отчёте селлера реклама и комиссия идут разными строками, поэтому падение маржи выглядело как «недоработка оборотом», а не как рост расходов.</p>
 </div>
 </section>
 <section class="section" id="did" aria-labelledby="did-t">
@@ -152,59 +159,50 @@
 <h2 class="section-title" id="did-t">Что сделали</h2>
 </div>
 <div class="card case-prose">
-<p class="service__text">Пересчитал модель на фактических ценах последнего заказа вместо цен из ТЗ.</p>
-<p class="service__text">Разложил статьи расхода FBS и FBW, чтобы найти, что именно изменилось.</p>
-<p class="service__text">Проверил, как СПП действует на ставку по пункту 12.5.2 оферты: она вычитается из кВВ с делением на 1,22, то есть быстрее, чем из цены.</p>
+<p class="service__text">Пересчитал экономику по всем 10 SKU на одной модели: ставка кВВ из категории, логистика по фактическому объёму, скидка, налоги.</p>
+<p class="service__text">Собрал три сценария по каждому SKU: текущий РРЦ, РРЦ с компенсацией роста ставки, перевод части SKU в FBW.</p>
+<p class="service__text">Отобрал SKU, которые в плюсе при любом сценарии — их оставил, остальные пересчитал по цене, а не по скидке.</p>
 </div>
 </section>
 <section class="section" id="result" aria-labelledby="result-t">
 <div class="section-head"><h2 class="section-title" id="result-t">Результат</h2><span class="section-note">по фактическим ценам последнего заказа</span></div>
 <div class="grid grid-3">
 <div class="metric">
-<span class="metric-label">Маржа FBS (факт)</span>
-<p class="metric--sm metric-value tone-profit">141,66 ₽ (23,6 %)</p>
+<span class="metric-label">Маржа до правок (примерно)</span>
+<p class="metric--sm metric-value tone-profit">22 %</p>
 </div>
 <div class="metric">
-<span class="metric-label">Маржа FBW (факт)</span>
-<p class="metric--sm metric-value tone-profit">216,57 ₽ (36,2 %)</p>
+<span class="metric-label">Маржа после правок (примерно)</span>
+<p class="metric--sm metric-value tone-profit">31 %</p>
 </div>
 <div class="metric">
-<span class="metric-label">Маржа FBS по ТЗ</span>
-<p class="metric--sm metric-value tone-loss">−65,47 ₽</p>
+<span class="metric-label">Рост ставки кВВ за год</span>
+<p class="metric--sm metric-value tone-loss">+3 п.п.</p>
 </div>
 <div class="metric">
-<span class="metric-label">BE FBS</span>
-<p class="metric--sm metric-value tone-neutral">367,42 ₽</p>
+<span class="metric-label">SKU с пересмотренной ценой</span>
+<p class="metric--sm metric-value tone-neutral">6 из 10</p>
 </div>
 <div class="metric">
-<span class="metric-label">BE FBW</span>
-<p class="metric--sm metric-value tone-neutral">239,59 ₽</p>
-</div>
-<div class="metric">
-<span class="metric-label">РРЦ для маржи 15 %, FBW</span>
-<p class="metric--sm metric-value tone-profit">327,52 ₽</p>
+<span class="metric-label">SKU переведены в FBW</span>
+<p class="metric--sm metric-value tone-neutral">3 из 10</p>
 </div>
 </div></section>
 <section class="section" id="chart" aria-labelledby="chart-t">
 <div class="section-head">
-<h2 class="section-title" id="chart-t">Прибыль с единицы при скидке продавца</h2>
+<h2 class="section-title" id="chart-t">Из чего сложилась потеря маржи</h2>
 <span class="section-note">на 5 п.п. скидки</span>
 </div>
 <div class="card">
 <div class="chart-box">
-<canvas id="sens" role="img" aria-label="Прибыль с единицы при скидке продавца"></canvas>
+<canvas id="sens" role="img" aria-label="Из чего сложилась потеря маржи"></canvas>
 </div>
-<div class="chart-legend">
-<span class="legend-dot legend-dot--fbs"></span>FBS
-<span class="legend-dot legend-dot--fbw"></span>FBW
-<span class="legend-line legend-line--zero"></span>точка безубыточности FBS
-</div>
-<p class="footnote">РРЦ 599 ₽, объём 0,162 л, себестоимость 50 ₽, СПП 27 %. Обе линии идут выше нуля до 38,66 % скидки по FBS — у этой карточки большой запас прочности.</p>
+<p class="footnote">Разложение падения с 22 % до 8 % по слагаемым. Значения примерные, приведены для порядка величин.</p>
 </div>
 </section>
 <section class="section" id="insight" aria-labelledby="insight-t">
 <div class="section-head"><h2 class="section-title" id="insight-t">Ключевой инсайт</h2></div>
-<div class="alert alert--info case-insight"><i data-lucide="lightbulb" width="16" height="16" aria-hidden="true"></i><span>СПП повышает маржу, и это не ошибка расчёта: по п. 12.5.2 скидка покупателя вычитается из ставки кВВ с делением на 1,22, тогда как из цены покупателя — без деления. Ставка падает быстрее, чем выручка. Вывод по ТЗ «FBS убыточен» был следствием неверной отправной цены, а не проблемы карточки.</span></div>
+<div class="alert alert--info case-insight"><i data-lucide="lightbulb" width="16" height="16" aria-hidden="true"></i><span>Комиссии растут молча: ставка меняется раз в квартал, а в отчёте селлера это выглядит как «маржа», без указания причины. Проверять соответствие ставки категории нужно раз в квартал — иначе год уходит на маржу, которую никто не видел.</span></div>
 </section>
 <div class="case-actions no-print">
 <span class="btn btn--ghost is-disabled" aria-disabled="true"><i data-lucide="external-link" width="16" height="16" aria-hidden="true"></i>Карточка товара — [ССЫЛКА]</span>
@@ -214,60 +212,52 @@
 </div>
 <script>
 document.addEventListener('DOMContentLoaded', function () {
-  var CFG = {"labels": [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70], "series": [{"name": "FBS", "values": [118.62, 103.28, 87.93, 72.59, 57.25, 41.91, 26.57, 11.23, -4.11, -19.45, -34.79, -50.13, -65.47, -80.81, -96.16]}, {"name": "FBW", "values": [200.81, 184.08, 167.34, 150.61, 133.87, 117.14, 100.41, 83.67, 66.94, 50.21, 33.47, 16.74, 0.01, -16.73, -33.46]}], "zeroLabel": "38.66 %", "kind": "line", "xLabel": "", "yLabel": "", "yUnit": ""};
+  var CFG = {"labels": ["Рост кВВ", "Логистика", "Удержания", "СПП", "Итог"], "series": [{"name": "Влияние", "values": [-3.0, -2.5, -4.0, -4.5, -14.0]}], "zeroLabel": "", "kind": "bars", "xLabel": "статья", "yLabel": "п.п. маржи", "yUnit": ""};
   var cv = document.getElementById('sens');
   if (!cv || typeof Chart === 'undefined') return;
   var css = getComputedStyle(document.documentElement);
-  var tok = function (name) { return css.getPropertyValue(name).trim(); };
+  var tok = function (n) { return css.getPropertyValue(n).trim(); };
   var accent = tok('--color-accent');
   var profit = tok('--color-profit');
   var loss = tok('--color-loss');
+  var warning = tok('--color-warning');
   var grid = tok('--color-border');
   var text = tok('--color-text-tertiary');
 
+  var unit = CFG.yUnit || '';
   var fmt = function (v) {
     var s = Math.abs(v).toFixed(0);
     s = s.replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
-    return (v < 0 ? '−' : '') + s + ' ₽';
+    return (v < 0 ? '−' : '') + s + (unit ? ' ' + unit : '');
   };
 
-  // Линия рисуется сплошной: отрицательные значения идут ниже нуля
-  // цветом loss, положительные — profit. Отрезки разделяются по знаку.
-  var segmentColor = function (ctx, base, zeroColor) {
-    var zero = ctx.p0.parsed.y;
-    return zero < base ? base : zeroColor;
-  };
-
-  var datasets = CFG.series.map(function (sr) {
+  var palette = [accent, profit, warning, loss];
+  var datasets = CFG.series.map(function (sr, i) {
     return {
       label: sr.name,
       data: sr.values,
-      borderWidth: 2,
-      pointRadius: 2,
-      pointHoverRadius: 4,
-      tension: 0.15,
-      fill: false,
-      borderColor: sr.name === 'FBS' ? accent : profit,
-      pointBackgroundColor: sr.name === 'FBS' ? accent : profit,
-      segment: {
-        borderColor: function (ctx) {
-          var zero = ctx.p0.parsed.y;
-          return zero < 0 ? loss : (sr.name === 'FBS' ? accent : profit);
-        },
-      },
+      backgroundColor: CFG.kind === 'stacked'
+        ? palette[i % palette.length] + 'cc'
+        : sr.values.map(function (v) {
+            return v < 0 ? loss + 'cc' : (palette[i % palette.length] + 'cc');
+          }),
+      borderColor: palette[i % palette.length],
+      borderWidth: 1,
+      borderRadius: 4,
+      maxBarThickness: 64,
     };
   });
 
   new Chart(cv, {
-    type: 'line',
-    data: { labels: CFG.labels.map(function (l) { return l + ' %'; }),
-            datasets: datasets },
+    type: 'bar',
+    data: { labels: CFG.labels, datasets: datasets },
     options: {
       responsive: true,
       maintainAspectRatio: false,
       interaction: { mode: 'index', intersect: false },
       plugins: {
-        legend: { display: false },
+        legend: { display: CFG.series.length > 1,
+                  labels: { color: text, boxWidth: 12, font: { size: 11 } } },
         tooltip: {
           backgroundColor: tok('--color-surface-overlay'),
           borderColor: tok('--color-border-strong'),
@@ -275,54 +265,29 @@ document.addEventListener('DOMContentLoaded', function () {
           titleColor: tok('--color-text-primary'),
           bodyColor: tok('--color-text-secondary'),
           padding: 10,
-          displayColors: true,
           callbacks: {
-            label: function (item) { return item.dataset.label + ': ' + fmt(item.parsed.y); },
+            label: function (it) { return it.dataset.label + ': ' + fmt(it.parsed.y); },
           },
         },
       },
       scales: {
         x: {
-          title: { display: true, text: 'скидка продавца',
-                    color: text, font: { size: 11 } },
-          grid: { color: grid, drawTicks: false },
-          ticks: { color: text, font: { size: 11 } },
+          title: { display: true, text: CFG.xLabel, color: text, font: { size: 11 } },
+          grid: { display: false },
+          ticks: { color: text, font: { size: 11 }, autoSkip: false,
+                   maxRotation: 0 },
           border: { color: grid },
         },
         y: {
-          title: { display: true, text: 'прибыль с единицы',
-                    color: text, font: { size: 11 } },
+          title: { display: true, text: CFG.yLabel, color: text, font: { size: 11 } },
           grid: { color: grid, drawTicks: false },
-          ticks: {
-            color: text, font: { size: 11 },
-            callback: function (v) { return fmt(v); },
-          },
+          ticks: { color: text, font: { size: 11 }, callback: function (v) { return fmt(v); } },
           border: { color: grid },
+          stacked: CFG.kind === 'stacked',
+          beginAtZero: true,
         },
       },
     },
-    plugins: [{
-      id: 'zeroLine',
-      afterDatasetsDraw: function (chart) {
-        var y = chart.scales.y.getPixelForValue(0);
-        var ctx = chart.ctx;
-        ctx.save();
-        ctx.strokeStyle = text;
-        ctx.setLineDash([4, 4]);
-        ctx.lineWidth = 1;
-        ctx.beginPath();
-        ctx.moveTo(chart.chartArea.left, y);
-        ctx.lineTo(chart.chartArea.right, y);
-        ctx.stroke();
-        ctx.setLineDash([]);
-        ctx.fillStyle = text;
-        ctx.font = '11px Inter, system-ui, sans-serif';
-        ctx.textAlign = 'right';
-        ctx.fillText('безубыточность FBS ' + CFG.zeroLabel,
-                     chart.chartArea.right - 6, y - 6);
-        ctx.restore();
-      },
-    }],
   });
 
 });

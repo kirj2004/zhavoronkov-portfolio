@@ -4,11 +4,12 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Инструменты — Жаворонков Кирилл</title>
-<meta name="description" content="Калькулятор юнит-экономики FBS/FBW, чек-лист карточки WB, шаблон инфографики. Бесплатно, без регистрации.">
+<meta name="description" content="Чек-лист карточки WB и шаблон инфографики. Бесплатно, без регистрации.">
 <link rel="stylesheet" href="../assets/style.css">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
 <script src="https://cdn.jsdelivr.net/npm/lucide@0.454.0/dist/umd/lucide.min.js" defer></script>
 <script type="module" src="../assets/site.js"></script>
-<script type="module" src="tools.js"></script>
+
 </head>
 <body>
 
@@ -20,7 +21,6 @@
     </a>
 
     <nav class="nav" aria-label="Инструменты">
-      <a class="nav-link" href="#calc">Калькулятор</a>
       <a class="nav-link" href="#checklist">Чек-лист карточки</a>
       <a class="nav-link" href="#infographic">Шаблон инфографики</a>
     </nav>
@@ -38,125 +38,13 @@
     <div>
       <h1 class="page-title">Инструменты</h1>
       <p class="page-sub">
-        Считайте сами, до заказа. Все три инструмента показывают методику,
+        Считайте сами, до заказа. Инструменты показывают методику,
         по которой считаю я, — цифры должны сходиться с разбором кейсов.
       </p>
     </div>
   </header>
 
   <div id="live-region" class="sr-only" role="status" aria-live="polite"></div>
-
-  <!-- ── Калькулятор ───────────────────────────────────────────────────── -->
-  <section class="section" id="calc" aria-labelledby="calc-title">
-    <div class="section-head">
-      <h2 class="section-title" id="calc-title">Калькулятор юнит-экономики</h2>
-      <span class="section-note">FBS и FBW · пересчёт на каждый ввод</span>
-    </div>
-
-    <div class="calc">
-      <div class="calc-inputs">
-        <div class="field">
-          <label class="field-label" for="in-rrp">Цена до скидки (РРЦ), ₽</label>
-          <div class="field-row">
-            <input class="input" id="in-rrp" type="number" min="0" step="10" value="1000">
-          </div>
-        </div>
-
-        <div class="field">
-          <label class="field-label" for="in-disc">Скидка продавца, %</label>
-          <div class="field-row">
-            <input class="input" id="in-disc" type="number" min="0" max="90" step="1" value="30">
-          </div>
-        </div>
-
-        <div class="field">
-          <label class="field-label" for="in-fbs">Комиссия FBS, %</label>
-          <input class="range" id="in-fbs" type="range" min="5" max="50" step="0.5" value="33">
-          <div class="field-row">
-            <span class="field-value" id="out-fbs">33 %</span>
-          </div>
-        </div>
-
-        <div class="field">
-          <label class="field-label" for="in-fbw">Комиссия FBW, %</label>
-          <input class="range" id="in-fbw" type="range" min="5" max="50" step="0.5" value="29.5">
-          <div class="field-row">
-            <span class="field-value" id="out-fbw">29,5 %</span>
-          </div>
-        </div>
-
-        <div class="field">
-          <label class="field-label" for="in-vol">Объём, л</label>
-          <div class="field-row">
-            <input class="input" id="in-vol" type="number" min="0.01" step="0.01" value="1.25">
-          </div>
-        </div>
-
-        <div class="field">
-          <label class="field-label" for="in-cost">Себестоимость, ₽</label>
-          <div class="field-row">
-            <input class="input" id="in-cost" type="number" min="0" step="10" value="0">
-          </div>
-        </div>
-      </div>
-
-      <div class="calc-out">
-        <div class="calc-headline">
-          <div class="calc-hero">
-            <span class="calc-hero-label">Прибыль FBS с единицы</span>
-            <span class="calc-hero-value kpi-profit" id="o-fbs">—</span>
-          </div>
-          <div class="calc-side">
-            <span class="calc-side-label">BE FBS</span>
-            <span class="calc-side-value" id="o-be-fbs">—</span>
-          </div>
-        </div>
-
-        <div class="calc-headline">
-          <div class="calc-hero">
-            <span class="calc-hero-label">Прибыль FBW с единицы</span>
-            <span class="calc-hero-value kpi-profit" id="o-fbw">—</span>
-          </div>
-          <div class="calc-side">
-            <span class="calc-side-label">BE FBW</span>
-            <span class="calc-side-value" id="o-be-fbw">—</span>
-          </div>
-        </div>
-
-        <div class="breakdown">
-          <div class="breakdown-row">
-            <span class="breakdown-label">Цена покупателя после скидки</span>
-            <span class="breakdown-value" id="o-buyer">—</span>
-          </div>
-          <div class="breakdown-row">
-            <span class="breakdown-label">Логистика (по объёму)</span>
-            <span class="breakdown-value" id="o-logi">—</span>
-          </div>
-          <div class="breakdown-row">
-            <span class="breakdown-label">Цена под 20 % маржи, FBS</span>
-            <span class="breakdown-value" id="o-m20-fbs">—</span>
-          </div>
-          <div class="breakdown-row">
-            <span class="breakdown-label">Цена под 20 % маржи, FBW</span>
-            <span class="breakdown-value" id="o-m20-fbw">—</span>
-          </div>
-          <div class="breakdown-row breakdown-row--total">
-            <span class="breakdown-label">Выгодная схема</span>
-            <span class="breakdown-value" id="o-verdict">—</span>
-          </div>
-        </div>
-
-        <p class="footnote">
-          Модель: цена покупателя = РРЦ × (1 − скидка); логистика — 46 ₽ за первый
-          литр и по 14 ₽ за каждый следующий, с коэффициентом 1,70; FBW дополнительно
-          платит приёмку и хранение, FBS — обработку в ПВЗ и фулфилмент; штраф за
-          просрочку передачи заложен только в FBS. Маржа считается от РРЦ.
-          Себестоимость вводится вручную — в кейсах она не участвовала,
-          поэтому цифры там выше.
-        </p>
-      </div>
-    </div>
-  </section>
 
   <!-- ── Чек-лист ──────────────────────────────────────────────────────── -->
   <section class="section" id="checklist" aria-labelledby="checklist-title">
@@ -326,7 +214,6 @@
   <div class="site-footer__inner">
     <span class="site-footer__copy">© 2026 Жаворонков Кирилл</span>
     <nav class="site-footer__nav" aria-label="Разделы страницы">
-      <a class="nav-link" href="#calc">Калькулятор</a>
       <a class="nav-link" href="#checklist">Чек-лист</a>
       <a class="nav-link" href="#infographic">Инфографика</a>
       <a class="nav-link" href="../index.html">На главную</a>

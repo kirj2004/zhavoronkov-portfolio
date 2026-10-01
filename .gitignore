@@ -8,6 +8,7 @@ tmp_shots/
 __pycache__/
 STATUS.md
 DESIGN_PLAN.md
+MARKET_INTEGRATION.md
 
 # Служебные
 .DS_Store

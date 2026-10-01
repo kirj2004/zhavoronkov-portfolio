@@ -5,8 +5,15 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Жаворонков Кирилл — менеджер маркетплейсов, аналитика, юнит-экономика</title>
 <meta name="description" content="Портфолио: юнит-экономика FBS/FBW, анализ карточек и SEO, инфографика для маркетплейсов, автоматизация через API и ИИ. Кейсы с реальными цифрами, каталог услуг, инструменты.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@600;700;800&family=Inter:wght@400;500;600&display=swap">
 <link rel="stylesheet" href="assets/style.css">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="assets/costcalc.css">
 <script src="https://cdn.jsdelivr.net/npm/lucide@0.454.0/dist/umd/lucide.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js" defer></script>
+<script src="assets/costcalc.js" defer></script>
 <script type="module" src="assets/site.js"></script>
 </head>
 <body>
@@ -14,16 +21,18 @@
 <!-- ── Шапка ────────────────────────────────────────────────────────────── -->
 <header class="site-header">
   <div class="site-header__inner">
-    <a class="brand" href="#top">
+    <a class="brand" href="#main-top">
       <span class="brand__name">Жаворонков Кирилл</span>
       <span class="brand__sub">Менеджер маркетплейсов · аналитика · юнит-экономика</span>
     </a>
 
     <nav class="nav" aria-label="Разделы страницы">
+      <a class="nav-link" href="#pains">Боли</a>
+      <a class="nav-link" href="#process">Как работаю</a>
       <a class="nav-link" href="#cases">Кейсы</a>
       <a class="nav-link" href="#products">Продукты</a>
-      <a class="nav-link" href="#tools">Инструменты</a>
-      <a class="nav-link" href="#contacts">Контакты</a>
+      <a class="nav-link" href="#api">API</a>
+      <a class="nav-link" href="#order">Заявка</a>
     </nav>
 
     <a class="header-contact" href="https://max.ru/u/f9LHodD0cOLdp8PLl5xLOgbVyMIGA-CzKgczzqM_HK-bc2fsqmhaWQNg7Lk" rel="noopener">
@@ -35,47 +44,394 @@
       <span>ip.zhavoronkov.ka@yandex.ru</span>
     </a>
   </div>
+
+  <!-- Прогресс чтения: сколько страницы пройдено. -->
+  <div class="nav-progress" aria-hidden="true">
+    <div class="nav-progress__bar" id="nav-progress"></div>
+  </div>
 </header>
 
-<main class="page" id="top">
+<main class="page" id="main-top">
 
-  <!-- ── Hero ───────────────────────────────────────────────────────────── -->
-  <section class="hero" aria-labelledby="hero-title">
-    <div class="hero__eyebrow">
-      <span class="badge badge--info">
-        <i data-lucide="store" width="12" height="12" aria-hidden="true"></i>
-        Действующий селлер с 2020
-      </span>
-      <span class="badge badge--neutral">WB · Ozon</span>
-      <span class="badge badge--neutral">30 SKU</span>
-    </div>
+  <!-- ── Hero (этап 1: флагманская воронка) ───────────────────────────── -->
+  <section class="pfx-hero" aria-labelledby="hero-title">
+    <h1 class="pfx-hero__title pfx-reveal" id="hero-title">
+      Комиссии выросли на&nbsp;58&nbsp;%.<br>
+      Маржа упала до&nbsp;<em class="pfx-shimmer">69&nbsp;%</em>.
+    </h1>
 
-    <h1 class="hero__title" id="hero-title">Считаю экономику карточки до запуска, а не после</h1>
-
-    <p class="hero__slogan">
-      Менеджер маркетплейсов · Аналитика · Юнит-экономика · Промт-инжиниринг
+    <p class="pfx-hero__sub pfx-reveal" style="animation-delay:.08s">
+      Покажем, где вы теряете деньги — за&nbsp;2&nbsp;минуты.
+      Юнит-экономика по реальным данным WB&nbsp;API, а&nbsp;не по&nbsp;догадкам.
     </p>
 
-    <div class="hero__actions">
-      <a class="btn btn--primary" href="#contacts">
-        <i data-lucide="send" width="16" height="16" aria-hidden="true"></i>
-        Обсудить задачу
+    <div class="pfx-hero__actions pfx-reveal" style="animation-delay:.16s">
+      <a class="pfx-btn pfx-btn--primary" href="#calculator">
+        <i data-lucide="calculator" width="16" height="16" aria-hidden="true"></i>
+        Рассчитать себестоимость
       </a>
-      <a class="btn" href="#cases">
+      <a class="pfx-btn pfx-btn--ghost" href="#cases">
         <i data-lucide="bar-chart-3" width="16" height="16" aria-hidden="true"></i>
-        Смотреть кейсы
-      </a>
-      <a class="btn btn--ghost" href="#products">
-        Каталог услуг
-        <i data-lucide="arrow-down" width="16" height="16" aria-hidden="true"></i>
+        Посмотреть кейсы
       </a>
     </div>
 
-    <div class="hero__facts">
-      <span class="muted">Работаю только с письменными каналами:</span>
-      <a class="link" href="https://max.ru/u/f9LHodD0cOLdp8PLl5xLOgbVyMIGA-CzKgczzqM_HK-bc2fsqmhaWQNg7Lk" rel="noopener">MAX</a>
-      <a class="link" href="mailto:ip.zhavoronkov.ka@yandex.ru">email</a>
+    <div class="pfx-stats">
+      <div class="pfx-stat pfx-reveal" style="animation-delay:.24s">
+        <span class="pfx-stat__value tnum">550 000</span>
+        <span class="pfx-stat__label">активных селлеров на WB и Ozon</span>
+        <span class="pfx-stat__was tnum">было 700 000</span>
+      </div>
+      <div class="pfx-stat pfx-reveal" style="animation-delay:.34s">
+        <span class="pfx-stat__value tnum">+58 %</span>
+        <span class="pfx-stat__label">рост комиссии площадок за 3 года</span>
+        <span class="pfx-stat__was">логистика +33–89 %</span>
+      </div>
+      <div class="pfx-stat pfx-reveal" style="animation-delay:.44s">
+        <span class="pfx-stat__value tnum">69 %</span>
+        <span class="pfx-stat__label">остаётся продавцу после всех расходов</span>
+        <span class="pfx-stat__was tnum">было 88 %</span>
+      </div>
+      <div class="pfx-stat pfx-reveal" style="animation-delay:.54s">
+        <span class="pfx-stat__value tnum">25 %</span>
+        <span class="pfx-stat__label">выручки уходит в рекламу</span>
+        <span class="pfx-stat__was">ДРР растёт каждый месяц</span>
+      </div>
     </div>
+
+    <div class="pfx-proof pfx-reveal" style="animation-delay:.64s">
+      <span class="pfx-proof__item">
+        <i data-lucide="layers" width="14" height="14" aria-hidden="true"></i>
+        4 кейса с реальными расчётами
+      </span>
+      <span class="pfx-proof__item">
+        <i data-lucide="file-text" width="14" height="14" aria-hidden="true"></i>
+        240 строк отчёта WB
+      </span>
+      <span class="pfx-proof__item">
+        <i data-lucide="plug" width="14" height="14" aria-hidden="true"></i>
+        API-интеграция
+      </span>
+    </div>
+  </section>
+
+  <!-- ── Боли селлера ───────────────────────────────────────────────────── -->
+  <section class="section" id="pains" aria-labelledby="pains-title">
+    <div class="pain-head">
+      <h2 class="pain-head__title pfx-reveal" id="pains-title">
+        7 болей, которые убивают продавца в 2026
+      </h2>
+      <p class="pain-head__sub pfx-reveal">
+        Если узнали себя — у нас есть решение. Нажмите на карточку.
+      </p>
+    </div>
+
+    <div class="pain-grid">
+      <article class="pain-card pfx-reveal">
+        <span class="pain-card__icon">
+          <i data-lucide="percent" width="32" height="32" aria-hidden="true"></i>
+        </span>
+        <h3 class="pain-card__title">Комиссии растут — маржа тает</h3>
+        <p class="pain-card__quote">«За три года комиссия выросла на 58%, а я продаю за те же деньги.»</p>
+        <div class="pain-card__toggle">
+          <span class="pain-card__toggle-text">Подробнее</span>
+          <i class="pain-card__chevron" data-lucide="chevron-down" width="18" height="18" aria-hidden="true"></i>
+        </div>
+        <div class="pain-card__body">
+          <div class="pain-card__body-inner">
+            <div class="pain-block">
+              <span class="pain-block__label">Что происходит</span>
+              <p class="pain-block__text">
+                Посредническое вознаграждение WB и Ozon растёт быстрее, чем цены.
+                Доля остатка продавцу упала с 88 % до 69 % — выручка в кабинете
+                растёт, а денег за ней не остаётся.
+              </p>
+            </div>
+            <div class="pain-block">
+              <span class="pain-block__label">Как решаем</span>
+              <p class="pain-block__text">Точная юнит-экономика по каждому SKU и аудит комиссий по категориям.</p>
+            </div>
+            <a class="pain-card__cta" href="#contacts">
+              У меня такая же проблема
+              <i data-lucide="arrow-right" width="14" height="14" aria-hidden="true"></i>
+            </a>
+          </div>
+        </div>
+      </article>
+
+      <article class="pain-card pfx-reveal">
+        <span class="pain-card__icon">
+          <i data-lucide="truck" width="32" height="32" aria-hidden="true"></i>
+        </span>
+        <h3 class="pain-card__title">Логистика дороже товара</h3>
+        <p class="pain-card__quote">«Перешёл на FBS — операционка выросла, склад арендую, кладовщика нанял.»</p>
+        <div class="pain-card__toggle">
+          <span class="pain-card__toggle-text">Подробнее</span>
+          <i class="pain-card__chevron" data-lucide="chevron-down" width="18" height="18" aria-hidden="true"></i>
+        </div>
+        <div class="pain-card__body">
+          <div class="pain-card__body-inner">
+            <div class="pain-block">
+              <span class="pain-block__label">Что происходит</span>
+              <p class="pain-block__text">
+                FBS переносит логистические риски на селлера: расходы на ПВЗ и
+                фулфилмент фиксированные, а объём продаж не гарантирован. Исход
+                на FBS за год вырос с 55 % до 80 %.
+              </p>
+            </div>
+            <div class="pain-block">
+              <span class="pain-block__label">Как решаем</span>
+              <p class="pain-block__text">Пересчёт FBS против FBW по вашему товару — экономия 60–100 ₽ с единицы.</p>
+            </div>
+            <a class="pain-card__cta" href="#contacts">
+              У меня такая же проблема
+              <i data-lucide="arrow-right" width="14" height="14" aria-hidden="true"></i>
+            </a>
+          </div>
+        </div>
+      </article>
+
+      <article class="pain-card pfx-reveal">
+        <span class="pain-card__icon">
+          <i data-lucide="megaphone" width="32" height="32" aria-hidden="true"></i>
+        </span>
+        <h3 class="pain-card__title">Реклама съедает 25 % выручки</h3>
+        <p class="pain-card__quote">«ДРР растёт каждый месяц. Без рекламы вообще нет продаж, с рекламой — нет прибыли.»</p>
+        <div class="pain-card__toggle">
+          <span class="pain-card__toggle-text">Подробнее</span>
+          <i class="pain-card__chevron" data-lucide="chevron-down" width="18" height="18" aria-hidden="true"></i>
+        </div>
+        <div class="pain-card__body">
+          <div class="pain-card__body-inner">
+            <div class="pain-block">
+              <span class="pain-block__label">Что происходит</span>
+              <p class="pain-block__text">
+                Платный трафик стал обязательным условием продаж, но ставки растут
+                быстрее маржи. Кампания приносит оборот, который не окупает
+                себя на единице товара.
+              </p>
+            </div>
+            <div class="pain-block">
+              <span class="pain-block__label">Как решаем</span>
+              <p class="pain-block__text">Аудит ДРР по кампаниям и расчёт порога ДРР, ниже которого реклама не окупается.</p>
+            </div>
+            <a class="pain-card__cta" href="#contacts">
+              У меня такая же проблема
+              <i data-lucide="arrow-right" width="14" height="14" aria-hidden="true"></i>
+            </a>
+          </div>
+        </div>
+      </article>
+
+      <article class="pain-card pfx-reveal">
+        <span class="pain-card__icon">
+          <i data-lucide="warehouse" width="32" height="32" aria-hidden="true"></i>
+        </span>
+        <h3 class="pain-card__title">Атаки на склады — товар сгорел</h3>
+        <p class="pain-card__quote">«17% инфраструктуры WB повреждено, 400 тысяч селлеров пострадали. Мой товар тоже.»</p>
+        <div class="pain-card__toggle">
+          <span class="pain-card__toggle-text">Подробнее</span>
+          <i class="pain-card__chevron" data-lucide="chevron-down" width="18" height="18" aria-hidden="true"></i>
+        </div>
+        <div class="pain-card__body">
+          <div class="pain-card__body-inner">
+            <div class="pain-block">
+              <span class="pain-block__label">Что происходит</span>
+              <p class="pain-block__text">
+                Логистика площадки — это один узел, отказ которого обнуляет
+                остатки. Страховой рынок не покрывает хранение на складе
+                площадки, риск целиком на продавце.
+              </p>
+            </div>
+            <div class="pain-block">
+              <span class="pain-block__label">Как решаем</span>
+              <p class="pain-block__text">Диверсификация каналов и расчёт страховых сценариев потерь.</p>
+            </div>
+            <a class="pain-card__cta" href="#contacts">
+              У меня такая же проблема
+              <i data-lucide="arrow-right" width="14" height="14" aria-hidden="true"></i>
+            </a>
+          </div>
+        </div>
+      </article>
+
+      <article class="pain-card pfx-reveal">
+        <span class="pain-card__icon">
+          <i data-lucide="clock" width="32" height="32" aria-hidden="true"></i>
+        </span>
+        <h3 class="pain-card__title">Данные с задержкой 10–14 дней</h3>
+        <p class="pain-card__quote">«MPStats показывает, что было. Мне нужно знать, что будет.»</p>
+        <div class="pain-card__toggle">
+          <span class="pain-card__toggle-text">Подробнее</span>
+          <i class="pain-card__chevron" data-lucide="chevron-down" width="18" height="18" aria-hidden="true"></i>
+        </div>
+        <div class="pain-card__body">
+          <div class="pain-card__body-inner">
+            <div class="pain-block">
+              <span class="pain-block__label">Что происходит</span>
+              <p class="pain-block__text">
+                Внешняя аналитика работает по косвенным признакам и запаздывает
+                на 10–14 дней. Решение по цене принимается после того, как скидка
+                уже сработала.
+              </p>
+            </div>
+            <div class="pain-block">
+              <span class="pain-block__label">Как решаем</span>
+              <p class="pain-block__text">API-мониторинг карточки и алерты по ключевым метрикам в реальном времени.</p>
+            </div>
+            <a class="pain-card__cta" href="#contacts">
+              У меня такая же проблема
+              <i data-lucide="arrow-right" width="14" height="14" aria-hidden="true"></i>
+            </a>
+          </div>
+        </div>
+      </article>
+
+      <article class="pain-card pfx-reveal">
+        <span class="pain-card__icon">
+          <i data-lucide="globe" width="32" height="32" aria-hidden="true"></i>
+        </span>
+        <h3 class="pain-card__title">Китайский демпинг</h3>
+        <p class="pain-card__quote">«Китайцы — производители. Они продают на 15–30% дешевле. Я не могу с ними конкурировать по цене.»</p>
+        <div class="pain-card__toggle">
+          <span class="pain-card__toggle-text">Подробнее</span>
+          <i class="pain-card__chevron" data-lucide="chevron-down" width="18" height="18" aria-hidden="true"></i>
+        </div>
+        <div class="pain-card__body">
+          <div class="pain-card__body-inner">
+            <div class="pain-block">
+              <span class="pain-block__label">Что происходит</span>
+              <p class="pain-block__text">
+                70–80 % товаров на площадке привезено напрямую из Китая. Производитель
+                продаёт без российской логистики и налогов, и в ценовой нише
+                конкурировать нечем.
+              </p>
+            </div>
+            <div class="pain-block">
+              <span class="pain-block__label">Как решаем</span>
+              <p class="pain-block__text">Поиск ниш, где цена — не главный фактор, а решают упаковка и сервис.</p>
+            </div>
+            <a class="pain-card__cta" href="#contacts">
+              У меня такая же проблема
+              <i data-lucide="arrow-right" width="14" height="14" aria-hidden="true"></i>
+            </a>
+          </div>
+        </div>
+      </article>
+
+      <article class="pain-card pfx-reveal">
+        <span class="pain-card__icon">
+          <i data-lucide="scale" width="32" height="32" aria-hidden="true"></i>
+        </span>
+        <h3 class="pain-card__title">Регуляторное давление</h3>
+        <p class="pain-card__quote">«Закон о платформенной экономике с 1 октября, НДС-реформа, ФТС сверяет декларации. Что мне делать?»</p>
+        <div class="pain-card__toggle">
+          <span class="pain-card__toggle-text">Подробнее</span>
+          <i class="pain-card__chevron" data-lucide="chevron-down" width="18" height="18" aria-hidden="true"></i>
+        </div>
+        <div class="pain-card__body">
+          <div class="pain-card__body-inner">
+            <div class="pain-block">
+              <span class="pain-block__label">Что происходит</span>
+              <p class="pain-block__text">
+                С 1 октября 2026 вступает в силу закон о платформенной экономике,
+                параллельно идёт реформа НДС, а ФТС сверяет декларации. Мелкий
+                продавец не держит юриста и разбирается сам.
+              </p>
+            </div>
+            <div class="pain-block">
+              <span class="pain-block__label">Как решаем</span>
+              <p class="pain-block__text">Комплаенс-аудит и легализация схемы без потери маржи.</p>
+            </div>
+            <a class="pain-card__cta" href="#contacts">
+              У меня такая же проблема
+              <i data-lucide="arrow-right" width="14" height="14" aria-hidden="true"></i>
+            </a>
+          </div>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- ── Как я работаю (процесс из 5 шагов) ────────────────────────────── -->
+  <section class="section" id="process" aria-labelledby="process-title">
+    <div class="section-head">
+      <h2 class="section-title" id="process-title">Как я работаю</h2>
+      <span class="section-note">пять шагов от вопроса до вывода</span>
+    </div>
+
+    <p class="section-lead">
+      Порядок один и тот же на любом заказе. Он не меняется под размер бюджета:
+      мелкий разбор и большой аудит отличаются глубиной, а не логикой.
+    </p>
+
+    <ol class="steps">
+      <li class="step">
+        <div class="step__num tnum" aria-hidden="true">1</div>
+        <div class="step__body">
+          <h3 class="step__title">Бриф</h3>
+          <p class="step__text">
+            5–10 вопросов о магазине: ниша, количество SKU, средняя цена,
+            оборот, сколько уже пробовали. Спрашиваю только то, что влияет
+            на расчёт. Итог письмом: «вот задача, вот цифры, вот что предлагаю».
+          </p>
+          <p class="step__meta">Результат: письменное ТЗ и оценка сроков</p>
+        </div>
+      </li>
+
+      <li class="step">
+        <div class="step__num tnum" aria-hidden="true">2</div>
+        <div class="step__body">
+          <h3 class="step__title">Данные</h3>
+          <p class="step__text">
+            Подключаюсь к API и забираю продажи, возвраты, удержания,
+            затраты и конкурентов. Если доступа к API нет — прошу выгрузку
+            из личного кабинета. Рассказываю, что именно вижу и чего не вижу.
+          </p>
+          <p class="step__meta">Результат: полная картина по деньгам</p>
+        </div>
+      </li>
+
+      <li class="step">
+        <div class="step__num tnum" aria-hidden="true">3</div>
+        <div class="step__body">
+          <h3 class="step__title">Расчёт</h3>
+          <p class="step__text">
+            Считаю юнит-экономику по каждому SKU, нахожу точку
+            безубыточности и порог цены, ниже которого скидка съедает
+            всю прибыль. Все выводы — формулами, цифры можно перепроверить.
+          </p>
+          <p class="step__meta">Результат: BE, маржа и цена под цель</p>
+        </div>
+      </li>
+
+      <li class="step">
+        <div class="step__num tnum" aria-hidden="true">4</div>
+        <div class="step__body">
+          <h3 class="step__title">Разбор</h3>
+          <p class="step__text">
+            Смотрю, почему карточки не продаются: позиции, трафик,
+            конверсия по элементам, семантика, конкуренты. Отдельно
+            считаю, что даст больше денег — цена или трафик.
+          </p>
+          <p class="step__meta">Результат: причина найдена, а не описана</p>
+        </div>
+      </li>
+
+      <li class="step">
+        <div class="step__num tnum" aria-hidden="true">5</div>
+        <div class="step__body">
+          <h3 class="step__title">Вывод</h3>
+          <p class="step__text">
+            Отдаю документ с приоритетами: что сделать первым, что вторым,
+            что вообще не трогать. Для срочного — приоритет на 48 часов.
+            Показываю логику и оставляю файлы, чтобы расчёт можно было
+            проверить самостоятельно.
+          </p>
+          <p class="step__meta">Результат: план действий в порядке важности</p>
+        </div>
+      </li>
+    </ol>
   </section>
 
   <!-- ── Кто я ──────────────────────────────────────────────────────────── -->
@@ -395,6 +751,178 @@
     </div>
   </section>
 
+  <!-- ── Калькулятор себестоимости ──────────────────────────────────────── -->
+  <section class="section" id="calculator" aria-labelledby="calc-title">
+    <div class="section-head">
+      <h2 class="section-title" id="calc-title">Сколько стоит ваш товар на самом деле?</h2>
+      <span class="section-note">курс ЦБ РФ · пересчёт на каждый ввод</span>
+    </div>
+
+    <p class="page-sub" style="margin:0 0 var(--space-5)">
+      Рассчитайте себестоимость партии за 1 минуту. Все параметры — в одном месте.
+    </p>
+
+    <div id="live-region" class="sr-only" role="status" aria-live="polite"></div>
+
+    <div class="csc">
+      <!-- Форма -->
+      <div class="csc__in" id="csc-form">
+
+        <div class="csc-block">
+          <h3 class="csc-block__title">
+            <i data-lucide="package" width="15" height="15" aria-hidden="true"></i>
+            Блок 1 — Закупка
+          </h3>
+
+          <div class="csc-field">
+            <label class="csc-label" for="csc-price">Цена за штуку</label>
+            <input class="csc-input" id="csc-price" type="number"
+                   min="0" step="0.01" inputmode="decimal" value="17.50">
+          </div>
+
+          <div class="csc-row">
+            <div class="csc-field">
+              <label class="csc-label" for="csc-currency">Валюта закупки</label>
+              <select class="csc-select" id="csc-currency">
+                <option value="CNY">CNY — юань</option>
+                <option value="USD">USD — доллар</option>
+                <option value="EUR">EUR — евро</option>
+                <option value="RUB" selected>RUB — рубль</option>
+              </select>
+            </div>
+            <div class="csc-field">
+              <label class="csc-label" for="csc-qty">Количество, шт</label>
+              <input class="csc-input" id="csc-qty" type="number"
+                     min="1" step="1" inputmode="numeric" value="100">
+            </div>
+          </div>
+
+          <div class="csc-field">
+            <span class="csc-label" id="csc-rate-label">Курс</span>
+            <div class="csc-radios" role="radiogroup" aria-labelledby="csc-rate-label">
+              <label class="csc-radio">
+                <input type="radio" name="csc-rate-mode" value="auto" checked>
+                Авто, ЦБ РФ
+              </label>
+              <label class="csc-radio">
+                <input type="radio" name="csc-rate-mode" value="manual">
+                Вручную
+              </label>
+            </div>
+
+            <div class="csc-field" id="csc-rate-manual" hidden>
+              <label class="csc-label" for="csc-rate">Курс вручную, ₽ за единицу</label>
+              <input class="csc-input" id="csc-rate" type="number"
+                     min="0" step="0.0001" inputmode="decimal" value="12.4732">
+            </div>
+
+            <p class="csc-rate" id="csc-rate-status" role="status" aria-live="polite">
+              Курс ЦБ РФ загружается…
+            </p>
+          </div>
+        </div>
+
+        <div class="csc-block">
+          <h3 class="csc-block__title">
+            <i data-lucide="truck" width="15" height="15" aria-hidden="true"></i>
+            Блок 2 — Партия и логистика
+          </h3>
+
+          <div class="csc-field">
+            <label class="csc-label" for="csc-china">Доставка по Китаю, сумма на партию</label>
+            <input class="csc-input" id="csc-china" type="number"
+                   min="0" step="0.01" inputmode="decimal" value="0">
+            <span class="csc-hint">В валюте закупки. Если доставка уже в цене товара — оставьте 0.</span>
+          </div>
+
+          <div class="csc-field">
+            <label class="csc-label" for="csc-russia">Доставка по России, сумма на партию, ₽</label>
+            <input class="csc-input" id="csc-russia" type="number"
+                   min="0" step="0.01" inputmode="decimal" value="500">
+          </div>
+
+          <div class="csc-field">
+            <label class="csc-label" for="csc-pack">Упаковка, ₽/шт</label>
+            <input class="csc-input" id="csc-pack" type="number"
+                   min="0" step="0.01" inputmode="decimal" value="1.20">
+          </div>
+
+          <div class="csc-field">
+            <label class="csc-label" for="csc-fulfillment">Фулфилмент, ₽ за партию</label>
+            <input class="csc-input" id="csc-fulfillment" type="number"
+                   min="0" step="0.01" inputmode="decimal" value="875">
+          </div>
+
+          <div class="csc-field">
+            <label class="csc-label" for="csc-extra">Доп. расходы, ₽ на партию</label>
+            <input class="csc-input" id="csc-extra" type="number"
+                   min="0" step="0.01" inputmode="decimal" value="0">
+            <span class="csc-hint">Сертификация, образцы, комиссия посредника — необязательно.</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Итог -->
+      <div class="csc-out">
+        <div class="csc-hero">
+          <div class="csc-hero__main">
+            <span class="csc-hero__label">Себестоимость 1 штуки</span>
+            <span class="csc-hero__value tnum" id="csc-per-unit">—</span>
+          </div>
+          <div class="csc-hero__side">
+            <span class="csc-hero__side-label">Себестоимость партии, <span
+                  id="csc-qty-echo">100</span> шт</span>
+            <span class="csc-hero__side-value" id="csc-batch">—</span>
+          </div>
+        </div>
+
+        <div class="csc-vis">
+          <div class="csc-chart-box">
+            <canvas id="csc-chart" role="img"
+                    aria-label="Круговая диаграмма разбивки себестоимости по статьям"></canvas>
+          </div>
+
+          <div>
+            <table class="csc-table">
+              <caption class="sr-only">Разбивка себестоимости по статьям</caption>
+              <thead>
+                <tr>
+                  <th scope="col">Статья</th>
+                  <th scope="col" class="num">На 1 шт, ₽</th>
+                  <th scope="col" class="num">Доля</th>
+                </tr>
+              </thead>
+              <tbody id="csc-table-body"></tbody>
+              <tfoot id="csc-table-foot"></tfoot>
+            </table>
+          </div>
+        </div>
+
+        <p class="footnote">
+          Считается только себестоимость: закупка, доставка до склада и отправка на
+          площадку, упаковка. Комиссия WB, логистика по объёму, хранение, реклама и
+          возвраты в этой форме не участвуют — они считаются в полной модели
+          юнит-экономики по данным Seller API.
+        </p>
+      </div>
+    </div>
+
+    <!-- CTA -->
+    <div class="csc-cta">
+      <div class="csc-cta__text">
+        <h3 class="csc-cta__title">Знаете себестоимость — но не знаете маржу?</h3>
+        <p class="csc-cta__sub">
+          Мы посчитаем реальную прибыль с учётом комиссии WB, логистики, рекламы,
+          возвратов и налогов. По реальным данным из API.
+        </p>
+      </div>
+      <a class="pfx-btn pfx-btn--primary" href="#contacts">
+        <i data-lucide="bar-chart-3" width="16" height="16" aria-hidden="true"></i>
+        Получить расчёт маржи
+      </a>
+    </div>
+  </section>
+
   <!-- ── Инструменты ────────────────────────────────────────────────────── -->
   <section class="section" id="tools" aria-labelledby="tools-title">
     <div class="section-head">
@@ -403,25 +931,6 @@
     </div>
 
     <div class="grid grid-3">
-      <article class="card tool">
-        <span class="service__icon"><i data-lucide="calculator" width="18" height="18" aria-hidden="true"></i></span>
-        <div>
-          <h3 class="card-title">Калькулятор юнит-экономики</h3>
-          <p class="card-sub">BE и маржа FBS/FBW в браузере</p>
-        </div>
-        <p class="service__text">
-          Вводите РРЦ, скидку, категорию и объём — получаете точку
-          безубыточности, маржу и цену под целевую. Без регистрации.
-        </p>
-        <div class="tool__foot">
-          <span>Работает офлайн · ru-RU</span>
-          <a class="case__link" href="tools/index.html#calc">
-            Открыть
-            <i data-lucide="arrow-up-right" width="14" height="14" aria-hidden="true"></i>
-          </a>
-        </div>
-      </article>
-
       <article class="card tool">
         <span class="service__icon"><i data-lucide="list-checks" width="18" height="18" aria-hidden="true"></i></span>
         <div>
@@ -459,6 +968,252 @@
           </a>
         </div>
       </article>
+    </div>
+  </section>
+
+  <!-- ── API-гайд ──────────────────────────────────────────────────────── -->
+  <section class="section" id="api" aria-labelledby="api-title">
+    <div class="section-head">
+      <h2 class="section-title" id="api-title">Как я получаю данные</h2>
+      <span class="section-note">8 методов Seller API WB</span>
+    </div>
+
+    <p class="section-lead">
+      Всё считается по ответам API, а не по оценкам. Это принципиальная
+      разница: оценка говорит «примерно минус 15 %», API — «минус 58,40 ₽
+      с единицы». Показываю схему доступа, чтобы вы понимали, откуда
+      берутся цифры в отчёте.
+    </p>
+
+    <div class="api-flow" aria-hidden="true">
+      <span class="api-flow__node">Ваш кабинет WB</span>
+      <i data-lucide="arrow-right" width="16" height="16" aria-hidden="true"></i>
+      <span class="api-flow__node">Seller API</span>
+      <i data-lucide="arrow-right" width="16" height="16" aria-hidden="true"></i>
+      <span class="api-flow__node">Расчёт юнит-экономики</span>
+      <i data-lucide="arrow-right" width="16" height="16" aria-hidden="true"></i>
+      <span class="api-flow__node api-flow__node--out">Отчёт с цифрами</span>
+    </div>
+
+    <div class="table-wrap">
+      <table class="table api-table">
+        <caption class="visually-hidden">Методы Seller API, которые используются в расчётах</caption>
+        <thead>
+          <tr>
+            <th scope="col">Метод</th>
+            <th scope="col">Что даёт</th>
+            <th scope="col">Где используется</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row"><code class="code">sales</code></th>
+            <td>Продажи, возвраты, отмены за период</td>
+            <td>Выручка, количество, доля возвратов</td>
+          </tr>
+          <tr>
+            <th scope="row"><code class="code">orders</code></th>
+            <td>Заказы по SKU и статусам</td>
+            <td>Конверсия в заказ, отмены</td>
+          </tr>
+          <tr>
+            <th scope="row"><code class="code">content</code></th>
+            <td>Карточки, описания, штрихкоды, категории</td>
+            <td>Структура магазина, SEO-разбор</td>
+          </tr>
+          <tr>
+            <th scope="row"><code class="code">analytics</code></th>
+            <td>Позиции, поисковые запросы, трафик</td>
+            <td>Семантика, видимость карточек</td>
+          </tr>
+          <tr>
+            <th scope="row"><code class="code">finance</code></th>
+            <td>Комиссии, логистика, хранение, ПВЗ, эквайринг</td>
+            <td>Статья затрат на единицу</td>
+          </tr>
+          <tr>
+            <th scope="row"><code class="code">common</code></th>
+            <td>Тарифные ставки и ставки категорий</td>
+            <td>Комиссия по вашей категории</td>
+          </tr>
+          <tr>
+            <th scope="row"><code class="code">documents</code></th>
+            <td>Отчёты, акты, штрафы, удержания</td>
+            <td>Возвраты, штрафная нагрузка</td>
+          </tr>
+          <tr>
+            <th scope="row"><code class="code">public</code></th>
+            <td>Данные конкурентов: продажи, цены, рейтинг</td>
+            <td>Разбор позиционирования</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p class="api-note">
+      <i data-lucide="shield-check" width="16" height="16" aria-hidden="true"></i>
+      <span>
+        Токен не покидает сервер аналитики и не хранится в открытом виде.
+        При работе без вашего доступа достаточно выгрузки CSV из личного кабинета.
+      </span>
+    </p>
+  </section>
+
+  <!-- ── Форма заявки ───────────────────────────────────────────────────── -->
+  <section class="section" id="order" aria-labelledby="order-title">
+    <div class="section-head">
+      <h2 class="section-title" id="order-title">Обсудить задачу</h2>
+      <span class="section-note">три коротких шага — ни больше двух минут</span>
+    </div>
+
+    <div class="order">
+      <!-- Прогресс: показывает, сколько шагов осталось. Без него
+           длинная форма выглядит как анкета, которую бросят на середине. -->
+      <div class="order__steps" role="list">
+        <button class="order-step is-active" type="button" role="listitem"
+                data-goto="1" aria-current="step">
+          <span class="order-step__num tnum">1</span>
+          <span class="order-step__label">Задача</span>
+        </button>
+        <span class="order-step__sep" aria-hidden="true"></span>
+        <button class="order-step" type="button" role="listitem" data-goto="2">
+          <span class="order-step__num tnum">2</span>
+          <span class="order-step__label">Контекст</span>
+        </button>
+        <span class="order-step__sep" aria-hidden="true"></span>
+        <button class="order-step" type="button" role="listitem" data-goto="3">
+          <span class="order-step__num tnum">3</span>
+          <span class="order-step__label">Контакты</span>
+        </button>
+      </div>
+
+      <form class="order-form" id="order-form" novalidate>
+        <!-- Шаг 1: что нужно сделать -->
+        <fieldset class="order-panel is-open" data-step="1">
+          <legend class="order-panel__title">Что нужно сделать</legend>
+
+          <p class="field">
+            <label class="field-label" for="of-task">Задача</label>
+            <input class="input" type="text" id="of-task" name="task"
+                   placeholder="Например: посчитать юнит-экономику по 30 SKU"
+                   autocomplete="off">
+          </p>
+
+          <div class="field">
+            <span class="field-label" id="of-brief-label">Что уже известно</span>
+            <p class="field-hint">Отметьте всё, что есть. Можно несколько.</p>
+            <div class="chips" role="group" aria-labelledby="of-brief-label">
+              <label class="chip"><input type="checkbox" name="brief" value="Доступ к API WB">
+                <span>Доступ к API WB</span></label>
+              <label class="chip"><input type="checkbox" name="brief" value="Выгрузка CSV из кабинета">
+                <span>Выгрузка CSV</span></label>
+              <label class="chip"><input type="checkbox" name="brief" value="Артикулы и цены">
+                <span>Артикулы и цены</span></label>
+              <label class="chip"><input type="checkbox" name="brief" value="Статистика продаж">
+                <span>Статистика продаж</span></label>
+              <label class="chip"><input type="checkbox" name="brief" value="Ниша и конкуренты">
+                <span>Ниша и конкуренты</span></label>
+              <label class="chip"><input type="checkbox" name="brief" value="Пока ничего">
+                <span>Пока ничего</span></label>
+            </div>
+          </div>
+        </fieldset>
+
+        <!-- Шаг 2: контекст магазина -->
+        <fieldset class="order-panel" data-step="2" hidden>
+          <legend class="order-panel__title">Контекст магазина</legend>
+          <p class="field-hint order-panel__lead">
+            Чтобы не задавать эти вопросы в переписке, заполните сейчас.
+          </p>
+
+          <div class="order-grid">
+            <p class="field">
+              <label class="field-label" for="of-shop">Магазин или канал</label>
+              <input class="input" type="text" id="of-shop" name="shop"
+                     placeholder="мой-шоп" autocomplete="organization">
+            </p>
+            <p class="field">
+              <label class="field-label" for="of-sku">SKU</label>
+              <input class="input tnum" type="text" id="of-sku" name="sku"
+                     inputmode="numeric" placeholder="30" autocomplete="off">
+            </p>
+            <p class="field">
+              <label class="field-label" for="of-price">Средняя цена, ₽</label>
+              <input class="input tnum" type="text" id="of-price" name="price"
+                     inputmode="numeric" placeholder="1 200" autocomplete="off">
+            </p>
+            <p class="field">
+              <label class="field-label" for="of-term">Когда нужно</label>
+              <input class="input" type="text" id="of-term" name="term"
+                     placeholder="например, до 10 числа" autocomplete="off">
+            </p>
+          </div>
+
+          <p class="field">
+            <label class="field-label" for="of-budget">Ориентир по бюджету</label>
+            <input class="input" type="text" id="of-budget" name="budget"
+                   placeholder="до 15 000 ₽ / 15–25 тыс. / обсуждается"
+                   autocomplete="off">
+          </p>
+        </fieldset>
+
+        <!-- Шаг 3: контакты -->
+        <fieldset class="order-panel" data-step="3" hidden>
+          <legend class="order-panel__title">Как ответить</legend>
+          <p class="field-hint order-panel__lead">
+            Только письменные каналы: MAX или почта. Звонков нет.
+          </p>
+
+          <div class="field">
+            <span class="field-label" id="of-channel-label">Удобный канал</span>
+            <div class="chips" role="radiogroup" aria-labelledby="of-channel-label">
+              <label class="chip">
+                <input type="radio" name="channel" value="MAX" checked>
+                <span>MAX</span></label>
+              <label class="chip">
+                <input type="radio" name="channel" value="Email">
+                <span>Почта</span></label>
+            </div>
+          </div>
+
+          <p class="field">
+            <label class="field-label" for="of-name">Как к вам обращаться</label>
+            <input class="input" type="text" id="of-name" name="name"
+                   placeholder="Имя или как в кабинете" autocomplete="name">
+          </p>
+
+          <p class="field">
+            <label class="field-label" for="of-comment">Комментарий</label>
+            <textarea class="input order-textarea" id="of-comment" name="comment" rows="3"
+                      placeholder="Что уже пробовали и что не получилось"></textarea>
+          </p>
+        </fieldset>
+
+        <div class="order-nav">
+          <button class="btn order-btn order-btn--back" type="button" id="of-back" hidden>
+            <i data-lucide="arrow-left" width="16" height="16" aria-hidden="true"></i>
+            Назад
+          </button>
+
+          <p class="order-status" id="of-status" role="status" aria-live="polite"></p>
+
+          <button class="btn btn--primary order-btn" type="button" id="of-next">
+            Дальше
+            <i data-lucide="arrow-right" width="16" height="16" aria-hidden="true"></i>
+          </button>
+          <button class="btn btn--primary order-btn" type="submit" id="of-send" hidden>
+            <i data-lucide="send" width="16" height="16" aria-hidden="true"></i>
+            Отправить заявку
+          </button>
+        </div>
+      </form>
+
+      <p class="order-note">
+        Форма ничего не отправляет сама. При выборе почты она собирает письмо
+        и открывает ваш почтовый клиент; при выборе MAX — копирует текст
+        в буфер и открывает чат, остаётся вставить. Токены и доступы сюда
+        присылать не нужно.
+      </p>
     </div>
   </section>
 
@@ -503,15 +1258,19 @@
 <!-- ── Футер ───────────────────────────────────────────────────────────── -->
 <footer class="site-footer">
   <div class="site-footer__inner">
-    <span class="site-footer__copy">© 2026 Жаворонков Кирилл</span>
+    <span class="site-footer__copy">© <span data-pfx-year>2026</span> Жаворонков Кирилл</span>
 
     <nav class="site-footer__nav" aria-label="Разделы страницы">
+      <a class="nav-link" href="#pains">Боли</a>
       <a class="nav-link" href="#about">Кто я</a>
       <a class="nav-link" href="#services">Услуги</a>
       <a class="nav-link" href="#cases">Кейсы</a>
       <a class="nav-link" href="#products">Продукты</a>
       <a class="nav-link" href="#tools">Инструменты</a>
       <a class="nav-link" href="#contacts">Контакты</a>
+      <a class="nav-link" href="for-hh.html">Для hh.ru</a>
+      <a class="nav-link" href="for-kwork.html">Kwork</a>
+      <a class="nav-link" href="for-avito.html">Авито</a>
     </nav>
 
     <p class="site-footer__note">

@@ -6,6 +6,7 @@
 <title>Рефлектор — комиссия 42 % съедает FBS — кейс CASE 04</title>
 <meta name="description" content="Отражатели для фотовспышки. Разбор юнит-экономики карточки: контекст, проблема, решение, результат.">
 <link rel="stylesheet" href="../assets/style.css">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
 <script src="https://cdn.jsdelivr.net/npm/lucide@0.454.0/dist/umd/lucide.min.js" defer></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js" defer></script>
 <style>
@@ -57,7 +58,7 @@
     --color-focus-ring: #8ab6ff;
   }
   body{background:var(--color-bg)!important;color:var(--color-text-primary)!important;
-    font-size:10.2pt;line-height:1.45}
+    font-size:10.2pt;line-height:1.36}
   /* печать компактнее экрана: кегль и отступы уменьшены */
   /* Кегли в px, потому что токены --text-* читают элементы как font-size.
      9 pt ровно = 12 px при 96 dpi (9 * 96/72). Ниже 12 не опускаемся:
@@ -69,15 +70,27 @@
     --radius-lg:6px;--radius-sm:4px}
   .page{max-width:none;padding:0}
   .no-print,.site-header,.site-footer .site-footer__nav,.cs-filter{display:none!important}
-  .section{break-inside:avoid;page-break-inside:avoid}
+  /* Секции НЕ фиксируем целиком: с avoid заголовок уезжает на
+     следующую страницу вместе со всем блоком и оставляет хвостовую
+     страницу в 3 строки. Разрываем свободно, но заголовок не отрываем
+     от содержимого, а карточки и таблицы держим целиком. */
+  .section{break-inside:auto;page-break-inside:auto}
+  .section-head{break-after:avoid;page-break-after:avoid}
   .card,.metric,.alert,.table-wrap{break-inside:avoid;page-break-inside:avoid}
   .case-hero{border-bottom:1px solid var(--color-border-strong)}
   .grid-2,.grid-3{grid-template-columns:1fr 1fr!important;gap:var(--space-4)}
-  .site-footer{margin-top:var(--space-8);padding-top:var(--space-4);
+  .site-footer{margin-top:var(--space-5);padding-top:var(--space-3);
     border-top:1px solid var(--color-border)}
   .site-footer__copy{color:var(--color-text-tertiary)}
   a[href^="http"]::after{content:none!important}
   .case-prose{gap:var(--space-2)}
+  /* Полоса набора A4 при полях 16/14 мм — 1000 px. Коротким кейсам
+     (01, 03, 04) не хватало 51-82 px, из-за чего уезжал подвал на
+     отдельную страницу. Ужимаем вертикальные отступы секций. */
+  .section{margin-top:var(--space-4)}
+  .case-hero{padding:0 0 var(--space-4)}
+  .case-headline{margin-bottom:var(--space-4)}
+  .case-source{margin-top:var(--space-4)}
 }
 
 </style>
@@ -109,6 +122,8 @@
 <div class="case-tags">
 <span class="badge badge--neutral"><i data-lucide="layers" width="12" height="12" aria-hidden="true"></i>Отражатели для фотовспышки</span>
 <span class="badge badge--info">FBS</span>
+<span class="badge badge--neutral" data-tag="экономика">экономика</span>
+<span class="badge badge--neutral" data-tag="логистика">логистика</span>
 </div></div>
 <div class="case-hero__kpi">
 <span class="calc-hero-label">FBS при реальных ценах</span>
@@ -171,15 +186,148 @@
 <p class="metric--sm metric-value tone-profit">428,50 ₽</p>
 </div>
 </div></section>
+<section class="section" id="chart" aria-labelledby="chart-t">
+<div class="section-head">
+<h2 class="section-title" id="chart-t">Прибыль с единицы при скидке продавца</h2>
+<span class="section-note">на 5 п.п. скидки</span>
+</div>
+<div class="card">
+<div class="chart-box">
+<canvas id="sens" role="img" aria-label="Прибыль с единицы при скидке продавца"></canvas>
+</div>
+<div class="chart-legend">
+<span class="legend-dot legend-dot--fbs"></span>FBS
+<span class="legend-dot legend-dot--fbw"></span>FBW
+<span class="legend-line legend-line--zero"></span>точка безубыточности FBS
+</div>
+<p class="footnote">РРЦ 791 ₽, объём 0,475 л, себестоимость 60 ₽, СПП 27 %. FBS уходит в минус раньше FBW: разрыв линий и есть следствие комиссии 42 % против 37,5 %.</p>
+</div>
+</section>
 <section class="section" id="insight" aria-labelledby="insight-t">
 <div class="section-head"><h2 class="section-title" id="insight-t">Ключевой инсайт</h2></div>
 <div class="alert alert--info case-insight"><i data-lucide="lightbulb" width="16" height="16" aria-hidden="true"></i><span>При 42 % кВВ экономия FBS на 60 ₽ ПВЗ и фулфилмента не перекрывает потерю в ставке. FBS держится на 3,5 % маржи — это цена одного просроченного заказа: EV штрафа при скидке 57 % равен 0,41 ₽ на единицу, а один просроченный заказ стоит 785,58 ₽. На FBW такой риск не переносится.</span></div>
 </section>
 <div class="case-actions no-print">
+<span class="btn btn--ghost is-disabled" aria-disabled="true"><i data-lucide="external-link" width="16" height="16" aria-hidden="true"></i>Карточка товара — [ССЫЛКА]</span>
 <a class="btn btn--primary cs-max" href="https://max.ru/u/f9LHodD0cOLdp8PLl5xLOgbVyMIGA-CzKgczzqM_HK-bc2fsqmhaWQNg7Lk" target="_blank" rel="noopener"><i data-lucide="message-circle" width="16" height="16" aria-hidden="true"></i>Написать в MAX</a>
 <button class="btn" type="button" onclick="window.print()"><i data-lucide="download" width="16" height="16" aria-hidden="true"></i>Скачать PDF</button>
 <a class="btn btn--ghost" href="index.html"><i data-lucide="arrow-left" width="16" height="16" aria-hidden="true"></i>Все кейсы</a>
 </div>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  var CFG = {"labels": [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70], "series": [{"name": "FBS", "values": [151.59, 134.1, 116.61, 99.12, 81.63, 64.14, 46.65, 29.16, 11.67, -5.81, -23.3, -40.79, -58.28, -75.77, -93.26]}, {"name": "FBW", "values": [241.44, 222.11, 202.78, 183.45, 164.12, 144.79, 125.46, 106.13, 86.81, 67.48, 48.15, 28.82, 9.49, -9.84, -29.17]}], "zeroLabel": "43.34 %", "kind": "line", "xLabel": "", "yLabel": "", "yUnit": ""};
+  var cv = document.getElementById('sens');
+  if (!cv || typeof Chart === 'undefined') return;
+  var css = getComputedStyle(document.documentElement);
+  var tok = function (name) { return css.getPropertyValue(name).trim(); };
+  var accent = tok('--color-accent');
+  var profit = tok('--color-profit');
+  var loss = tok('--color-loss');
+  var grid = tok('--color-border');
+  var text = tok('--color-text-tertiary');
+
+  var fmt = function (v) {
+    var s = Math.abs(v).toFixed(0);
+    s = s.replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+    return (v < 0 ? '−' : '') + s + ' ₽';
+  };
+
+  // Линия рисуется сплошной: отрицательные значения идут ниже нуля
+  // цветом loss, положительные — profit. Отрезки разделяются по знаку.
+  var segmentColor = function (ctx, base, zeroColor) {
+    var zero = ctx.p0.parsed.y;
+    return zero < base ? base : zeroColor;
+  };
+
+  var datasets = CFG.series.map(function (sr) {
+    return {
+      label: sr.name,
+      data: sr.values,
+      borderWidth: 2,
+      pointRadius: 2,
+      pointHoverRadius: 4,
+      tension: 0.15,
+      fill: false,
+      borderColor: sr.name === 'FBS' ? accent : profit,
+      pointBackgroundColor: sr.name === 'FBS' ? accent : profit,
+      segment: {
+        borderColor: function (ctx) {
+          var zero = ctx.p0.parsed.y;
+          return zero < 0 ? loss : (sr.name === 'FBS' ? accent : profit);
+        },
+      },
+    };
+  });
+
+  new Chart(cv, {
+    type: 'line',
+    data: { labels: CFG.labels.map(function (l) { return l + ' %'; }),
+            datasets: datasets },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      interaction: { mode: 'index', intersect: false },
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          backgroundColor: tok('--color-surface-overlay'),
+          borderColor: tok('--color-border-strong'),
+          borderWidth: 1,
+          titleColor: tok('--color-text-primary'),
+          bodyColor: tok('--color-text-secondary'),
+          padding: 10,
+          displayColors: true,
+          callbacks: {
+            label: function (item) { return item.dataset.label + ': ' + fmt(item.parsed.y); },
+          },
+        },
+      },
+      scales: {
+        x: {
+          title: { display: true, text: 'скидка продавца',
+                    color: text, font: { size: 11 } },
+          grid: { color: grid, drawTicks: false },
+          ticks: { color: text, font: { size: 11 } },
+          border: { color: grid },
+        },
+        y: {
+          title: { display: true, text: 'прибыль с единицы',
+                    color: text, font: { size: 11 } },
+          grid: { color: grid, drawTicks: false },
+          ticks: {
+            color: text, font: { size: 11 },
+            callback: function (v) { return fmt(v); },
+          },
+          border: { color: grid },
+        },
+      },
+    },
+    plugins: [{
+      id: 'zeroLine',
+      afterDatasetsDraw: function (chart) {
+        var y = chart.scales.y.getPixelForValue(0);
+        var ctx = chart.ctx;
+        ctx.save();
+        ctx.strokeStyle = text;
+        ctx.setLineDash([4, 4]);
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.moveTo(chart.chartArea.left, y);
+        ctx.lineTo(chart.chartArea.right, y);
+        ctx.stroke();
+        ctx.setLineDash([]);
+        ctx.fillStyle = text;
+        ctx.font = '11px Inter, system-ui, sans-serif';
+        ctx.textAlign = 'right';
+        ctx.fillText('безубыточность FBS ' + CFG.zeroLabel,
+                     chart.chartArea.right - 6, y - 6);
+        ctx.restore();
+      },
+    }],
+  });
+
+});
+</script>
 <p class="case-source">Расчёт по данным Seller API и оферты WB. Модель: <span class="code">econ_v3</span>, вероятность штрафа 0,30 % по эмпирике продавца. Себестоимость подтверждена продавцом.</p>
 </main>
 <footer class="site-footer">
