@@ -37,6 +37,10 @@
   --color-accent: #5b9bff;
   --color-accent-strong: #8ab6ff;
   --color-accent-subtle: rgba(91, 155, 255, 0.14);
+  /* Акцент на собственной подложке --color-accent-subtle. Сам --color-accent
+     даёт на ней 4.06:1 — ниже порога 4.5 для мелкого текста, поэтому
+     бейджи и подписи на синеватом фоне берут этот, светлее (5.79:1). */
+  --color-accent-on-subtle: #8fbcff;
 
   /* семантика данных */
   --color-profit: #3ddc97;
@@ -88,6 +92,7 @@
   --color-accent: #2563eb;
   --color-accent-strong: #1d4ed8;
   --color-accent-subtle: rgba(37, 99, 235, 0.08);
+  --color-accent-on-subtle: #2563eb;  /* 4.65:1 на своей подложке */
 
   --color-profit: #047857;
   --color-loss: #c81e1e;
@@ -644,6 +649,30 @@ body {
   color: var(--color-text-secondary);
 }
 
+/* Кнопка «Хочу такой разбор» в карточке кейса на главной. Отличается от
+   .case__order выше: стоит рядом со ссылкой «Смотреть» внутри .case__foot
+   и оформлена как продолжение текста, а не как оранжевая кнопка. */
+.case__order-btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: none; border: 0; padding: 0; cursor: pointer;
+  font: inherit; color: var(--color-text-secondary);
+}
+.case__order-btn:hover { color: var(--color-text-primary); text-decoration: underline; }
+
+/* Кнопка заказа в карточке кейса. Выглядит как вторая ссылка в подвале
+   карточки, но это действие, а не переход на другую страницу. */
+.case__order {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--color-accent);
+  font: inherit;
+  font-size: var(--text-xs);
+  cursor: pointer;
+  white-space: nowrap;
+}
+.case__order:hover { color: var(--color-text-primary); text-decoration: underline; }
+
 /* Чекбокс экспресс-формата: отдельная строка, а не одна из подряд идущих
    фишек — у него другая роль (он меняет обязательность поля).
    Оформление лежит на span — как у остальных .chip. */
@@ -686,7 +715,7 @@ body {
 .badge--accent {
   border-color: color-mix(in srgb, var(--color-accent) 45%, transparent);
   background: var(--color-accent-subtle);
-  color: var(--color-accent);
+  color: var(--color-accent-on-subtle);
 }
 
 /* ==========================================================================
@@ -2943,6 +2972,40 @@ body { font-family: var(--pfx-font-body); }
 
 .pain-card__body-inner { padding-top: 14px; margin-top: 14px; border-top: 1px solid var(--pfx-glass-border); }
 
+/* ── Раскрытая карточка на всю ширину сетки ─────────────────────────────
+   Раньше карточка раскрывалась внутри своей ячейки: текст «Что
+   происходит» и «Как решаем» оказывались в колонке шириной в одну
+   четверть экрана. На всю ширину читается сразу.
+
+   Порядок важен: позиция и размер меняются transition, а не мгновенно,
+   поэтому соседние карточки не «прыгают» — они плавно сдвигаются
+   на освободившееся место. На мобильном сетка одноколоночная и
+   расширяться некуда. */
+@media (min-width: 901px) {
+  .pain-card {
+    transition: grid-column 300ms cubic-bezier(0.16, 1, 0.3, 1),
+                box-shadow 300ms ease,
+                border-color 300ms ease;
+  }
+  .pain-card.is-open {
+    grid-column: 1 / -1;
+    z-index: 2;
+  }
+  /* На всю ширине две колонки блоков: текст не тянется длинной строкой. */
+  .pain-card.is-open .pain-card__body-inner {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-5);
+    align-items: start;
+  }
+  .pain-card.is-open .pain-block + .pain-block { margin-top: 0; }
+  .pain-card.is-open .pain-card__cta { grid-column: 1 / -1; justify-self: start; }
+}
+
+/* Высота блока: 520px хватало для ячейки в четверть экрана, но не
+   для раскрытой карточки во всю ширину — текст обрезался. */
+.pain-card.is-open .pain-card__body { max-height: 720px; }
+
 .pain-block + .pain-block { margin-top: 12px; }
 .pain-block__label {
   display: block;
@@ -2982,6 +3045,31 @@ body { font-family: var(--pfx-font-body); }
   transform: translateY(-1px);
   box-shadow: 0 0 32px rgba(255, 107, 53, 0.48);
 }
+
+/* Блок ссылок в раскрытой карточке боли: «Показать кейс» и «Заказать
+   решение». Отделён от текста разделителем, чтобы не спорить с оранжевой
+   кнопкой .pain-card__cta выше по списку. */
+.pain-card__links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px solid var(--pfx-glass-border);
+}
+
+/* Заказать решение в блоке ссылок — то же действие, что .pain-card__cta,
+   но оформлено как текстовая кнопка. Ссылка <a> внутри не нужна: обработчик
+   живёт в assets/site.js и гасит клик для карточки. */
+.pain-card__cta--btn {
+  background: none;
+  border: 0;
+  cursor: pointer;
+  font: inherit;
+}
+.pain-card__cta--btn:hover { color: var(--color-text-primary); }
+
+.pain-card__links .pain-card__cta { margin-top: 0; }
 
 .pain-card:focus-visible { outline: 2px solid var(--pfx-primary); outline-offset: 3px; }
 

@@ -14,7 +14,10 @@
 <script src="https://cdn.jsdelivr.net/npm/lucide@0.454.0/dist/umd/lucide.min.js" defer></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js" defer></script>
 <script src="assets/costcalc.js" defer></script>
+<link rel="stylesheet" href="assets/order-modal.css">
 <script type="module" src="assets/site.js"></script>
+<script type="module" src="assets/order-modal.js"></script>
+
 </head>
 <body>
 
@@ -79,11 +82,11 @@
     <div class="pfx-stats">
       <div class="pfx-stat pfx-reveal" style="animation-delay:.24s">
         <span class="pfx-stat__value tnum">550 000</span>
-        <span class="pfx-stat__label">активных селлеров на WB и Ozon</span>
+        <span class="pfx-stat__label">активных селлеров на российских маркетплейсах</span>
         <span class="pfx-stat__was tnum">было 700 000</span>
       </div>
       <div class="pfx-stat pfx-reveal" style="animation-delay:.34s">
-        <span class="pfx-stat__value tnum">+58 %</span>
+        <span class="pfx-stat__value tnum">+58–63 %</span>
         <span class="pfx-stat__label">рост комиссии площадок за 3 года</span>
         <span class="pfx-stat__was">логистика +33–89 %</span>
       </div>
@@ -93,7 +96,7 @@
         <span class="pfx-stat__was tnum">было 88 %</span>
       </div>
       <div class="pfx-stat pfx-reveal" style="animation-delay:.54s">
-        <span class="pfx-stat__value tnum">25 %</span>
+        <span class="pfx-stat__value tnum">до 25 %</span>
         <span class="pfx-stat__label">выручки уходит в рекламу</span>
         <span class="pfx-stat__was">ДРР растёт каждый месяц</span>
       </div>
@@ -132,7 +135,7 @@
           <i data-lucide="percent" width="32" height="32" aria-hidden="true"></i>
         </span>
         <h3 class="pain-card__title">Комиссии растут — маржа тает</h3>
-        <p class="pain-card__quote">«За три года комиссия выросла на 58%, а я продаю за те же деньги.»</p>
+        <p class="pain-card__quote">«За три года комиссия выросла на 58–63 %, а я продаю за те же деньги.»</p>
         <div class="pain-card__toggle">
           <span class="pain-card__toggle-text">Подробнее</span>
           <i class="pain-card__chevron" data-lucide="chevron-down" width="18" height="18" aria-hidden="true"></i>
@@ -155,6 +158,17 @@
               У меня такая же проблема
               <i data-lucide="arrow-right" width="14" height="14" aria-hidden="true"></i>
             </a>
+            <div class="pain-card__links pain-card__links--stop">
+              <a class="pain-card__cta" href="cases/case_05.html">
+                Показать кейс
+                <i data-lucide="arrow-up-right" width="14" height="14" aria-hidden="true"></i>
+              </a>
+              <button class="pain-card__cta pain-card__cta--btn btn-order" type="button"
+                      data-order-service="p8" data-order-source="pain">
+                Заказать решение
+                <i data-lucide="arrow-right" width="14" height="14" aria-hidden="true"></i>
+              </button>
+            </div>
           </div>
         </div>
       </article>
@@ -187,6 +201,17 @@
               У меня такая же проблема
               <i data-lucide="arrow-right" width="14" height="14" aria-hidden="true"></i>
             </a>
+            <div class="pain-card__links pain-card__links--stop">
+              <a class="pain-card__cta" href="cases/case_08.html">
+                Показать кейс
+                <i data-lucide="arrow-up-right" width="14" height="14" aria-hidden="true"></i>
+              </a>
+              <button class="pain-card__cta pain-card__cta--btn btn-order" type="button"
+                      data-order-service="p7" data-order-source="pain">
+                Заказать решение
+                <i data-lucide="arrow-right" width="14" height="14" aria-hidden="true"></i>
+              </button>
+            </div>
           </div>
         </div>
       </article>
@@ -195,7 +220,7 @@
         <span class="pain-card__icon">
           <i data-lucide="megaphone" width="32" height="32" aria-hidden="true"></i>
         </span>
-        <h3 class="pain-card__title">Реклама съедает 25 % выручки</h3>
+        <h3 class="pain-card__title">Реклама съедает до 25 % выручки</h3>
         <p class="pain-card__quote">«ДРР растёт каждый месяц. Без рекламы вообще нет продаж, с рекламой — нет прибыли.»</p>
         <div class="pain-card__toggle">
           <span class="pain-card__toggle-text">Подробнее</span>
@@ -219,6 +244,17 @@
               У меня такая же проблема
               <i data-lucide="arrow-right" width="14" height="14" aria-hidden="true"></i>
             </a>
+            <div class="pain-card__links pain-card__links--stop">
+              <a class="pain-card__cta" href="cases/case_10.html">
+                Показать кейс
+                <i data-lucide="arrow-up-right" width="14" height="14" aria-hidden="true"></i>
+              </a>
+              <button class="pain-card__cta pain-card__cta--btn btn-order" type="button"
+                      data-order-service="p3" data-order-source="pain">
+                Заказать решение
+                <i data-lucide="arrow-right" width="14" height="14" aria-hidden="true"></i>
+              </button>
+            </div>
           </div>
         </div>
       </article>
@@ -251,6 +287,17 @@
               У меня такая же проблема
               <i data-lucide="arrow-right" width="14" height="14" aria-hidden="true"></i>
             </a>
+            <div class="pain-card__links pain-card__links--stop">
+              <a class="pain-card__cta" href="cases/index.html">
+                Все кейсы
+                <i data-lucide="arrow-up-right" width="14" height="14" aria-hidden="true"></i>
+              </a>
+              <button class="pain-card__cta pain-card__cta--btn btn-order" type="button"
+                      data-order-service="p9" data-order-source="pain">
+                Заказать решение
+                <i data-lucide="arrow-right" width="14" height="14" aria-hidden="true"></i>
+              </button>
+            </div>
           </div>
         </div>
       </article>
@@ -283,6 +330,17 @@
               У меня такая же проблема
               <i data-lucide="arrow-right" width="14" height="14" aria-hidden="true"></i>
             </a>
+            <div class="pain-card__links pain-card__links--stop">
+              <a class="pain-card__cta" href="cases/index.html">
+                Все кейсы
+                <i data-lucide="arrow-up-right" width="14" height="14" aria-hidden="true"></i>
+              </a>
+              <button class="pain-card__cta pain-card__cta--btn btn-order" type="button"
+                      data-order-service="p18" data-order-source="pain">
+                Заказать решение
+                <i data-lucide="arrow-right" width="14" height="14" aria-hidden="true"></i>
+              </button>
+            </div>
           </div>
         </div>
       </article>
@@ -315,6 +373,17 @@
               У меня такая же проблема
               <i data-lucide="arrow-right" width="14" height="14" aria-hidden="true"></i>
             </a>
+            <div class="pain-card__links pain-card__links--stop">
+              <a class="pain-card__cta" href="cases/case_07.html">
+                Показать кейс
+                <i data-lucide="arrow-up-right" width="14" height="14" aria-hidden="true"></i>
+              </a>
+              <button class="pain-card__cta pain-card__cta--btn btn-order" type="button"
+                      data-order-service="p4" data-order-source="pain">
+                Заказать решение
+                <i data-lucide="arrow-right" width="14" height="14" aria-hidden="true"></i>
+              </button>
+            </div>
           </div>
         </div>
       </article>
@@ -347,6 +416,17 @@
               У меня такая же проблема
               <i data-lucide="arrow-right" width="14" height="14" aria-hidden="true"></i>
             </a>
+            <div class="pain-card__links pain-card__links--stop">
+              <a class="pain-card__cta" href="cases/case_12.html">
+                Показать кейс
+                <i data-lucide="arrow-up-right" width="14" height="14" aria-hidden="true"></i>
+              </a>
+              <button class="pain-card__cta pain-card__cta--btn btn-order" type="button"
+                      data-order-service="p12" data-order-source="pain">
+                Заказать решение
+                <i data-lucide="arrow-right" width="14" height="14" aria-hidden="true"></i>
+              </button>
+            </div>
           </div>
         </div>
       </article>
@@ -600,6 +680,10 @@
             Смотреть
             <i data-lucide="arrow-up-right" width="14" height="14" aria-hidden="true"></i>
           </a>
+          <button class="case__order-btn btn-order" type="button" data-order-service="p1" data-order-source="case_01">
+            <i data-lucide="clipboard-check" width="14" height="14" aria-hidden="true"></i>
+            Хочу такой разбор
+          </button>
         </div>
       </article>
 
@@ -634,6 +718,10 @@
             Смотреть
             <i data-lucide="arrow-up-right" width="14" height="14" aria-hidden="true"></i>
           </a>
+          <button class="case__order-btn btn-order" type="button" data-order-service="p3" data-order-source="case_02">
+            <i data-lucide="clipboard-check" width="14" height="14" aria-hidden="true"></i>
+            Хочу такой разбор
+          </button>
         </div>
       </article>
 
@@ -668,6 +756,10 @@
             Смотреть
             <i data-lucide="arrow-up-right" width="14" height="14" aria-hidden="true"></i>
           </a>
+          <button class="case__order-btn btn-order" type="button" data-order-service="p2" data-order-source="case_03">
+            <i data-lucide="clipboard-check" width="14" height="14" aria-hidden="true"></i>
+            Хочу такой разбор
+          </button>
         </div>
       </article>
 
@@ -702,6 +794,10 @@
             Смотреть
             <i data-lucide="arrow-up-right" width="14" height="14" aria-hidden="true"></i>
           </a>
+          <button class="case__order-btn btn-order" type="button" data-order-service="p8" data-order-source="case_04">
+            <i data-lucide="clipboard-check" width="14" height="14" aria-hidden="true"></i>
+            Хочу такой разбор
+          </button>
         </div>
       </article>
 
@@ -876,6 +972,70 @@
                    min="0" step="0.01" inputmode="decimal" value="0">
             <span class="csc-hint">Сертификация, образцы, комиссия посредника — необязательно.</span>
           </div>
+        <div class="csc-block">
+          <h3 class="csc-block__title">
+            <i data-lucide="megaphone" width="15" height="15" aria-hidden="true"></i>
+            Блок 3 — Продажи, реклама, возвраты
+          </h3>
+
+          <div class="csc-row">
+            <div class="csc-field">
+              <label class="csc-label" for="csc-sale">Цена продажи, ₽/шт</label>
+              <input class="csc-input" id="csc-sale" type="number"
+                     min="0" step="0.01" inputmode="decimal" value="0">
+            </div>
+            <div class="csc-field">
+              <label class="csc-label" for="csc-season">Сезонность</label>
+              <select class="csc-select" id="csc-season">
+                <option value="0.8">Спад — 0,8</option>
+                <option value="1" selected>Обычный сезон — 1,0</option>
+                <option value="1.3">Пик — 1,3</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="csc-field">
+            <label class="csc-label" for="csc-ads">Реклама, ₽ на единицу</label>
+            <input class="csc-input" id="csc-ads" type="number"
+                   min="0" step="0.01" inputmode="decimal" value="0">
+          </div>
+
+          <div class="csc-field">
+            <label class="csc-label" for="csc-ads-pct">
+              ДРР, % от цены продажи — <span id="csc-ads-pct-val">0</span> %
+            </label>
+            <input class="csc-input" id="csc-ads-pct" type="range"
+                   min="0" max="40" step="1" value="0">
+            <span class="csc-hint">
+              Считается от цены продажи. Ноль — если реклама уже входит
+              в закупочную цену.
+            </span>
+          </div>
+
+          <div class="csc-field">
+            <label class="csc-label" for="csc-returns">
+              Возвраты, % — <span id="csc-returns-val">0</span> %
+            </label>
+            <input class="csc-input" id="csc-returns" type="range"
+                   min="0" max="50" step="1" value="0">
+            <span class="csc-hint">
+              Себестоимость делится на число выкупленных единиц:
+              возвраты увеличивают себестоимость каждой проданной штуки.
+            </span>
+          </div>
+
+          <div class="csc-field">
+            <label class="csc-label" for="csc-storage-days">
+              Хранение на складе площадки, дней — <span id="csc-storage-days-val">14</span>
+            </label>
+            <input class="csc-input" id="csc-storage-days" type="range"
+                   min="0" max="120" step="1" value="14">
+            <span class="csc-hint">
+              Первые 14 дней хранение бесплатное, дальше около 0,34 ₽
+              за единицу в день.
+            </span>
+          </div>
+        </div>
         </div>
       </div>
 
@@ -933,10 +1093,18 @@
           возвратов и налогов. По реальным данным из API.
         </p>
       </div>
-      <a class="pfx-btn pfx-btn--primary" href="#contacts">
-        <i data-lucide="bar-chart-3" width="16" height="16" aria-hidden="true"></i>
-        Получить расчёт маржи
-      </a>
+      <div class="csc-cta__actions">
+        <button class="pfx-btn pfx-btn--primary btn-order" type="button" id="csc-order"
+                data-order-service="p7" data-order-title="Юнит-экономика по данным Seller API"
+                data-order-source="calculator">
+          <i data-lucide="clipboard-check" width="16" height="16" aria-hidden="true"></i>
+          Оформить заказ
+        </button>
+        <a class="pfx-btn pfx-btn--ghost" href="#contacts">
+          <i data-lucide="bar-chart-3" width="16" height="16" aria-hidden="true"></i>
+          Получить расчёт маржи
+        </a>
+      </div>
     </div>
   </section>
 
@@ -1319,5 +1487,263 @@
   </div>
 </footer>
 
+
+<!-- ── Модальное окно заказа (разметка из assets/order-modal.html) ── -->
+<div class="order-modal" id="order-modal" hidden>
+  <div class="om" role="dialog" aria-modal="true" aria-labelledby="om-title" aria-hidden="true">
+    <div class="om__head">
+      <div>
+        <h2 class="om__title" id="om-title">Оформить заказ</h2>
+        <p class="om__sub">Три коротких шага — ни больше двух минут</p>
+      </div>
+      <button class="om__close" type="button" data-close aria-label="Закрыть окно">
+        <i data-lucide="x" width="18" height="18" aria-hidden="true"></i>
+      </button>
+    </div>
+
+    <div class="om__steps" role="list">
+      <button class="om-step is-active" type="button" role="listitem"
+              data-goto="1" aria-current="step">
+        <span class="om-step__num tnum">1</span>
+        <span class="om-step__label">Что нужно</span>
+      </button>
+      <button class="om-step" type="button" role="listitem" data-goto="2">
+        <span class="om-step__num tnum">2</span>
+        <span class="om-step__label">Данные</span>
+      </button>
+      <button class="om-step" type="button" role="listitem" data-goto="3">
+        <span class="om-step__num tnum">3</span>
+        <span class="om-step__label">Контакты</span>
+      </button>
+    </div>
+
+    <form class="om__body" id="om-form" novalidate>
+
+      <!-- Шаг 1 -->
+      <fieldset class="om-panel is-open" data-step="1">
+        <legend class="om-panel__title">Что нужно сделать</legend>
+
+        <div class="om-fixed" id="om-fixed" hidden>
+          <span class="om-fixed__label">Услуга</span>
+          <span class="om-fixed__title" id="om-fixed-title"></span>
+          <span class="om-fixed__price tnum" id="om-fixed-price"></span>
+        </div>
+
+        <p class="field" id="om-pick-label">
+          <label class="field-label" for="om-service">Услуга из каталога</label>
+          <select class="input" id="om-service" name="service"></select>
+          <input type="hidden" id="om-source" name="source">
+        </p>
+
+        <div class="field">
+          <span class="field-label" id="om-known-label">Что уже известно</span>
+          <p class="field-hint">Отметьте всё, что есть. Можно несколько.</p>
+          <div class="chips" role="group" aria-labelledby="om-known-label">
+            <label class="chip"><input type="checkbox" name="known" value="Ссылка/артикул WB">
+              <span>Ссылка/артикул WB</span></label>
+            <label class="chip"><input type="checkbox" name="known" value="Отчёт WB (файл)">
+              <span>Отчёт WB</span></label>
+            <label class="chip"><input type="checkbox" name="known" value="API-ключ WB">
+              <span>API-ключ WB</span></label>
+            <label class="chip"><input type="checkbox" name="known" value="Себестоимость известна">
+              <span>Себестоимость</span></label>
+            <label class="chip"><input type="checkbox" name="known" value="Пока ничего">
+              <span>Пока ничего</span></label>
+          </div>
+        </div>
+      </fieldset>
+
+      <!-- Шаг 2 -->
+      <fieldset class="om-panel" data-step="2" hidden>
+        <legend class="om-panel__title">Данные по товару</legend>
+        <p class="field-hint om-panel__lead">
+          Обязательное — только отмеченное звёздочкой.
+        </p>
+
+        <p class="field">
+          <label class="field-label" for="om-sku">Артикул или ссылка на карточку
+            <span class="req" aria-hidden="true">*</span></label>
+          <input class="input" type="text" id="om-sku" name="sku"
+                 data-required placeholder="1234567 или ссылка" autocomplete="off">
+        </p>
+
+        <p class="field">
+          <label class="field-label" for="om-category">Категория</label>
+          <input class="input" type="text" id="om-category" name="category"
+                 list="om-cats" placeholder="начните вводить — подставится из списка"
+                 autocomplete="off">
+          <datalist id="om-cats">
+            <option value="Одежда"></option>
+            <option value="Обувь"></option>
+            <option value="Косметика и парфюм"></option>
+            <option value="Товары для дома"></option>
+            <option value="Электроника"></option>
+            <option value="Детские товары"></option>
+            <option value="Спорт и отдых"></option>
+            <option value="Автотовары"></option>
+            <option value="Зоотовары"></option>
+            <option value="Книги и канцелярия"></option>
+          </datalist>
+        </p>
+
+        <p class="field">
+          <label class="field-label" for="om-cost">Себестоимость за штуку, ₽</label>
+          <input class="input tnum" type="text" id="om-cost" name="cost"
+                 inputmode="decimal" placeholder="1 240,50" autocomplete="off">
+        </p>
+
+        <p class="field">
+          <label class="field-label" for="om-tax">Налоговый режим</label>
+          <select class="input" id="om-tax" name="tax"></select>
+        </p>
+
+        <p class="field">
+          <label class="field-label" for="om-about">Что беспокоит</label>
+          <textarea class="input om-textarea" id="om-about" name="about" rows="3"
+                    placeholder="Маржа упала, но не понимаю на чём именно"></textarea>
+        </p>
+
+        <p class="field">
+          <label class="field-label" for="om-file">Прикрепить файл</label>
+          <input class="input" type="file" id="om-file">
+          <span class="field-hint" id="om-file-name"></span>
+          <span class="field-hint">Файл никуда не отправляется автоматически —
+            текстовое поле выше важнее.</span>
+        </p>
+
+        <div class="om-api">
+          <label class="chip">
+            <input type="checkbox" id="om-has-api" name="api">
+            <span>Пришлю API-ключ WB</span>
+          </label>
+          <div class="om-api__guide" id="om-api-guide" hidden>
+            <p class="om-api__title">Как создать токен только на чтение</p>
+          </div>
+        </div>
+      </fieldset>
+
+      <!-- Шаг 3 -->
+      <fieldset class="om-panel" data-step="3" hidden>
+        <legend class="om-panel__title">Как ответить</legend>
+        <p class="field-hint om-panel__lead">
+          Только письменные каналы. Телефона в портфолио нет и не будет.
+        </p>
+
+        <p class="field">
+          <label class="field-label" for="om-name">Как к вам обращаться
+            <span class="req" aria-hidden="true">*</span></label>
+          <input class="input" type="text" id="om-name" name="name" data-required
+                 placeholder="Имя или как в кабинете" autocomplete="name">
+        </p>
+
+        <p class="field">
+          <label class="field-label" for="om-email">Email</label>
+          <input class="input" type="email" id="om-email" name="email"
+                 placeholder="почта для отчёта" autocomplete="email">
+        </p>
+
+        <p class="field">
+          <label class="field-label" for="om-max">MAX</label>
+          <input class="input" type="tel" id="om-max" name="max"
+                 placeholder="+7 914 000-00-00" autocomplete="tel">
+          <span class="field-hint">Хотя бы один канал — email или MAX.</span>
+        </p>
+
+        <label class="om-written">
+          <input type="checkbox" id="om-written" name="written" checked>
+          <span>Только письменные каналы</span>
+        </label>
+      </fieldset>
+    </form>
+
+    <p class="om-status" id="om-status" role="status" aria-live="polite"></p>
+
+    <div class="om__nav">
+      <button class="btn om__btn om__btn--back" type="button" id="om-back" hidden>
+        <i data-lucide="arrow-left" width="16" height="16" aria-hidden="true"></i>
+        Назад
+      </button>
+
+      <button class="btn btn--primary om__btn" type="button" id="om-next">
+        Дальше
+        <i data-lucide="arrow-right" width="16" height="16" aria-hidden="true"></i>
+      </button>
+
+      <div class="om__send" id="om-send" hidden>
+        <button class="btn om__btn" type="button" id="om-copy">
+          <i data-lucide="copy" width="16" height="16" aria-hidden="true"></i>
+          Скопировать ТЗ
+        </button>
+        <button class="btn om__btn" type="button" id="om-to-max">
+          <i data-lucide="message-circle" width="16" height="16" aria-hidden="true"></i>
+          Отправить в MAX
+        </button>
+        <button class="btn btn--primary om__btn" type="button" id="om-to-mail">
+          <i data-lucide="mail" width="16" height="16" aria-hidden="true"></i>
+          На email
+        </button>
+      </div>
+    </div>
+
+    <p class="om-note">
+      Форма ничего не отправляет сама: ТЗ копируется в буфер или собирается
+      в письмо. API-ключ и доступы сюда вводить не нужно — они приходят
+      в MAX или на почту.
+    </p>
+  </div>
+</div>
+
+<script>
+// Подписи ползунков калькулятора: costcalc.js считает, но не показывает
+// текущее значение. Слушаем input — пересчёт идёт параллельно.
+document.addEventListener("DOMContentLoaded", function () {
+  var pairs = [
+    ["csc-ads-pct", "csc-ads-pct-val"],
+    ["csc-returns", "csc-returns-val"],
+    ["csc-storage-days", "csc-storage-days-val"],
+  ];
+  pairs.forEach(function (p) {
+    var input = document.getElementById(p[0]);
+    var out = document.getElementById(p[1]);
+    if (!input || !out) return;
+    var sync = function () { out.textContent = input.value; };
+    input.addEventListener("input", sync);
+    sync();
+  });
+});
+</script>
+<script>
+// Клик по «Заказать решение» внутри раскрытой карточки боли должен открыть
+// модалку и НЕ свернуть карточку. Обработчик в assets/site.js гасит клик
+// только для ссылок (closest('a')), а эта кнопка — button, поэтому карточка
+// сворачивается. Правим здесь, не трогая site.js: запоминаем клик в
+// capture-фазе, а в bubble-фазе на document (она идёт после обработчика
+// карточки) возвращаем карточку в раскрытое состояние.
+(function () {
+  var MARK = "pain-card__links--stop";
+  var pending = null;
+
+  document.addEventListener(
+    "click",
+    function (e) {
+      var t = e.target;
+      pending = t && t.closest ? t.closest("." + MARK) : null;
+    },
+    true
+  );
+
+  document.addEventListener("click", function () {
+    var btn = pending;
+    pending = null;
+    if (!btn) return;
+    var card = btn.closest(".pain-card");
+    if (!card || card.classList.contains("is-open")) return;
+    card.classList.add("is-open");
+    card.setAttribute("aria-expanded", "true");
+    var label = card.querySelector(".pain-card__toggle-text");
+    if (label) label.textContent = "Свернуть";
+  });
+})();
+</script>
 </body>
 </html>

@@ -1,0 +1,239 @@
+
+/* ==========================================================================
+   МОДАЛЬНОЕ ОКНО ЗАКАЗА
+   Свои стили, чтобы диалог не зависел от того, есть ли на странице
+   блок .order с трёхшаговой формой.
+   ========================================================================== */
+
+/* Атрибут hidden должен побеждать display:flex. Без этого правила
+   невидимый слой перехватывал клики по всей странице под собой. */
+.order-modal[hidden] { display: none; }
+
+.order-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 120;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-4);
+  background: rgba(5, 7, 12, 0.72);
+  backdrop-filter: blur(6px);
+  overflow-y: auto;
+}
+
+.om {
+  width: min(640px, 100%);
+  max-height: calc(100vh - var(--space-8));
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  padding: var(--space-6);
+  background: var(--color-surface-overlay);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
+}
+
+.om__head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-4);
+}
+.om__title { margin: 0; font-size: var(--text-2xl); }
+.om__sub { margin: 4px 0 0; font-size: var(--text-sm); color: var(--color-text-secondary); }
+
+.om__close {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: transparent;
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  transition: color var(--dur-fast) var(--ease-out),
+              border-color var(--dur-fast) var(--ease-out);
+}
+.om__close:hover { color: var(--color-text-primary); border-color: var(--color-border-control); }
+
+/* ── Шаги ─────────────────────────────────────────────────────────── */
+
+.om__steps { display: flex; gap: var(--space-2); }
+
+.om-step {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: transparent;
+  color: var(--color-text-secondary);
+  font-size: var(--text-sm);
+  cursor: pointer;
+  text-align: left;
+  transition: border-color var(--dur-fast) var(--ease-out),
+              background var(--dur-fast) var(--ease-out),
+              color var(--dur-fast) var(--ease-out);
+}
+.om-step__num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  flex-shrink: 0;
+  border-radius: var(--radius-full);
+  background: var(--color-well);
+  font-size: var(--text-xs);
+  font-weight: 600;
+}
+.om-step.is-active {
+  border-color: var(--color-accent);
+  background: var(--color-accent-subtle);
+  color: var(--color-text-primary);
+}
+/* Активный шаг: тёмная цифра на светло-синем кружке. Белый давал 2.77:1 —
+   ниже порога 4.5, акцент слишком светлый, чтобы держать белый текст. */
+.om-step.is-active .om-step__num { background: var(--color-accent); color: var(--color-text-on-accent); }
+.om-step.is-done .om-step__num { background: var(--color-accent-subtle); color: var(--color-accent-on-subtle); }
+
+/* ── Панели ───────────────────────────────────────────────────────── */
+
+.om__body { margin: 0; }
+
+.om-panel {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+.om-panel[hidden] { display: none; }
+.om-panel__title {
+  padding: 0;
+  margin-bottom: var(--space-1);
+  font-size: var(--text-lg);
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+.om-panel__lead { margin: 0 0 var(--space-1); }
+
+.req { color: var(--color-loss); }
+
+.om-textarea { min-height: 72px; resize: vertical; }
+
+.is-invalid {
+  border-color: var(--color-loss) !important;
+  background: var(--color-loss-subtle);
+}
+
+/* ── Предзаполненная услуга ───────────────────────────────────────── */
+
+.om-fixed {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--space-2);
+  padding: var(--space-3);
+  border: 1px solid var(--color-accent);
+  border-radius: var(--radius-md);
+  background: var(--color-accent-subtle);
+}
+.om-fixed[hidden] { display: none; }
+.om-fixed__label {
+  font-size: var(--text-2xs);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  /* Подпись стоит на --color-accent-subtle: tertiary давал 3.22:1. */
+  color: var(--color-accent-on-subtle);
+}
+.om-fixed__title { font-size: var(--text-base); font-weight: 600; color: var(--color-text-primary); }
+.om-fixed__price { margin-left: auto; font-size: var(--text-base); font-weight: 600; color: var(--color-accent); }
+
+/* ── API-инструкция ───────────────────────────────────────────────── */
+
+.om-api { display: flex; flex-direction: column; gap: var(--space-3); }
+.om-api__guide {
+  padding: var(--space-4);
+  border: 1px solid var(--color-border);
+  border-left: 2px solid var(--color-accent);
+  border-radius: var(--radius-md);
+  background: var(--color-well);
+}
+.om-api__guide[hidden] { display: none; }
+.om-api__title {
+  margin: 0 0 var(--space-3);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+.om-api-list {
+  margin: 0;
+  padding-left: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: var(--text-sm);
+  line-height: 1.45;
+  color: var(--color-text-secondary);
+}
+.om-api-list li::marker { color: var(--color-accent); font-weight: 600; }
+
+/* ── Только письменные каналы ─────────────────────────────────────── */
+
+.om-written {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+  cursor: pointer;
+}
+.om-written input { width: 16px; height: 16px; accent-color: var(--color-accent); }
+
+/* ── Навигация и отправка ─────────────────────────────────────────── */
+
+.om-status {
+  margin: 0;
+  min-height: 18px;
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+}
+.om-status.is-warn { color: var(--color-text-primary); }
+
+.om__nav { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2); }
+.om__btn { flex-shrink: 0; }
+.om__btn--back { margin-right: auto; }
+.om__send { display: flex; flex-wrap: wrap; gap: var(--space-2); margin-left: auto; }
+.om__send[hidden] { display: none; }
+
+.om-note {
+  margin: 0;
+  padding-top: var(--space-3);
+  border-top: 1px solid var(--color-border);
+  font-size: var(--text-xs);
+  line-height: 1.5;
+  /* Сноска прижимается к низу панели на --color-surface-overlay, где
+     tertiary даёт 4.05:1. secondary — 6.0:1 с запасом. */
+  color: var(--color-text-secondary);
+}
+
+/* ── Адаптив ──────────────────────────────────────────────────────── */
+
+@media (max-width: 640px) {
+  .om { padding: var(--space-4); gap: var(--space-3); max-height: calc(100vh - var(--space-6)); }
+  .om__title { font-size: var(--text-xl); }
+  .om-step__label { display: none; }
+  .om-step { justify-content: center; }
+  .om__send { margin-left: 0; width: 100%; }
+  .om__send .om__btn { flex: 1 1 100%; }
+}

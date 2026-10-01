@@ -27,6 +27,10 @@ const PART_META = {
   fulfillment: { label: "Фулфилмент", color: "#10b981" },
   extra: { label: "Доп. расходы", color: "#a78bfa" },
   pack: { label: "Упаковка", color: "#64748b" },
+  ads: { label: "Реклама", color: "#f43f5e" },
+  returns: { label: "Возвраты", color: "#fb923c" },
+  storage: { label: "Хранение", color: "#22d3ee" },
+  season: { label: "Сезонность", color: "#c084fc" },
 };
 
 const $ = (id) => document.getElementById(id);
@@ -130,29 +134,69 @@ function readInputs() {
     pack: Math.max(num($("csc-pack")), 0),
     fulfillment: Math.max(num($("csc-fulfillment")), 0),
     extra: Math.max(num($("csc-extra")), 0),
+    ads: Math.max(num($("csc-ads")), 0),
+    adsPct: Math.max(num($("csc-ads-pct")), 0),
+    returnsPct: Math.max(num($("csc-returns")), 0),
+    storageDays: Math.max(num($("csc-storage-days")), 0),
+    season: Math.max(num($("csc-season"), 1), 0.1),
+    sale: Math.max(num($("csc-sale")), 0),
   };
 }
+
+// Склад WB хранит неоплаченные возвраты бесплатно, оплаченные — платно.
+// Ставка за день — публичный тариф; в сети он разный по категориям,
+// поэтому здесь средняя, и её видно в подписи поля.
+const STORAGE_PER_DAY = 0.34;      // ₽ за единицу в день
+const STORAGE_FREE_DAYS = 14;      // первые дни бесплатного хранения
 
 function compute(v) {
   // Закупочная цена переводится в рубли; статьи в валюте закупки — тоже.
   const goodsTotal = v.price * v.rate * v.qty;
   const chinaTotal = v.china * v.rate;
-  const batchFixed = v.russia + v.fulfillment + v.extra;
+  // Сезонность множит партийные статьи: в пик доставка и фулфилмент
+  // дорожают. На закупку не влияет — она уже зафиксирована в цене.
+  const batchFixed = (v.russia + v.fulfillment + v.extra) * v.season;
   const batchTotal = goodsTotal + chinaTotal + batchFixed;
-  const perUnit = batchTotal / v.qty + v.pack;
+
+  const base = batchTotal / v.qty + v.pack;
+
+  // Возвраты: продаётся qty, а выкупается qty * (1 - возвраты).
+  // Себестоимость делится на число выкупленных — иначе маржа
+  // показывалась бы по цене, которой не существует.
+  const sellThrough = Math.max(1 - v.returnsPct / 100, 0.05);
+  const unitsPaid = Math.max(v.qty * sellThrough, 1);
+
+  // Хранение платное только после бесплатного периода.
+  const paidDays = Math.max(v.storageDays - STORAGE_FREE_DAYS, 0);
+  const storageTotal = paidDays * STORAGE_PER_DAY * unitsPaid;
+
+  // Реклама: сумма из рублей и процентов. ДРР — доля от цены продажи.
+  const adsPerUnit = v.ads + (v.sale > 0 ? (v.adsPct / 100) * v.sale : 0);
+
+  const adsTotal = adsPerUnit * unitsPaid;
+
+  const perUnit = (batchTotal + storageTotal + adsTotal) / unitsPaid + v.pack;
+
   return {
     goodsTotal,
     chinaTotal,
     batchFixed,
     batchTotal,
+    storageTotal,
+    adsTotal,
     perUnit,
+    unitsPaid,
+    sellThrough,
+    seasonDelta: batchFixed - (v.russia + v.fulfillment + v.extra),
     parts: {
-      goods: goodsTotal / v.qty,
-      china: chinaTotal / v.qty,
-      russia: v.russia / v.qty,
-      fulfillment: v.fulfillment / v.qty,
-      extra: v.extra / v.qty,
+      goods: goodsTotal / unitsPaid,
+      china: chinaTotal / unitsPaid,
+      russia: (v.russia * v.season) / unitsPaid,
+      fulfillment: (v.fulfillment * v.season) / unitsPaid,
+      extra: (v.extra * v.season) / unitsPaid,
       pack: v.pack,
+      ads: adsPerUnit,
+      storage: (storageTotal / unitsPaid),
     },
   };
 }
@@ -282,6 +326,21 @@ function render() {
   if (elBatch) elBatch.textContent = rub(r.batchTotal) + " ₽";
   if ($("csc-qty-echo")) $("csc-qty-echo").textContent = v.qty;
 
+  // При возвратах себестоимость делится на выкупленные, а не на
+  // отгруженные. Без этой оговорки число в таблице выглядит как ошибка.
+  const unit = elUnit;
+  if (unit) {
+    const denom = $("csc-denominator");
+    if (denom) {
+      const sold = Math.round(r.unitsPaid);
+      denom.textContent =
+        sold < v.qty
+          ? `на ${sold} выкупленных из ${v.qty} отгруженных`
+          : `на ${v.qty} шт`;
+      denom.hidden = false;
+    }
+  }
+
   renderTable(r, v.qty);
   const rows = partsForChart(r);
   renderChart(rows, r);
@@ -300,6 +359,8 @@ function render() {
       v.qty
     } штук на ${rub(r.batchTotal)} рублей.`;
   }
+
+  announceCost();
 }
 
 function toggleRateManual() {
@@ -307,18 +368,46 @@ function toggleRateManual() {
   const box = $("csc-rate-manual");
   if (!mode || !box) return;
   box.hidden = mode.value !== "manual";
-  if (mode.value === "auto") loadCbr();
+  // Курс ЦБ подставляется асинхронно, поэтому в auto ждём загрузки,
+  // а в manual — сразу. Раньше render() не вызывался ни здесь, ни при
+  // возврате в auto: поле курса менялось, а итог оставался прежним.
+  if (mode.value === "auto") loadCbr().then(render);
+  else render();
+}
+
+/* Сообщает сайту посчитанную себестоимость: кнопка заказа подставляет
+   её в модальное окно. Модуль заказа подписывается на это событие.
+   CustomEvent вместо прямого импорта — иначе калькулятор зависел бы
+   от формы заказа, а не наоборот. */
+function announceCost() {
+  const perUnit = lastPerUnit;
+  if (perUnit == null) return;
+  window.dispatchEvent(new CustomEvent("csc:cost", { detail: { perUnit } }));
 }
 
 function init() {
   const ids = ["csc-price", "csc-qty", "csc-china", "csc-russia", "csc-pack",
-               "csc-fulfillment", "csc-extra", "csc-rate"];
+               "csc-fulfillment", "csc-extra", "csc-rate",
+               "csc-ads", "csc-ads-pct", "csc-returns", "csc-storage-days",
+               "csc-sale"];
   ids.forEach((id) => {
     const el = $(id);
     if (el) el.addEventListener("input", render);
   });
+  // select отдаёт change, а не input — иначе пересчёт не сработал бы.
+  const season = $("csc-season");
+  if (season) season.addEventListener("change", render);
   const cur = $("csc-currency");
-  if (cur) cur.addEventListener("change", () => { paintRate(cbrCache); render(); });
+  if (cur) {
+    cur.addEventListener("change", () => {
+      // В auto курс новой валюты ещё не подставлен — он придёт из
+      // loadCbr. Рисуем поле сразу, итог пересчитаем на ответе.
+      paintRate(cbrCache);
+      const mode = document.querySelector('input[name="csc-rate-mode"]:checked');
+      if (mode && mode.value === "auto") loadCbr().then(render);
+      else render();
+    });
+  }
   document.querySelectorAll('input[name="csc-rate-mode"]').forEach((r) => {
     r.addEventListener("change", toggleRateManual);
   });

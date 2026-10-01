@@ -9,15 +9,38 @@
    assets/costcalc.js, не зависит от разметки.
    ========================================================================== */
 
+/* Ввод — две трети ширины, результат — одна треть и липнет при
+   прокрутке. Обратное распределение (узкий ввод, широкий итог)
+   заставляет глазами бегать между колонками на каждом символе. */
 .csc {
   display: grid;
-  grid-template-columns: minmax(300px, 400px) 1fr;
+  grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
   gap: var(--space-6);
   align-items: start;
 }
 
+/* 1024: результат остаётся липким, но колонки сближаются — на
+   2fr/1fr поля ввода уже не помещаются в разумную ширину. */
+@media (max-width: 1180px) {
+  .csc { grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr); }
+}
+
+/* Ниже 900px колонки складываются в стек: ввод, потом результат.
+   Липкость отключается — иначе итог перекрывал бы поля ввода. */
 @media (max-width: 900px) {
   .csc { grid-template-columns: 1fr; }
+  /* Селектор усилен: базовое правило .csc-out объявлено ниже и без
+     медиа, поэтому при равной специфичности выигрывало бы оно. */
+  .csc .csc-out {
+    position: static;
+    max-height: none;
+    overflow: visible;
+  }
+}
+
+/* На мобильном поля ввода в две колонки не читаются. */
+@media (max-width: 560px) {
+  .csc-row { grid-template-columns: 1fr; }
 }
 
 .csc__in {
@@ -138,7 +161,20 @@
 
 /* ── Итог ────────────────────────────────────────────────────────────────── */
 
-.csc-out { display: flex; flex-direction: column; gap: var(--space-5); min-width: 0; }
+/* Итог липнет, пока видны поля ввода: пересчитал закупку — сразу
+   посмотрел на результат, не возвращаясь наверх. Отступ сверху
+   нужен, чтобы блок не прилипал к самому краю окна. */
+.csc-out {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+  min-width: 0;
+  position: sticky;
+  top: var(--space-5);
+  max-height: calc(100vh - var(--space-10));
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
 
 .csc-hero {
   display: flex;
@@ -194,14 +230,20 @@
   font-variant-numeric: tabular-nums;
 }
 
-.csc-vis { display: grid; grid-template-columns: minmax(0, 260px) 1fr; gap: var(--space-5); align-items: start; }
+/* Колонка диаграммы не может быть minmax(0, 260px): Chart.js создаёт canvas
+   по ширине контейнера, а grid берёт ширину колонки из max-content, то есть
+   обратно из canvas. Без нижней границы цикл замыкается на 70px и диаграмма
+   схлопывается в полоску. Отсюда minmax(240px, 260px) и 1fr для таблицы. */
+.csc-vis { display: grid; grid-template-columns: minmax(240px, 260px) minmax(0, 1fr); gap: var(--space-5); align-items: start; }
 
 @media (max-width: 640px) {
   .csc-vis { grid-template-columns: 1fr; }
 }
 
 .csc-chart-box { position: relative; height: 260px; }
-.csc-chart-box canvas { max-width: 100%; }
+/* max-width без width: Chart.js выставляет canvas.style.width сам, и без
+   width: 100% правило max-width: 100% ниже не спасает от схлопывания. */
+.csc-chart-box canvas { width: 100% !important; max-width: 100%; display: block; }
 
 .csc-table { width: 100%; border-collapse: collapse; font-size: var(--text-sm); }
 
@@ -258,6 +300,9 @@
 
 .csc-cta__sub { font-size: var(--text-sm); color: var(--color-text-secondary); line-height: var(--leading); margin: 0; }
 
+/* Две кнопки рядом: «Оформить заказ» и «Получить расчёт маржи». */
+.csc-cta__actions { display: flex; flex-wrap: wrap; gap: 12px; }
+
 /* печать: калькулятор — интерактив, в PDF не нужен */
 @media print {
   .csc { display: none; }
@@ -267,4 +312,110 @@
 @media (prefers-reduced-motion: reduce) {
   .csc-hero__value.is-pulse { animation: none; }
   .csc-chart-box canvas { transition: none; }
+}
+
+/* Блок 3 — свёрнутые доп. поля. Рендерится как details, но оформлен
+   в те же стеклянные карточки, что и блоки 1–2: иначе он выглядел
+   бы чужеродно внутри одного списка. */
+.csc-extra-block { padding: 0; }
+.csc-extra-block__summary {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-5);
+  cursor: pointer;
+  list-style: none;
+}
+.csc-extra-block__summary::-webkit-details-marker { display: none; }
+.csc-extra-block__title {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+.csc-extra-block__title i[data-lucide] { color: var(--pfx-primary); }
+.csc-extra-block__hint {
+  font-size: var(--text-xs);
+  color: var(--color-text-tertiary);
+}
+/* Поворот плюса в минус при раскрытии. */
+.csc-extra-block[open] .csc-extra-block__title i[data-lucide] { transform: rotate(45deg); }
+.csc-extra-block__title i[data-lucide] { transition: transform var(--dur-fast) var(--ease-out); }
+
+.csc-extra-block__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: 0 var(--space-5) var(--space-5);
+}
+.csc-extra-block[open] .csc-extra-block__body { animation: pfx-fade-in var(--dur-slow) var(--ease-out); }
+
+/* Подпись под себестоимостью: «на N выкупленных из M отгруженных». */
+.csc-hero__denom {
+  display: block;
+  margin-top: 2px;
+  font-size: var(--text-xs);
+  color: var(--color-text-tertiary);
+}
+
+/* ── Плотная раскладка полей ──────────────────────────────────────────
+   Задача требует уместить калькулятор в один экран на 1440. Разводим
+   подпись и поле в строку: 17 полей × 2 строки дают высоту, которая
+   не помещается в экран. Ниже 1280px возвращаем обычный вид —
+   в одну колонку на узком экране читается спокойнее. */
+
+@media (min-width: 1280px) {
+  .csc-block .csc-field {
+    display: grid;
+    grid-template-columns: 200px minmax(0, 1fr);
+    align-items: center;
+    gap: var(--space-3);
+    margin-top: var(--space-2);
+  }
+  .csc-block .csc-field + .csc-field { margin-top: var(--space-2); }
+  .csc-block .csc-label { margin: 0; }
+  .csc-block .csc-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-3);
+    margin-top: var(--space-2);
+  }
+  /* Подсказка занимает всю ширину под полями, а не одну колонку. */
+  .csc-block .csc-hint { grid-column: 1 / -1; margin-top: -6px; }
+  .csc-block .csc-radios { grid-column: 2; }
+  .csc-block .csc-rate { grid-column: 2; margin: 0; }
+  .csc-block { padding: var(--space-4); }
+  .csc__in { gap: var(--space-4); }
+}
+
+/* Итог на широком экране: диаграмма ужимается, таблица получает
+   собственную прокрутку. Колонка 1fr не может быть 768px в секции,
+   рассчитанной на один экран. */
+@media (min-width: 1280px) {
+  .csc-out { gap: var(--space-3); }
+  .csc-hero { padding: var(--space-4); }
+  .csc-chart-box { height: 180px; }
+  .csc-table-scroll {
+    max-height: 220px;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+  .csc-out .footnote { font-size: var(--text-2xs); }
+}
+
+/* Отступы секции: на экране 900px высота уходила на пустоты, а не на
+   поля. Ужимаем их только на широких экранах — на мобильном воздух
+   помогает. */
+@media (min-width: 1280px) {
+  #calculator { margin-top: var(--space-10); }
+  #calculator .section-head { margin-bottom: var(--space-3); }
+  #calculator .csc-cta {
+    margin-top: var(--space-5);
+    padding: var(--space-4) var(--space-5);
+  }
+  #calculator .csc-cta__title { font-size: var(--text-lg); }
+  #calculator .csc-cta__sub { font-size: var(--text-sm); }
 }
