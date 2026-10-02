@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>НДС на УСН с 2026: порог 20 млн — и что делать маркетплейсу — кейс CASE 12</title>
-<meta name="description" content="переход с УСН «доходы 6 %» на УСН с НДС. Разбор юнит-экономики карточки: контекст, проблема, решение, результат.">
+<title>Комиссия 8 % и 38 % у соседей по витрине — почему? — кейс CASE 13</title>
+<meta name="description" content="фактические ставки из отчёта о реализации. Разбор юнит-экономики карточки: контекст, проблема, решение, результат.">
 <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="../assets/style.css">
 <link rel="stylesheet" href="../assets/order-modal.css">
@@ -162,33 +162,33 @@
 <nav class="crumbs" aria-label="Хлебные крошки"><ol>
 <li><a href="../index.html">Портфолио</a></li>
 <li><a href="index.html">Кейсы</a></li>
-<li aria-current="page">НДС на УСН с 2026: порог 20 млн — и что делать маркетплейсу</li>
+<li aria-current="page">Комиссия 8 % и 38 % у соседей по витрине — почему?</li>
 </ol></nav>
 <div class="case-hero">
 <div class="case-hero__main">
-<div class="case__num">CASE 12</div>
-<h1 class="page-title case-hero__title">НДС на УСН с 2026: порог 20 млн — и что делать маркетплейсу</h1>
-<p class="page-sub">переход с УСН «доходы 6 %» на УСН с НДС</p>
+<div class="case__num">CASE 13</div>
+<h1 class="page-title case-hero__title">Комиссия 8 % и 38 % у соседей по витрине — почему?</h1>
+<p class="page-sub">фактические ставки из отчёта о реализации</p>
 <div class="case-tags">
-<span class="badge badge--neutral"><i data-lucide="layers" width="12" height="12" aria-hidden="true"></i>Товары для дома</span>
+<span class="badge badge--neutral"><i data-lucide="layers" width="12" height="12" aria-hidden="true"></i>Хозяйственные товары</span>
 <span class="badge badge--info">FBS</span>
-<span class="badge badge--neutral" data-tag="налоги">налоги</span>
-<span class="badge badge--neutral" data-tag="экономика">экономика</span>
-<span class="badge badge--neutral" data-tag="комплаенс">комплаенс</span>
+<span class="badge badge--neutral" data-tag="комиссия">комиссия</span>
+<span class="badge badge--neutral" data-tag="аналитика">аналитика</span>
+<span class="badge badge--neutral" data-tag="юнит-экономика">юнит-экономика</span>
 </div></div>
 <div class="case-hero__kpi">
-<span class="calc-hero-label">порог дохода для уплаты НДС</span>
-<p class="calc-hero-value kpi-loss" data-money="20.0" data-dec="0">—</p>
+<span class="calc-hero-label">разрыв фактической комиссии</span>
+<p class="calc-hero-value kpi-loss" data-money="30.4" data-dec="1">—</p>
 </div></div>
-<p class="case-headline">УСН «доходы 6 %» больше не масштабируется: с 2026 порог НДС — 20 млн, и ставка выбирается</p>
+<p class="case-headline">В одном магазине фактическая комиссия идёт от 8 % до 38,3 %. Разница — 10 648 ₽ за один месяц, и её не видно ни в одном отчёте</p>
 <section class="section" id="context" aria-labelledby="context-t">
 <div class="section-head">
 <h2 class="section-title" id="context-t">Контекст</h2>
 </div>
 <div class="card case-prose">
-<p class="service__text">С 1 января 2026 года порог освобождения от НДС на УСН снижен с 60 до 20 млн ₽ выручки за прошлый год. При доходе свыше 20 млн плательщик обязан платить НДС — автоматически, без заявления (п. 1 ст. 145 НК РФ, ФЗ № 425-ФЗ от 28.11.2025).</p>
-<p class="service__text">Ставка выбирается: 5 % — при доходе до 272,5 млн, 7 % — до 490,5 млн, либо общая 22 % с правом вычета. Границы проиндексированы коэффициентом дефлятора 1,090.</p>
-<p class="service__text">Селлер с выручкой около 26 млн ₽ на нескольких карточках потратил месяц на попытку «оставить 6 %»: это невозможно, освобождение при доходе свыше 20 млн не применяется.</p>
+<p class="service__text">Магазин одного поставщика, 10 SKU, выгрузка продаж за сентябрь 2026 — 242 строки из отчёта о реализации. Карточки в тексте обезличены: SKU 1…SKU 10 соответствуют nmID выгрузки, сами номера скрыты.</p>
+<p class="service__text">Комиссия здесь не оценивалась: она посчитана как разница между ценой, которую заплатил покупатель (finishedPrice), и суммой, которая пришла продавцу (forPay). Это факт по каждой строке.</p>
+<p class="service__text">Единого тарифа у магазина нет, хотя все карточки лежат рядом в одной категории «Хозяйственные товары».</p>
 </div>
 </section>
 <section class="section" id="problem" aria-labelledby="problem-t">
@@ -196,9 +196,9 @@
 <h2 class="section-title" id="problem-t">Проблема</h2>
 </div>
 <div class="card case-prose">
-<p class="service__text">Ставка 5 % применяется не ко всей выручке «как раньше», а к доходу без права вычета входного НДС. Для продавца с большой долей закупок с НДС выгоднее общая ставка 22 % с вычетом, даже если она выглядит выше.</p>
-<p class="service__text">НДС выделяется из базы: 5 / 105, а не 5 % от цены. При цене 1 000 ₽ налог равен 47,62 ₽, а не 50 ₽, — но налог берётся раньше, чем при УСН 6 %, где база была вся выручка.</p>
-<p class="service__text">УСН и НДС считаются с разных баз и в разные сроки: декларация по НДС — ежеквартально, книги продаж и покупок ведутся с июня 2026 при превышении порога в течение года.</p>
+<p class="service__text">В отчёте WB комиссия не выделена отдельной строкой. Она спрятана в разнице между «цена для покупателя» и «к получению» — и в сводке по магазину это выглядит как просто меньшая выручка.</p>
+<p class="service__text">Средняя ставка по магазину 19,8 % — цифра, которая ничего не объясняет: она усредняет 8,0 % и 38,3 %, и любая из этих ставок «правильная» с точки зрения WB.</p>
+<p class="service__text">Худший разрыв стоит 10 648 ₽ за период — это 18,5 % оборота. Сумма, сопоставимая с закупкой нескольких SKU целиком.</p>
 </div>
 </section>
 <section class="section" id="did" aria-labelledby="did-t">
@@ -206,71 +206,73 @@
 <h2 class="section-title" id="did-t">Что сделали</h2>
 </div>
 <div class="card case-prose">
-<p class="service__text">Посчитал три варианта налоговой нагрузки на выручке 26 млн: УСН 6 %, УСН с НДС 5 %, УСН с НДС 22 % с вычетом.</p>
-<p class="service__text">Разложил входящий НДС по поставщикам — это и решает, что выгоднее, а не размер выручки.</p>
-<p class="service__text">Пересчитал экономику каждой карточки с выделением НДС 5/105 из базы: маржа с единицы уменьшилась.</p>
-<p class="service__text">Собрал список действий: что настроить в учёте и что проверить с поставщиками.</p>
+<p class="service__text">Выгрузил реализацию построчно и посчитал фактическую комиссию как (finishedPrice − forPay) / finishedPrice по каждому SKU.</p>
+<p class="service__text">Отсёк SKU с отрицательной комиссией — это возвраты с компенсацией, они искажают среднее и в кейс не идут.</p>
+<p class="service__text">Разложил ставку рядом со средним СПП: дешёвые SKU набирают СПП 25 %, дорогие — 0 %, и это объясняет часть разрыва.</p>
+<p class="service__text">Посчитал, сколько стоил бы оборот, если бы все SKU шли по худшей ставке магазина.</p>
 </div>
 </section>
 <section class="section" id="plan" aria-labelledby="plan-t">
-<div class="section-head"><h2 class="section-title" id="plan-t">Три варианта налогов</h2><span class="section-note">выручка 26 млн ₽ за год</span></div>
+<div class="section-head"><h2 class="section-title" id="plan-t">Фактическая комиссия по SKU за сентябрь 2026</h2><span class="section-note">строки выгрузки реализации, оборот в ₽</span></div>
 <div class="plan-grid">
-<article class="card plan-card"><p class="plan-card__tag">Сценарий А</p><h3 class="plan-card__name">УСН 6 %</h3><p class="plan-card__lever">только УСН</p><p class="service__text">Было доступно до 2026. В 2026 при выручке 26 млн ₽ не применяется: доход выше порога 20 млн.</p></article>
-<article class="card plan-card"><p class="plan-card__tag">Сценарий Б</p><h3 class="plan-card__name">УСН + НДС 5 %</h3><p class="plan-card__lever">без вычета входа</p><p class="service__text">Налог 5/105 с выручки, входной НДС не вычитается. Выгодно при небольшой доле закупок с НДС.</p></article>
-<article class="card plan-card"><p class="plan-card__tag">Сценарий В</p><h3 class="plan-card__name">УСН + НДС 22 %</h3><p class="plan-card__lever">с вычетом входа</p><p class="service__text">Налог 22/122 минус входящий. Выгодно при большой доле закупок с НДС — а она у селлера около 70 %.</p></article>
+<article class="card plan-card"><p class="plan-card__tag">Сценарий А</p><h3 class="plan-card__name">Средняя ставка магазина</h3><p class="plan-card__lever">19,8 % по всем SKU</p><p class="service__text">Цифра, которую продавец обычно и видит в сводке. Усредняет 8,0 и 38,3 — и потому не говорит ничего.</p></article>
+<article class="card plan-card"><p class="plan-card__tag">Сценарий Б</p><h3 class="plan-card__name">Лучший SKU</h3><p class="plan-card__lever">8,0 % при обороте 11 145 ₽</p><p class="service__text">Высокий СПП 25,4 % разбирает кВВ: покупатель видит цену ниже, комиссия начисляется на меньшую базу.</p></article>
+<article class="card plan-card"><p class="plan-card__tag">Сценарий В</p><h3 class="plan-card__name">Худший SKU</h3><p class="plan-card__lever">38,3 % при обороте 325 ₽</p><p class="service__text">СПП ноль, кВВ полный. SKU почти не продаётся, поэтому и выглядит безобидным в отчёте.</p></article>
 </div>
 <div class="table-wrap"><table class="table table--compact"><thead><tr><th>Показатель</th><th class="num">Сценарий А</th><th class="num">Сценарий Б</th><th class="num">Сценарий В</th></tr></thead><tbody>
-<tr><td class="lead">Налог за год, тыс ₽</td><td class="num">1 560</td><td class="num">1 300</td><td class="num">860</td></tr>
-<tr><td class="lead">Ставка эффективная</td><td class="num">6,0 %</td><td class="num">5,0 %</td><td class="num">3,3 %</td></tr>
-<tr><td class="lead">Отчётность</td><td class="num">квартальная</td><td class="num">квартальная + по НДС</td><td class="num">квартальная + по НДС</td></tr>
-<tr><td class="lead">Вычет входящего НДС</td><td class="num">нет</td><td class="num">нет</td><td class="num">да</td></tr>
+<tr><td class="lead">SKU 1 — лучшая ставка</td><td class="num">8,0 %</td><td class="num">11 145 ₽</td></tr>
+<tr><td class="lead">SKU 2</td><td class="num">16,8 %</td><td class="num">14 917 ₽</td></tr>
+<tr><td class="lead">SKU 4</td><td class="num">25,1 %</td><td class="num">6 175 ₽</td></tr>
+<tr><td class="lead">SKU 5</td><td class="num">25,4 %</td><td class="num">8 358 ₽</td></tr>
+<tr><td class="lead">SKU 7</td><td class="num">27,9 %</td><td class="num">6 478 ₽</td></tr>
+<tr><td class="lead">SKU 10 — худшая ставка</td><td class="num">38,3 %</td><td class="num">325 ₽</td></tr>
 </tbody></table></div>
-<div class="card plan-verdict"><p class="plan-verdict__label">Вывод</p><p class="service__text">При доле закупок с НДС около 70 % выигрывает вариант В: ставка 22 % с вычетом даёт эффективные 3,3 % против 5,0 % и 6,0 %. Решение принимает структура закупок, а не оборот.</p></div>
+<div class="card plan-verdict"><p class="plan-verdict__label">Вывод</p><p class="service__text">Комиссия не «растёт» сама. Она разная у соседних карточек, и разницу создаёт СПП: у одного SKU 25,4 %, у другого ноль. Пока ставка считается как средняя по магазину, эта разница остаётся невидимой.</p></div>
 <div class="card plan-next"><p class="plan-verdict__label">Что дальше: 2–3 недели</p><ul class="list-checks">
-<li class="service__text">Собрать входящий НДС по всем поставщикам за год и посчитать долю закупок с НДС.</li>
-<li class="service__text">Выбрать ставку и подать уведомление либо отразить её в первой декларации — уведомлять отдельно не нужно.</li>
-<li class="service__text">Перенастроить ККТ: ставки 5 % и 7 % должны быть прописаны в кассе и в фискальном формате.</li>
+<li class="service__text">Считать комиссию по каждому SKU, а не по магазину: средняя ставка скрывает весь разброс.</li>
+<li class="service__text">Разбирать, почему СПП не набирается на дорогих SKU, — это и есть управляемая часть ставки.</li>
+<li class="service__text">По SKU со ставкой выше 30 % пересчитать модель: часть ассортимента может быть нерентабельной.</li>
 </ul></div>
 </section>
 <section class="section" id="result" aria-labelledby="result-t">
 <div class="section-head"><h2 class="section-title" id="result-t">Результат</h2><span class="section-note">по фактическим ценам последнего заказа</span></div>
 <div class="grid grid-3">
 <div class="metric">
-<span class="metric-label">Выручка за год</span>
-<p class="metric--sm metric-value tone-neutral">26 млн ₽</p>
+<span class="metric-label">Комиссия, лучший SKU</span>
+<p class="metric--sm metric-value tone-profit">8,0 %</p>
 </div>
 <div class="metric">
-<span class="metric-label">Порог освобождения</span>
-<p class="metric--sm metric-value tone-loss">20 млн ₽</p>
+<span class="metric-label">Комиссия, худший SKU</span>
+<p class="metric--sm metric-value tone-loss">38,3 %</p>
 </div>
 <div class="metric">
-<span class="metric-label">УСН 6 %</span>
-<p class="metric--sm metric-value tone-loss">недоступна</p>
+<span class="metric-label">Разрыв ставок</span>
+<p class="metric--sm metric-value tone-loss">30,4 п.п.</p>
 </div>
 <div class="metric">
-<span class="metric-label">Эффективная ставка, вариант В</span>
-<p class="metric--sm metric-value tone-profit">3,3 %</p>
+<span class="metric-label">Средняя ставка магазина</span>
+<p class="metric--sm metric-value tone-warning">19,8 %</p>
 </div>
 <div class="metric">
-<span class="metric-label">Отчётность</span>
-<p class="metric--sm metric-value tone-warning">добавлена по НДС</p>
+<span class="metric-label">Стоимость разрыва за период</span>
+<p class="metric--sm metric-value tone-loss">10 648 ₽</p>
 </div>
 </div></section>
 <section class="section" id="chart" aria-labelledby="chart-t">
 <div class="section-head">
-<h2 class="section-title" id="chart-t">Эффективная налоговая нагрузка по вариантам</h2>
+<h2 class="section-title" id="chart-t">Фактическая комиссия по SKU, сентябрь 2026</h2>
 <span class="section-note">на 5 п.п. скидки</span>
 </div>
 <div class="card">
 <div class="chart-box">
-<canvas id="sens" role="img" aria-label="Эффективная налоговая нагрузка по вариантам"></canvas>
+<canvas id="sens" role="img" aria-label="Фактическая комиссия по SKU, сентябрь 2026"></canvas>
 </div>
-<p class="footnote">Выручка 26 млн ₽, доля закупок с НДС около 70 %. Ставка 22 % эффективна за счёт вычета входящего НДС — её нельзя сравнивать с 5 % «в лоб».</p>
+<p class="footnote">Комиссия посчитана построчно из отчёта о реализации: (finishedPrice − forPay) / finishedPrice. Возвраты с компенсацией (отрицательная комиссия) исключены. Оборот — сумма finishedPrice по SKU за период. SKU пронумерованы по возрастанию фактической ставки, реальные артикулы скрыты.</p>
 </div>
 </section>
 <section class="section" id="insight" aria-labelledby="insight-t">
 <div class="section-head"><h2 class="section-title" id="insight-t">Ключевой инсайт</h2></div>
-<div class="alert alert--info case-insight"><i data-lucide="lightbulb" width="16" height="16" aria-hidden="true"></i><span>«Перейти на УСН 6 %» в 2026 году уже нельзя: освобождение при доходе свыше 20 млн не применяется, и выбирать надо не между «старая и новая ставка», а между 5 %, 7 % и 22 %. Что выгоднее, решает доля закупок с входящим НДС, а не размер выручки.</span></div>
+<div class="alert alert--info case-insight"><i data-lucide="lightbulb" width="16" height="16" aria-hidden="true"></i><span>Продавец, который считает одну ставку на магазин, не может увидеть, что половина его ассортимента работает на комиссию 8 %, а половина — на 38 %. Средняя цифра правдива и бесполезна одновременно: проблема не в ставке, а в том, что она не одна.</span></div>
 </section>
 <section class="section case-lab" id="lab" aria-labelledby="lab-t">
 <div class="section-head"><h2 class="section-title" id="lab-t">Посчитайте сами</h2><span class="section-note">ползунки считают по той же модели, что разбор выше</span></div>
@@ -279,20 +281,20 @@
 <div class="case-lab__controls">
 <div class="case-lab__field">
 <label class="case-lab__label" for="lab-price">РРЦ, ₽</label>
-<output class="case-lab__out" id="lab-price-out" for="lab-price">1 000</output>
-<input class="case-lab__range" type="range" id="lab-price" data-lab-slider="price" data-lab-dec="0" data-lab-unit="" data-lab-default="1000" min="500" max="2000" step="1" value="1000" aria-describedby="lab-price-out">
-<span class="case-lab__range-ends" aria-hidden="true">500 — 2 000</span>
+<output class="case-lab__out" id="lab-price-out" for="lab-price">1 800</output>
+<input class="case-lab__range" type="range" id="lab-price" data-lab-slider="price" data-lab-dec="0" data-lab-unit="" data-lab-default="1800" min="900" max="3600" step="1" value="1800" aria-describedby="lab-price-out">
+<span class="case-lab__range-ends" aria-hidden="true">900 — 3 600</span>
 </div>
 <div class="case-lab__field">
 <label class="case-lab__label" for="lab-cost">Себестоимость, ₽</label>
-<output class="case-lab__out" id="lab-cost-out" for="lab-cost">440</output>
-<input class="case-lab__range" type="range" id="lab-cost" data-lab-slider="cost" data-lab-dec="0" data-lab-unit="" data-lab-default="440" min="176" max="704" step="1" value="440" aria-describedby="lab-cost-out">
-<span class="case-lab__range-ends" aria-hidden="true">176 — 704</span>
+<output class="case-lab__out" id="lab-cost-out" for="lab-cost">640</output>
+<input class="case-lab__range" type="range" id="lab-cost" data-lab-slider="cost" data-lab-dec="0" data-lab-unit="" data-lab-default="640" min="256" max="1024" step="1" value="640" aria-describedby="lab-cost-out">
+<span class="case-lab__range-ends" aria-hidden="true">256 — 1 024</span>
 </div>
 <div class="case-lab__field">
 <label class="case-lab__label" for="lab-commission">Комиссия кВВ, %</label>
-<output class="case-lab__out" id="lab-commission-out" for="lab-commission">28, %</output>
-<input class="case-lab__range" type="range" id="lab-commission" data-lab-slider="commission" data-lab-dec="1" data-lab-unit=" %" data-lab-default="28" min="10" max="50" step="0.1" value="28" aria-describedby="lab-commission-out">
+<output class="case-lab__out" id="lab-commission-out" for="lab-commission">38, %</output>
+<input class="case-lab__range" type="range" id="lab-commission" data-lab-slider="commission" data-lab-dec="1" data-lab-unit=" %" data-lab-default="38" min="10" max="50" step="0.1" value="38" aria-describedby="lab-commission-out">
 <span class="case-lab__range-ends" aria-hidden="true">10 — 50</span>
 </div>
 <div class="case-lab__buttons"><button class="btn" type="button" data-lab-reset><i data-lucide="rotate-ccw" width="16" height="16" aria-hidden="true"></i>Сбросить</button><button class="btn btn--primary" type="button" data-lab-pdf><i data-lucide="download" width="16" height="16" aria-hidden="true"></i>Скачать PDF</button></div>
@@ -309,19 +311,19 @@
 <section class="section case-fix" id="fix" aria-labelledby="fix-t">
 <div class="section-head"><h2 class="section-title" id="fix-t">Похожая боль?</h2><span class="section-note">если это про вас — есть решение</span></div>
 <div class="case-fix__grid">
-<div class="card case-fix__pain"><p class="plan-card__tag">Похожая боль</p><p class="case-fix__title">Регуляторное давление</p><a class="case-fix__link" href="../index.html#pain-regulation">Эта боль на главной<i data-lucide="arrow-right" width="14" height="14" aria-hidden="true"></i></a></div>
-<div class="card case-fix__svc"><p class="plan-card__tag">Как решаем</p><p class="case-fix__title">Аудит документов и оферты</p><p class="service__text">Разбор считается по вашим данным: ставка категории, логистика по фактическим габаритам, возвраты и реклама, которых нет в типовом расчёте площадки.</p><div class="case-fix__actions"><button class="btn btn--primary btn-order" type="button" data-order-service="p12"><i data-lucide="shopping-cart" width="16" height="16" aria-hidden="true"></i>Заказать</button><a class="btn btn--ghost" href="../products/index.html#p12">Подробнее об услуге</a></div></div>
+<div class="card case-fix__pain"><p class="plan-card__tag">Похожая боль</p><p class="case-fix__title">Комиссии растут — маржа тает</p><a class="case-fix__link" href="../index.html#pain-commission">Эта боль на главной<i data-lucide="arrow-right" width="14" height="14" aria-hidden="true"></i></a></div>
+<div class="card case-fix__svc"><p class="plan-card__tag">Как решаем</p><p class="case-fix__title">Юнит-экономика FBS/FBW</p><p class="service__text">Разбор считается по вашим данным: ставка категории, логистика по фактическим габаритам, возвраты и реклама, которых нет в типовом расчёте площадки.</p><div class="case-fix__actions"><button class="btn btn--primary btn-order" type="button" data-order-service="p7"><i data-lucide="shopping-cart" width="16" height="16" aria-hidden="true"></i>Заказать</button><a class="btn btn--ghost" href="../products/index.html#p7">Подробнее об услуге</a></div></div>
 </div></section>
 <div class="case-actions no-print">
 <span class="btn btn--ghost is-disabled" aria-disabled="true"><i data-lucide="external-link" width="16" height="16" aria-hidden="true"></i>Карточка товара — [ССЫЛКА]</span>
-<button class="btn btn--primary btn-order" type="button" data-order-source="кейс CASE 12"><i data-lucide="shopping-cart" width="16" height="16" aria-hidden="true"></i>Заказать разбор</button>
+<button class="btn btn--primary btn-order" type="button" data-order-source="кейс CASE 13"><i data-lucide="shopping-cart" width="16" height="16" aria-hidden="true"></i>Заказать разбор</button>
 <a class="btn btn--primary cs-max" href="https://max.ru/u/f9LHodD0cOLdp8PLl5xLOgbVyMIGA-CzKgczzqM_HK-bc2fsqmhaWQNg7Lk" target="_blank" rel="noopener"><i data-lucide="message-circle" width="16" height="16" aria-hidden="true"></i>Написать в MAX</a>
 <button class="btn" type="button" onclick="window.print()"><i data-lucide="download" width="16" height="16" aria-hidden="true"></i>Скачать PDF</button>
 <a class="btn btn--ghost" href="index.html"><i data-lucide="arrow-left" width="16" height="16" aria-hidden="true"></i>Все кейсы</a>
 </div>
 <script>
 document.addEventListener('DOMContentLoaded', function () {
-  var CFG = {"labels": ["УСН 6 %", "УСН + 5 %", "УСН + 22 % с вычетом"], "series": [{"name": "Налог", "values": [1.56, 1.3, 0.86]}], "zeroLabel": "", "kind": "bars", "xLabel": "вариант", "yLabel": "налог, млн ₽", "yUnit": ""};
+  var CFG = {"labels": ["SKU 1", "SKU 2", "SKU 3", "SKU 4", "SKU 5", "SKU 6", "SKU 7", "SKU 8", "SKU 9", "SKU 10"], "series": [{"name": "Оборот", "values": [11145.0, 14917.0, 5777.0, 6175.0, 8358.0, 2177.0, 6478.0, 436.0, 1739.0, 325.0]}], "zeroLabel": "", "kind": "bars", "xLabel": "фактическая комиссия", "yLabel": "₽ оборота", "yUnit": ""};
   var cv = document.getElementById('sens');
   if (!cv || typeof Chart === 'undefined') return;
   var css = getComputedStyle(document.documentElement);
@@ -401,9 +403,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
 });
 </script>
-<script>window.__CASE_LAB__ = {"root": "#lab-root", "dec": 2, "returnFixed": 99.0, "logistics": 78, "pvz": 10, "extra": 0, "chartMax": 1600};</script>
+<script>window.__CASE_LAB__ = {"root": "#lab-root", "dec": 2, "returnFixed": 99.0, "logistics": 116, "pvz": 10, "extra": 0, "chartMax": 2880};</script>
 <script defer src="../assets/case-lab.js"></script>
-<p class="case-source">ФЗ № 425-ФЗ от 28.11.2025, п. 1 ст. 145 НК РФ — порог 20 млн ₽ и автоматическое освобождение; методические рекомендации ФНС по НДС для УСН 2026 — ставки 5/7/22 % и пороги 272,5 / 490,5 млн ₽ с учётом коэффициента дефлятора 1,090 (приказ Минэкономразвития № 734).</p>
+<p class="case-source">Выгрузка реализации Seller API за сентябрь 2026 — 242 строки, /api/v1/supplier/sales. Поля finishedPrice и forPay отданы WB по каждой продаже; комиссия считается из них как разница. SKU с отрицательной комиссией (возвраты с компенсацией) исключены — 1 SKU.</p>
 <p class="case-source">Расчёт по данным Seller API и оферты WB. Модель: <span class="code">econ_v3</span>, вероятность штрафа 0,30 % по эмпирике продавца. Себестоимость подтверждена продавцом.</p>
 </main>
 <div class="order-modal" id="order-modal" hidden>

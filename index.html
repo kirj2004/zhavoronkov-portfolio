@@ -69,14 +69,15 @@
     </p>
 
     <div class="pfx-hero__actions pfx-reveal" style="animation-delay:.16s">
-      <a class="pfx-btn pfx-btn--primary" href="#calculator">
+      <a class="pfx-btn pfx-btn--ghost" href="#calculator">
         <i data-lucide="calculator" width="16" height="16" aria-hidden="true"></i>
         Рассчитать себестоимость
       </a>
-      <a class="pfx-btn pfx-btn--ghost" href="#cases">
-        <i data-lucide="bar-chart-3" width="16" height="16" aria-hidden="true"></i>
-        Посмотреть кейсы
-      </a>
+      <button type="button" class="pfx-btn pfx-btn--primary btn-order"
+              data-order-source="hero">
+        <i data-lucide="send" width="16" height="16" aria-hidden="true"></i>
+        Оформить заказ
+      </button>
     </div>
 
     <div class="pfx-stats">
@@ -122,15 +123,61 @@
   <section class="section" id="pains" aria-labelledby="pains-title">
     <div class="pain-head">
       <h2 class="pain-head__title pfx-reveal" id="pains-title">
-        7 болей, которые убивают продавца в 2026
+        10 болей, которые убивают продавца в 2026
       </h2>
       <p class="pain-head__sub pfx-reveal">
         Если узнали себя — у нас есть решение. Нажмите на карточку.
       </p>
     </div>
 
+    <!-- Порядок карточек — от финансовой слепоты (не вижу реальной
+         маржи) к операционным проблемам и к регуляторике. --i задаёт
+         задержку появления, см. .pain-grid .pain-card в style.css. -->
     <div class="pain-grid">
-      <article class="pain-card pfx-reveal">
+      <article class="pain-card pfx-reveal" style="--i:0" id="pain-margin">
+        <span class="pain-card__icon">
+          <i data-lucide="trending-down" width="32" height="32" aria-hidden="true"></i>
+        </span>
+        <h3 class="pain-card__title">Маржа тает, а цифры не сходятся</h3>
+        <p class="pain-card__quote">«В кабинете выручка растёт. В конце месяца денег нет — и я не понимаю, почему.»</p>
+        <div class="pain-card__toggle">
+          <span class="pain-card__toggle-text">Подробнее</span>
+          <i class="pain-card__chevron" data-lucide="chevron-down" width="18" height="18" aria-hidden="true"></i>
+        </div>
+        <div class="pain-card__body">
+          <div class="pain-card__body-inner">
+            <div class="pain-block">
+              <span class="pain-block__label">Что происходит</span>
+              <p class="pain-block__text">
+                Площадка показывает обороты, а не прибыль. Комиссия, логистика,
+                хранение, возвраты и реклама съедают маржу, но в отчёте это
+                не видно — деньги уходят, а SKU продолжает работать в минус.
+              </p>
+            </div>
+            <div class="pain-block">
+              <span class="pain-block__label">Как решаем</span>
+              <p class="pain-block__text">Юнит-экономика по каждому SKU: находим позиции, которые приносят выручку вместо прибыли.</p>
+            </div>
+            <a class="pain-card__cta" href="#contacts">
+              У меня такая же проблема
+              <i data-lucide="arrow-right" width="14" height="14" aria-hidden="true"></i>
+            </a>
+            <div class="pain-card__links pain-card__links--stop">
+              <a class="pain-card__cta" href="cases/case_01.html">
+                Показать кейс
+                <i data-lucide="arrow-up-right" width="14" height="14" aria-hidden="true"></i>
+              </a>
+              <button class="pain-card__cta pain-card__cta--btn btn-order" type="button"
+                      data-order-service="p1" data-order-source="pain">
+                Заказать решение
+                <i data-lucide="arrow-right" width="14" height="14" aria-hidden="true"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="pain-card pfx-reveal" style="--i:1" id="pain-commission">
         <span class="pain-card__icon">
           <i data-lucide="percent" width="32" height="32" aria-hidden="true"></i>
         </span>
@@ -159,7 +206,7 @@
               <i data-lucide="arrow-right" width="14" height="14" aria-hidden="true"></i>
             </a>
             <div class="pain-card__links pain-card__links--stop">
-              <a class="pain-card__cta" href="cases/case_05.html">
+              <a class="pain-card__cta" href="cases/case_13.html">
                 Показать кейс
                 <i data-lucide="arrow-up-right" width="14" height="14" aria-hidden="true"></i>
               </a>
@@ -173,7 +220,7 @@
         </div>
       </article>
 
-      <article class="pain-card pfx-reveal">
+      <article class="pain-card pfx-reveal" style="--i:2" id="pain-logistics">
         <span class="pain-card__icon">
           <i data-lucide="truck" width="32" height="32" aria-hidden="true"></i>
         </span>
@@ -202,7 +249,7 @@
               <i data-lucide="arrow-right" width="14" height="14" aria-hidden="true"></i>
             </a>
             <div class="pain-card__links pain-card__links--stop">
-              <a class="pain-card__cta" href="cases/case_08.html">
+              <a class="pain-card__cta" href="cases/case_14.html">
                 Показать кейс
                 <i data-lucide="arrow-up-right" width="14" height="14" aria-hidden="true"></i>
               </a>
@@ -216,7 +263,7 @@
         </div>
       </article>
 
-      <article class="pain-card pfx-reveal">
+      <article class="pain-card pfx-reveal" style="--i:3" id="pain-ads">
         <span class="pain-card__icon">
           <i data-lucide="megaphone" width="32" height="32" aria-hidden="true"></i>
         </span>
@@ -259,7 +306,7 @@
         </div>
       </article>
 
-      <article class="pain-card pfx-reveal">
+      <article class="pain-card pfx-reveal" style="--i:4" id="pain-warehouse">
         <span class="pain-card__icon">
           <i data-lucide="warehouse" width="32" height="32" aria-hidden="true"></i>
         </span>
@@ -302,7 +349,7 @@
         </div>
       </article>
 
-      <article class="pain-card pfx-reveal">
+      <article class="pain-card pfx-reveal" style="--i:5" id="pain-data-lag">
         <span class="pain-card__icon">
           <i data-lucide="clock" width="32" height="32" aria-hidden="true"></i>
         </span>
@@ -345,7 +392,7 @@
         </div>
       </article>
 
-      <article class="pain-card pfx-reveal">
+      <article class="pain-card pfx-reveal" style="--i:6" id="pain-dumping">
         <span class="pain-card__icon">
           <i data-lucide="globe" width="32" height="32" aria-hidden="true"></i>
         </span>
@@ -388,7 +435,93 @@
         </div>
       </article>
 
-      <article class="pain-card pfx-reveal">
+      <article class="pain-card pfx-reveal" style="--i:7" id="pain-noconversion">
+        <span class="pain-card__icon">
+          <i data-lucide="search-x" width="32" height="32" aria-hidden="true"></i>
+        </span>
+        <h3 class="pain-card__title">Карточки не продаются</h3>
+        <p class="pain-card__quote">«Трафик есть, показы есть, корзина пустая. Меняю цену — то же самое.»</p>
+        <div class="pain-card__toggle">
+          <span class="pain-card__toggle-text">Подробнее</span>
+          <i class="pain-card__chevron" data-lucide="chevron-down" width="18" height="18" aria-hidden="true"></i>
+        </div>
+        <div class="pain-card__body">
+          <div class="pain-card__body-inner">
+            <div class="pain-block">
+              <span class="pain-block__label">Что происходит</span>
+              <p class="pain-block__text">
+                Карточка получает показы, но не конвертирует: съехала позиция в
+                выдаче, не работает главное фото, заголовок не собирает запросы,
+                а рейтинг и отзывы ниже, чем у конкурента в топе.
+              </p>
+            </div>
+            <div class="pain-block">
+              <span class="pain-block__label">Как решаем</span>
+              <p class="pain-block__text">Аудит карточки на 20+ нарушений и сборка семантики под фактические запросы.</p>
+            </div>
+            <a class="pain-card__cta" href="#contacts">
+              У меня такая же проблема
+              <i data-lucide="arrow-right" width="14" height="14" aria-hidden="true"></i>
+            </a>
+            <div class="pain-card__links pain-card__links--stop">
+              <a class="pain-card__cta" href="cases/case_04.html">
+                Показать кейс
+                <i data-lucide="arrow-up-right" width="14" height="14" aria-hidden="true"></i>
+              </a>
+              <button class="pain-card__cta pain-card__cta--btn btn-order" type="button"
+                      data-order-service="p2" data-order-source="pain">
+                Заказать решение
+                <i data-lucide="arrow-right" width="14" height="14" aria-hidden="true"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="pain-card pfx-reveal" style="--i:8" id="pain-start">
+        <span class="pain-card__icon">
+          <i data-lucide="compass" width="32" height="32" aria-hidden="true"></i>
+        </span>
+        <h3 class="pain-card__title">С чего начать на маркетплейсе</h3>
+        <p class="pain-card__quote">«Открыл кабинет — и не понимаю, что делать первым. Ниши, поставщик, цена, карточка…»</p>
+        <div class="pain-card__toggle">
+          <span class="pain-card__toggle-text">Подробнее</span>
+          <i class="pain-card__chevron" data-lucide="chevron-down" width="18" height="18" aria-hidden="true"></i>
+        </div>
+        <div class="pain-card__body">
+          <div class="pain-card__body-inner">
+            <div class="pain-block">
+              <span class="pain-block__label">Что происходит</span>
+              <p class="pain-block__text">
+                Новичок видит на площадке десятки решений и ни одного очевидного
+                первого шага. Выбор ниши и поставщика делается интуитивно, и
+                ошибка на старте стоит дороже всего остального вместе взятого.
+              </p>
+            </div>
+            <div class="pain-block">
+              <span class="pain-block__label">Как решаем</span>
+              <p class="pain-block__text">Порядок запуска: анализ ниши → поставщик и логистика → экономика → карточка.</p>
+            </div>
+            <a class="pain-card__cta" href="#contacts">
+              У меня такая же проблема
+              <i data-lucide="arrow-right" width="14" height="14" aria-hidden="true"></i>
+            </a>
+            <div class="pain-card__links pain-card__links--stop">
+              <a class="pain-card__cta" href="cases/index.html">
+                Все кейсы
+                <i data-lucide="arrow-up-right" width="14" height="14" aria-hidden="true"></i>
+              </a>
+              <button class="pain-card__cta pain-card__cta--btn btn-order" type="button"
+                      data-order-service="p10" data-order-source="pain">
+                Заказать решение
+                <i data-lucide="arrow-right" width="14" height="14" aria-hidden="true"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="pain-card pfx-reveal" style="--i:9" id="pain-regulation">
         <span class="pain-card__icon">
           <i data-lucide="scale" width="32" height="32" aria-hidden="true"></i>
         </span>

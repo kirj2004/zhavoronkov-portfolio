@@ -3,9 +3,12 @@ data/
 tmp_shots/
 *.log
 
-# Скрипты (служебное)
+# Скрипты (служебные)
 *.py
 __pycache__/
+# …кроме генератора кейсов: он источник правды для cases/*.html,
+# без него собранные кейсы невоспроизводимы из истории git.
+!build_cases.py
 STATUS.md
 DESIGN_PLAN.md
 MARKET_INTEGRATION.md
@@ -14,6 +17,8 @@ MARKET_INTEGRATION.md
 .DS_Store
 .env
 *.env
+.venv/
+venv/
 
 # Временное
 tmp_*

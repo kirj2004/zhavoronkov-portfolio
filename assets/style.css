@@ -2675,6 +2675,11 @@ body { font-family: var(--pfx-font-body); }
 .pfx-btn {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
+  /* Кнопка открывает модалку, а <a> ведёт по ссылке — оба варианта
+     в hero выглядят одинаково, поэтому сброс нужен для <button>. */
+  cursor: pointer;
+  appearance: none;
   gap: 8px;
   padding: 14px 26px;
   border-radius: 12px;
@@ -2878,10 +2883,18 @@ body { font-family: var(--pfx-font-body); }
   color: var(--color-text-secondary);
 }
 
+/* Сетка болей: 10 карточек в четыре колонки дают 4+4+2 — третий ряд
+   из двух карточек выглядит незавершённым. Отсюда каскад 4 → 3 → 2 → 1:
+   на широком экране три колонки дают ровный последний ряд (3+3+3+1
+   хуже), на планшете две, на телефоне одна. */
 .pain-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 16px;
+}
+
+@media (max-width: 1400px) {
+  .pain-grid { grid-template-columns: repeat(3, 1fr); }
 }
 
 .pain-card {
@@ -2893,9 +2906,25 @@ body { font-family: var(--pfx-font-body); }
   color: inherit;
   font: inherit;
   cursor: pointer;
+  overflow: hidden;
   transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1),
               border-color 0.22s ease, box-shadow 0.22s ease;
 }
+
+/* Верхняя линия акцента: на карточке закрыта (opacity 0), на hover
+   проявляется. Читается как «карточка отзывается на курсор»
+   раньше, чем подсветится весь фон. */
+.pain-card::after {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--pfx-primary), transparent);
+  opacity: 0;
+  transition: opacity 0.28s ease;
+  pointer-events: none;
+}
+.pain-card:hover::after { opacity: 1; }
 
 /* Курсорная подсветка: JS ставит --pfx-mx/--pfx-my от позиции указателя. */
 .pain-card::before {
@@ -2913,6 +2942,16 @@ body { font-family: var(--pfx-font-body); }
 .pain-card:hover { transform: translateY(-3px); box-shadow: var(--pfx-glow-card); }
 .pain-card:hover::before { opacity: 1; }
 .pain-card.is-open { border-color: var(--pfx-glass-border-hi); box-shadow: var(--pfx-glow-card); }
+
+/* Иконка на hover поднимается и слегка поворачивается — микродвижение
+   связывает курсор с карточкой раньше, чем сработает подсветка фона. */
+.pain-card__icon { transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.28s ease; }
+.pain-card:hover .pain-card__icon { transform: translateY(-2px) scale(1.06); box-shadow: 0 6px 18px rgba(255, 107, 53, 0.28); }
+
+/* Каскад появления: карточки секции «Боли» проявляются по очереди,
+   а не одновременно — иначе блок из 10 карточек вспыхивает целиком.
+   Индекс задаёт --i на карточке в разметке. */
+.pain-grid .pain-card.pfx-reveal.pfx-in-view { animation-delay: calc(var(--i, 0) * 55ms); }
 
 .pain-card__icon {
   display: inline-flex;
