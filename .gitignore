@@ -22,3 +22,6 @@ venv/
 
 # Временное
 tmp_*
+config/cookies.json
+config/wb_bearer_token.txt
+config/apify_token.txt
