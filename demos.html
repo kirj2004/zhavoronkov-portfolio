@@ -55,6 +55,10 @@
   .btn-ghost{background:transparent;border-color:var(--color-border-control);color:var(--color-text-primary)}
   .price-tag{font-size:28px;font-weight:700;font-variant-numeric:tabular-nums}
   .pdf-embed{width:100%;height:820px;border:1px solid var(--color-border);border-radius:14px;background:var(--color-well);margin:10px 0 26px}
+  /* Предпросмотр калькулятора: ниже 620px фрейм уезжает в столб — сетка .grid2
+     уже переносит колонки, но высота в 500px на телефоне съедала бы пол-экрана. */
+  .calc-preview{width:100%;height:520px;border:1px solid var(--color-border);border-radius:12px;background:var(--color-well);display:block}
+  @media (max-width:620px){.calc-preview{height:640px}}
   .row-flex{display:flex;flex-wrap:wrap;gap:22px;align-items:baseline;justify-content:space-between}
   .tagline{font-size:13px;color:var(--color-text-tertiary);margin-top:4px}
   .stat-inline{display:flex;gap:8px;align-items:baseline}
@@ -133,7 +137,7 @@
         <p class="svc-sub">Весь запрос разложен по цене, рейтингу и конкурентам.</p>
       </div>
       <div style="text-align:right">
-        <div class="price-tag">6 500 ₽</div>
+        <div class="price-tag">9 000 ₽</div>
         <div class="tagline">3 дня · PDF 3–5 страниц</div>
       </div>
     </div>
@@ -171,6 +175,58 @@
     </div>
   </section>
 
+  <!-- ─────────── ИНТЕРАКТИВНЫЙ КАЛЬКУЛЯТОР ─────────── -->
+  <section id="kalkulyator" style="margin-top:56px">
+    <div class="row-flex">
+      <div>
+        <h2 class="svc">Интерактивный калькулятор маржи</h2>
+        <p class="svc-sub">Тот же расчёт, что в PDF-отчёте, но в браузере: двигайте ползунки и смотрите,
+          как меняется маржа, безубыточность и доходность рекламы.</p>
+      </div>
+      <div style="text-align:right">
+        <div class="tagline">Работает офлайн · экспорт в PDF одной кнопкой</div>
+      </div>
+    </div>
+
+    <div class="chart-box" style="padding:0;overflow:hidden">
+      <div class="grid2" style="margin:0;padding:20px;gap:14px;align-items:center">
+        <div>
+          <h3 style="margin:0 0 6px">Что внутри</h3>
+          <p class="hint" style="margin:0 0 12px">Пять ползунков, три графика и режим «автопилот»:
+            подбирает цену под заданную маржу сам.</p>
+          <ul class="hint" style="margin:0 0 16px;padding-left:18px;line-height:1.7">
+            <li>цена, скидка, СПП, себестоимость и комиссия WB — живые значения;</li>
+            <li>цена безубыточности и кВВ пересчитываются на каждый движок;</li>
+            <li>сценарии «в плюс / в ноль / в минус» по всей шкале цены;</li>
+            <li>весь отчёт скачивается в PDF прямо в браузере.</li>
+          </ul>
+          <div class="cta" style="margin:0">
+            <a class="btn-order" href="assets/demos/kalkulyator_marginy_334820823.html"
+               target="_blank" rel="noopener" data-order-source="demo_calc">Попробовать в браузере</a>
+            <button class="btn-order" data-order-service="p4" data-order-source="demo_calc">
+              Разобрать мою карточку — 3 500 ₽
+            </button>
+          </div>
+        </div>
+        <div>
+          <iframe class="calc-preview" src="assets/demos/kalkulyator_marginy_334820823.html"
+                  title="Предпросмотр интерактивного калькулятора маржи" loading="lazy"></iframe>
+          <p class="hint" style="margin:8px 0 0">Предпросмотр: ползунки и графики работают прямо здесь.</p>
+        </div>
+      </div>
+    </div>
+
+    <p class="note">Калькулятор — это демонстрация метода, а не отдельная услуга и не оценка вашего товара.
+      Цифры в нём считаются по открытым данным карточки <strong>конкурента</strong> (артикул 334820823):
+      поменяйте ползунки — и увидите, как считает методика, на реальных данных. Разбор вашей собственной
+      карточки — это услуга «Разбор конкурента».</p>
+
+    <div class="cta">
+      <button class="btn-order" data-order-service="p4" data-order-source="demo_calc">Хочу такой же расчёт по моему товару</button>
+      <span class="tagline">Артикул WB — и за сутки получите разбор с этой же экономикой</span>
+    </div>
+  </section>
+
   <!-- ─────────── ЗАЯВЛЕНО vs ФАКТ ─────────── -->
   <section class="vsf">
     <h2>Заявлено против факта</h2>
@@ -184,7 +240,7 @@
     <p class="svc-sub">Кнопка открывает форму: имя, контакты, и что разбирать. Дальше — MAX или почта.</p>
     <div class="cta">
       <button class="btn-order" data-order-service="p4" data-order-source="demo_all">Разбор конкурента — 3 500 ₽</button>
-      <button class="btn-order" data-order-service="p10" data-order-source="demo_all">Анализ ниши — 6 500 ₽</button>
+      <button class="btn-order" data-order-service="p10" data-order-source="demo_all">Анализ ниши — 9 000 ₽</button>
       <a class="btn btn-ghost" href="index.html">На главную</a>
     </div>
     <p class="tagline">Отчёты собираются автоматически: от 15 секунд на одну карточку,
