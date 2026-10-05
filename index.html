@@ -34,6 +34,8 @@
       <a class="nav-link" href="#process">Как работаю</a>
       <a class="nav-link" href="#cases">Кейсы</a>
       <a class="nav-link" href="#products">Продукты</a>
+      <a class="nav-link" href="demos.html">Примеры отчётов</a>
+      <a class="nav-link" href="#free">Бесплатно</a>
       <a class="nav-link" href="#api">API</a>
       <a class="nav-link" href="#order">Заявка</a>
     </nav>
@@ -297,7 +299,7 @@
                 <i data-lucide="arrow-up-right" width="14" height="14" aria-hidden="true"></i>
               </a>
               <button class="pain-card__cta pain-card__cta--btn btn-order" type="button"
-                      data-order-service="p3" data-order-source="pain">
+                      data-order-service="p1" data-order-source="pain">
                 Заказать решение
                 <i data-lucide="arrow-right" width="14" height="14" aria-hidden="true"></i>
               </button>
@@ -851,7 +853,7 @@
             Смотреть
             <i data-lucide="arrow-up-right" width="14" height="14" aria-hidden="true"></i>
           </a>
-          <button class="case__order-btn btn-order" type="button" data-order-service="p3" data-order-source="case_02">
+          <button class="case__order-btn btn-order" type="button" data-order-service="p1" data-order-source="case_02">
             <i data-lucide="clipboard-check" width="14" height="14" aria-hidden="true"></i>
             Хочу такой разбор
           </button>
@@ -942,14 +944,14 @@
   <section class="section" id="products" aria-labelledby="products-title">
     <div class="section-head">
       <h2 class="section-title" id="products-title">Продукты</h2>
-      <span class="section-note">18 позиций · цена фиксируется до начала работ</span>
+      <span class="section-note">20 позиций · цена фиксируется до начала работ</span>
     </div>
 
     <!-- Микро -->
     <div class="tier">
       <div class="tier__head">
         <h3 class="tier__name">Микро-задачи</h3>
-        <span class="tier__range">от <span data-money="990" data-dec="0">—</span> до <span data-money="2900" data-dec="0">—</span></span>
+        <span class="tier__range">от <span data-money="990" data-dec="0">—</span> до <span data-money="6500" data-dec="0">—</span></span>
       </div>
 
       <div class="price-list">
@@ -959,6 +961,15 @@
         <div class="price"><span class="price__name">Аудит карточки: конверсия и заголовок</span><span class="price__term">2 дня</span><span class="price__value" data-money="1900" data-dec="0">—</span></div>
         <div class="price"><span class="price__name">Разбор трёх SKU одной ниши</span><span class="price__term">2 дня</span><span class="price__value" data-money="2400" data-dec="0">—</span></div>
         <div class="price"><span class="price__name">Разбор габаритов и логистики</span><span class="price__term">3 дня</span><span class="price__value" data-money="2900" data-dec="0">—</span></div>
+        <div class="price price--new"><span class="price__name">Разбор конкурента: готовый PDF-отчёт по карточке <a class="price__demo" href="demos.html#razbor">пример отчёта</a></span><span class="price__term">1 день</span><span class="price__value" data-money="3500" data-dec="0">—</span></div>
+        <div class="price price--new"><span class="price__name">Анализ ниши: готовый PDF по вашему запросу <a class="price__demo" href="demos.html#nisha">пример отчёта</a></span><span class="price__term">3 дня</span><span class="price__value" data-money="6500" data-dec="0">—</span></div>
+      </div>
+      <div class="tier__demo">
+        <a class="pfx-btn pfx-btn--ghost" href="demos.html">
+          <i data-lucide="eye" width="16" height="16" aria-hidden="true"></i>
+          Посмотреть примеры обоих отчётов
+        </a>
+        <span class="tier__demo-note">Реальные отчёты, собранные с открытых карточек Wildberries 05.10.2026</span>
       </div>
     </div>
 
@@ -1253,7 +1264,7 @@
         <span class="service__icon"><i data-lucide="list-checks" width="18" height="18" aria-hidden="true"></i></span>
         <div>
           <h3 class="card-title">Чек-лист карточки WB</h3>
-          <p class="card-sub">47 пунктов перед публикацией</p>
+          <p class="card-sub">30 пунктов перед публикацией</p>
         </div>
         <p class="service__text">
           Проверка карточки перед запуском: заголовок, атрибуты, фото,
@@ -1286,6 +1297,76 @@
           </a>
         </div>
       </article>
+    </div>
+  </section>
+
+
+  <!-- ── Бесплатно (лид-магнит) ──────────────────────────────────────────── -->
+  <!-- Услуга №6 «Чек-лист из 30 пунктов» выведена из платного реестра
+       (решение владельца от 2026-10-03) и стала бесплатным лид-магнитом.
+       Чек-лист — тот же продукт, что и раньше; изменилась модель продажи:
+       раньше он был товаром за 990 ₽, теперь вход в воронку перед
+       платными услугами. Воронка: скачал чек-лист → отметил пункты →
+       увидел свои дыры → заказал разбор. -->
+  <section class="section" id="free" aria-labelledby="free-title">
+    <div class="section-head">
+      <h2 class="section-title" id="free-title">Бесплатно</h2>
+      <span class="section-note">без заявки и без оплаты</span>
+    </div>
+
+    <div class="grid grid-2 free-grid">
+      <article class="card free-card" id="free-checklist">
+        <span class="service__icon"><i data-lucide="gift" width="18" height="18" aria-hidden="true"></i></span>
+        <div>
+          <h3 class="card-title">Чек-лист из 30 пунктов</h3>
+          <p class="card-sub">что проверить в карточке до запуска</p>
+        </div>
+        <p class="service__text">
+          Тридцать проверок по карточке WB: от заголовка и атрибутов до
+          юридических формулировок, цены и скидки. Пройдите список сами —
+          и увидите, где конкретно ваша карточка теряет продажи.
+        </p>
+        <ul class="free-list">
+          <li>Проверьте карточку до публикации и не пропустите требования площадки</li>
+          <li>Отметьте каждый пункт: бумага с галочками показывает, сколько дыр осталось</li>
+          <li>Посчитайте, сколько пунктов уже провалено — это и есть ваш список доработок</li>
+        </ul>
+        <div class="tool__foot">
+          <span>Формат: чек-лист в тексте</span>
+          <a class="case__link" href="tools/index.html#checklist">
+            Скачать чек-лист
+            <i data-lucide="download" width="14" height="14" aria-hidden="true"></i>
+          </a>
+        </div>
+      </article>
+
+      <aside class="card free-next" id="free-next">
+        <p class="free-next-eyebrow">Что делать после чек-листа</p>
+        <h3 class="card-title">Проверка списка — это половина работы</h3>
+        <p class="service__text">
+          Чек-лист показывает, <em>что</em> не так. Дальше нужно посчитать,
+          <em>сколько</em> это стоит: точка безубыточности, цена под вашу маржу,
+          цена отсечения при скидке. Если у вас FBS и товар уже в минусе —
+          начните с расчёта, а не с правок карточки.
+        </p>
+        <div class="free-next-actions">
+          <button class="pfx-btn pfx-btn--primary btn-order" type="button"
+                  data-order-service="p1" data-order-title="Расчёт цены и безубыточности по данным Seller API"
+                  data-order-source="leadmagnet">
+            <i data-lucide="clipboard-check" width="16" height="16" aria-hidden="true"></i>
+            Посчитать цену и безубыточность
+          </button>
+          <a class="pfx-btn pfx-btn--ghost" href="products/index.html#micro">
+            Смотреть все услуги
+            <i data-lucide="arrow-right" width="16" height="16" aria-hidden="true"></i>
+          </a>
+        </div>
+        <p class="free-next-note">
+          Проверка карточки на 20+ нарушений и аудит ниши тоже начинаются
+          с одного прогона чек-листа — скажите, что провалилось, и я скажу,
+          что исправлять в первую очередь.
+        </p>
+      </aside>
     </div>
   </section>
 

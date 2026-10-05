@@ -1786,6 +1786,52 @@ body {
   border-style: dashed;
 }
 
+/* Новые услуги: 3 500 и 6 500 ₽ — автоматически собираемые PDF-отчёты.
+   Помечены, чтобы покупатель видел, что по ним уже есть готовый пример. */
+.price--new {
+  border-color: var(--color-accent);
+  background: var(--color-accent-subtle);
+}
+
+.price__demo {
+  display: inline-block;
+  margin-left: var(--space-2);
+  font-size: var(--text-xs);
+  color: var(--color-accent);
+  text-decoration: underline;
+  white-space: nowrap;
+}
+
+.price__demo:hover { color: var(--color-accent); text-decoration-thickness: 2px; }
+
+.price--new .price__name::after {
+  content: "новое";
+  margin-left: var(--space-2);
+  padding: 1px 7px;
+  border-radius: 999px;
+  font-size: var(--text-xs);
+  font-weight: 600;
+  color: var(--color-accent-on-subtle);
+  background: var(--color-accent-subtle);
+  border: 1px solid var(--color-accent);
+  white-space: nowrap;
+}
+
+.tier__demo {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3);
+  margin-top: var(--space-4);
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--color-border);
+}
+
+.tier__demo-note {
+  font-size: var(--text-xs);
+  color: var(--color-text-tertiary);
+}
+
 .price--sub .price__name {
   padding-left: var(--space-4);
   position: relative;
@@ -1817,6 +1863,71 @@ body {
   margin-top: auto;
   padding-top: var(--space-3);
   border-top: 1px solid var(--color-border);
+  font-size: var(--text-xs);
+  color: var(--color-text-tertiary);
+}
+
+/* ── Бесплатно (лид-магнит) ─────────────────────────────────────────────
+   Услуга №6 «Чек-лист из 30 пунктов» выведена из платного реестра и стала
+   бесплатным входом в воронку: левая карточка отдаёт чек-лист, правая
+   ведёт к платному расчёту цены и безубыточности. */
+
+.free-grid {
+  align-items: stretch;
+}
+
+.free-card,
+.free-next {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.free-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+}
+
+.free-list li {
+  position: relative;
+  padding-left: 20px;
+}
+
+.free-list li::before {
+  content: "✓";
+  position: absolute;
+  left: 0;
+  color: var(--color-accent);
+  font-weight: 700;
+}
+
+.free-next {
+  border-style: dashed;
+}
+
+.free-next-eyebrow {
+  margin: 0;
+  font-size: var(--text-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--color-accent);
+}
+
+.free-next-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  margin-top: auto;
+}
+
+.free-next-note {
+  margin: 0;
   font-size: var(--text-xs);
   color: var(--color-text-tertiary);
 }
