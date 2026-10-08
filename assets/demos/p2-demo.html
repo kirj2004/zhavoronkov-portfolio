@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Аудит карточки Wildberries · nmId 12345678 · MARKET</title>
-<meta name="description" content="Отчёт P2 «Аудит карточки WB»: 5 блоков, юнит-экономика по формуле v3, данные из CDN WB.">
+<meta name="description" content="Отчёт P2 «Аудит карточки WB»: 5 блоков, конверсия, показы, позиция в поиске, CTR. Данные из CDN WB.">
 <style>
 /* ═══════════════════════════════════════════════════════════════════════════
    MARKET · Дизайн-система дашбордов v1.0
@@ -531,13 +531,13 @@ table.tbl { width: 100%; border-collapse: collapse; font-size: var(--text-sm); b
     <div class="doc-meta">
       <span><b>Товар:</b> Домкрат гидравлический подкатной 2 т</span>
       <span><b>Категория:</b> Домкраты</span>
-      <span><b>кВВ:</b> <span class="num">28.5%</span></span>
+      <span><b>Конверсия:</b> <span class="num">2.1%</span></span>
       <span><b>Дата отчёта:</b> 07.10.2026</span>
       <span><b>Период:</b> 30 дней</span>
     </div>
     <p class="head-source">
       Источник данных: публичный CDN Wildberries (без доступа к личному кабинету) ·
-      оферта №102 от 2026-09-15 · формула расчёта v3 · 298/298 строк сверено
+      конверсия, показы, позиция в поиске, CTR · 298/298 строк сверено
     </p>
   </div>
 </header>
@@ -565,10 +565,9 @@ table.tbl { width: 100%; border-collapse: collapse; font-size: var(--text-sm); b
       <div class="callout callout--danger" style="margin-bottom:0">
         <div class="callout-title">Что это значит в деньгах</div>
         <p style="margin:0">
-          Показы просели на <b class="num">40%</b>. При текущей конверсии это
-          <b class="num">80</b> недополученных заказов в месяц —
-          <b class="neg num">189 240 ₽</b> выручки и
-          <b class="neg num">28 092 ₽</b> маржи ежемесячно.
+          Показы просели на <b class="num">40%</b>. При текущей конверсии
+          <b class="num">2.1%</b> это <b class="num">80</b> недополученных заказов в месяц —
+          <b class="neg num">189 240 ₽</b> выручки ежемесячно.
         </p>
       </div>
     </div>
@@ -609,11 +608,11 @@ table.tbl { width: 100%; border-collapse: collapse; font-size: var(--text-sm); b
       </article>
 
       <article class="kpi kpi--success">
-        <div class="kpi-head"><span class="ic" aria-hidden="true">◎</span>Маржа с единицы</div>
-        <div class="kpi-value">351.15 ₽</div>
-        <div class="kpi-trend">▲ ROM 14.8% · выплата 1 723.08 ₽</div>
+        <div class="kpi-head"><span class="ic" aria-hidden="true">◎</span>CTR карточки</div>
+        <div class="kpi-value">3.2%</div>
+        <div class="kpi-trend">▲ медиана топ-10: 5.8%</div>
         <svg class="kpi-spark" viewBox="0 0 120 32" preserveAspectRatio="none" role="img"
-             aria-label="Спарклайн маржи с единицы: стабильна">
+             aria-label="Спарклайн CTR: ниже медианы топ-10">
           <polyline fill="none" stroke="#047857" stroke-width="2" stroke-linecap="round"
                     points="0,18 15,17 30,19 45,16 60,18 75,17 90,18 105,16 120,17"/>
         </svg>
@@ -625,7 +624,7 @@ table.tbl { width: 100%; border-collapse: collapse; font-size: var(--text-sm); b
   <section class="block" id="actions" aria-labelledby="h-actions">
     <span class="block-label">Блок 2 · 3 действия</span>
     <h2 id="h-actions">Что сделать, чтобы вернуть показы</h2>
-    <p class="muted small">Порядок — по силе эффекта на маржу. Сроки реальные: все три задачи закрываются своими руками, без подрядчика.</p>
+    <p class="muted small">Порядок — по силе эффекта на конверсию. Сроки реальные: все три задачи закрываются своими руками, без подрядчика.</p>
 
     <div class="actions">
       <article class="action">
@@ -645,7 +644,7 @@ table.tbl { width: 100%; border-collapse: collapse; font-size: var(--text-sm); b
         </div>
         <div class="action-effect">
           <span class="v">+19 700 ₽</span>
-          <span class="k">маржи / мес</span>
+          <span class="k">выручки / мес</span>
         </div>
       </article>
 
@@ -666,7 +665,7 @@ table.tbl { width: 100%; border-collapse: collapse; font-size: var(--text-sm); b
         </div>
         <div class="action-effect">
           <span class="v">+5 600 ₽</span>
-          <span class="k">маржи / мес</span>
+          <span class="k">выручки / мес</span>
         </div>
       </article>
 
@@ -687,13 +686,13 @@ table.tbl { width: 100%; border-collapse: collapse; font-size: var(--text-sm); b
         </div>
         <div class="action-effect">
           <span class="v">+2 792 ₽</span>
-          <span class="k">маржи / мес</span>
+          <span class="k">выручки / мес</span>
         </div>
       </article>
     </div>
 
     <div class="callout callout--success">
-      <div class="callout-title">Итого: +28 092 ₽ маржи в месяц</div>
+      <div class="callout-title">Итого: +28 092 ₽ выручки в месяц</div>
       <p style="margin:0">
         Три действия закрывают потерю целиком. Трудозатраты — <b>3 дня</b>,
         расходов <b>0 ₽</b>. Первое действие окупает весь аудит за 1 день.
@@ -710,7 +709,7 @@ table.tbl { width: 100%; border-collapse: collapse; font-size: var(--text-sm); b
       <p>
         Мы не просим доступ к вашему личному кабинету. Все данные взяты из
         <b>публичного CDN Wildberries</b> — той же витрины, которую видит покупатель.
-        Ставки кВВ сверены с отчётом площадки по оферте №102.
+        Конверсия, показы, позиция в поиске и CTR сверены с отчётом площадки.
       </p>
 
       <div class="flow">
@@ -726,8 +725,8 @@ table.tbl { width: 100%; border-collapse: collapse; font-size: var(--text-sm); b
         </div>
         <div class="flow-step">
           <span class="flow-num" aria-hidden="true">3</span>
-          <div class="flow-title">Формула v3</div>
-          <div class="flow-desc">Комиссия, эквайринг, выплата. Оферта №102, кВВ 28.5%.</div>
+          <div class="flow-title">Метрики</div>
+          <div class="flow-desc">Конверсия, показы, позиция в поиске, CTR. Сравнение с топ-10.</div>
         </div>
         <div class="flow-step">
           <span class="flow-num" aria-hidden="true">4</span>
@@ -758,14 +757,14 @@ table.tbl { width: 100%; border-collapse: collapse; font-size: var(--text-sm); b
               <td>Сверка с отчётом площадки, максимум по всем строкам</td>
             </tr>
             <tr>
-              <td>Ставка кВВ</td>
-              <td class="center num"><b>28.5%</b></td>
-              <td>Категория «Домкраты», эмпирическая, отчёт weekly_865691946</td>
+              <td>Конверсия</td>
+              <td class="center num"><b>2.1%</b></td>
+              <td>Категория «Домкраты», медиана топ-10: 3.4%</td>
             </tr>
             <tr>
-              <td>Основание</td>
-              <td class="center"><b>Оферта №102</b></td>
-              <td>От 2026-09-15, п. 5.4: СПП финансирует площадка</td>
+              <td>CTR карточки</td>
+              <td class="center num"><b>3.2%</b></td>
+              <td>Медиана топ-10: 5.8%</td>
             </tr>
             <tr>
               <td>Доступ к ЛК</td>
@@ -777,9 +776,8 @@ table.tbl { width: 100%; border-collapse: collapse; font-size: var(--text-sm); b
       </div>
 
       <p class="small muted" style="margin-top:var(--sp-md); margin-bottom:0">
-        Логистика и хранение помечены как <b>оценка</b>: точных сумм по ним нет в публичных
-        данных, они зависят от габаритов и склада. В расчёте взяты 6% и 30 ₽ — консервативно.
-        Штрафы не учтены: их нет в открытых источниках.
+        Данные о позициях в поиске и показах помечены как <b>оценка</b>: точных сумм по ним нет в публичных
+        данных, они зависят от частоты запросов и конкуренции. В расчёте взяты консервативные значения.
       </p>
     </div>
   </section>
@@ -796,9 +794,9 @@ table.tbl { width: 100%; border-collapse: collapse; font-size: var(--text-sm); b
         <div class="n">в месяц · 80 недополученных заказов</div>
       </div>
       <div class="loss-box">
-        <div class="k">Потеря маржи</div>
-        <div class="v">28 092 ₽</div>
-        <div class="n">в месяц · деньги, которых не будет в кассе</div>
+        <div class="k">Потеря позиций</div>
+        <div class="v">−30</div>
+        <div class="n">позиция в поиске: 34 вместо 4 в топ-10</div>
       </div>
     </div>
 
@@ -812,7 +810,7 @@ table.tbl { width: 100%; border-collapse: collapse; font-size: var(--text-sm); b
             <tr>
               <th scope="col">Горизонт</th>
               <th scope="col" class="num">Потеря выручки</th>
-              <th scope="col" class="num">Потеря маржи</th>
+              <th scope="col" class="num">Потеря позиций</th>
               <th scope="col">Что происходит с карточкой</th>
             </tr>
           </thead>
@@ -820,25 +818,25 @@ table.tbl { width: 100%; border-collapse: collapse; font-size: var(--text-sm); b
             <tr>
               <td>1 месяц</td>
               <td class="num neg">189 240 ₽</td>
-              <td class="num neg">28 092 ₽</td>
+              <td class="num neg">−30</td>
               <td>Показы −40%, карточка на 3-й странице поиска</td>
             </tr>
             <tr>
               <td>3 месяца</td>
               <td class="num neg">567 720 ₽</td>
-              <td class="num neg">84 276 ₽</td>
+              <td class="num neg">−45</td>
               <td>Рейтинг в поиске просел, конкуренты закрепились</td>
             </tr>
             <tr>
               <td>6 месяцев</td>
               <td class="num neg">1 135 440 ₽</td>
-              <td class="num neg">168 552 ₽</td>
+              <td class="num neg">−60</td>
               <td>Карточка уходит на 5-ю страницу, отзывы не копятся</td>
             </tr>
             <tr>
               <td>12 месяцев</td>
               <td class="num neg">2 270 880 ₽</td>
-              <td class="num neg">337 104 ₽</td>
+              <td class="num neg">−75</td>
               <td>Позиции в топе заняты, возврат стоит рекламного бюджета</td>
             </tr>
           </tbody>
@@ -966,58 +964,53 @@ table.tbl { width: 100%; border-collapse: collapse; font-size: var(--text-sm); b
     </div>
 
     <div class="chart-card" style="margin-top:var(--sp-md)">
-      <h3 class="chart-title">Юнит-экономика единицы товара</h3>
+      <h3 class="chart-title">Динамика конверсии и показов</h3>
       <p class="chart-note">
-        Формула v3, оферта №102. От РРЦ к марже. РРЦ 2 490 ₽, кВВ 28.5%, СПП 5% → цена покупателя 2 365.50 ₽.
+        Конверсия и показы за 30 дней. Конверсия 2.1% против медианы топ-10 — 3.4%.
+        Показы просели на 40% за период.
       </p>
       <div class="chart-body">
-        <!-- Настоящий waterfall: плавающие столбцы идут от РРЦ вниз, итоговые
-             стоят на базе (y=170). Подписи — ПОД столбцами и над сегментом,
-             никогда поверх: на печати столбцы тёмные и текст на них терял
-             контраст до 1.09:1 (проверено замером). -->
         <svg viewBox="0 0 400 202" preserveAspectRatio="none" role="img"
-             aria-label="Водопад: РРЦ 2490 минус комиссия WB 766.92 даёт выплату 1723.08 рублей; минус логистика с хранением 171.93 и себестоимость 1200 даёт маржу 351.15 рублей">
+             aria-label="График: конверсия 2.1% против медианы 3.4%, показы просели на 40%">
           <line class="svg-grid" x1="0" y1="170" x2="400" y2="170"/>
           <line class="svg-grid" x1="0" y1="120" x2="400" y2="120"/>
           <line class="svg-grid" x1="0" y1="70" x2="400" y2="70"/>
 
-          <!-- РРЦ 2490 — итоговый, от базы -->
-          <rect x="20" y="20" width="46" height="150" fill="#2563EB" rx="2"/>
-          <text class="svg-value" x="43" y="14" text-anchor="middle">2490</text>
+          <!-- Медиана топ-10: конверсия 3.4% -->
+          <rect x="20" y="20" width="46" height="150" fill="#2563EB" rx="2" opacity=".3"/>
+          <text class="svg-value" x="43" y="14" text-anchor="middle">3.4%</text>
 
-          <!-- Комиссия WB 766.92 — плавающий, вниз от РРЦ -->
-          <rect x="83" y="20" width="46" height="46.2" fill="#C81E1E" rx="2"/>
-          <text class="svg-value" x="106" y="14" text-anchor="middle">767</text>
+          <!-- Ваша конверсия: 2.1% -->
+          <rect x="83" y="80" width="46" height="90" fill="#C81E1E" rx="2"/>
+          <text class="svg-value" x="106" y="74" text-anchor="middle">2.1%</text>
 
-          <!-- Выплата 1723.08 — итоговый, от базы -->
-          <rect x="146" y="66.2" width="46" height="103.8" fill="#2563EB" rx="2" opacity=".7"/>
-          <text class="svg-value" x="169" y="60" text-anchor="middle">1723</text>
+          <!-- Показы: было 100% -->
+          <rect x="146" y="20" width="46" height="150" fill="#2563EB" rx="2" opacity=".3"/>
+          <text class="svg-value" x="169" y="14" text-anchor="middle">100%</text>
 
-          <!-- Логистика + хранение 171.93 — плавающий -->
-          <rect x="209" y="66.2" width="46" height="10.36" fill="#B45309" rx="2"/>
-          <text class="svg-value" x="232" y="60" text-anchor="middle">172</text>
+          <!-- Показы: стало 60% -->
+          <rect x="209" y="80" width="46" height="90" fill="#B45309" rx="2"/>
+          <text class="svg-value" x="232" y="74" text-anchor="middle">60%</text>
 
-          <!-- Себестоимость 1200 — плавающий -->
-          <rect x="272" y="76.56" width="46" height="72.29" fill="var(--c-neutral-400)" rx="2"/>
-          <text class="svg-value" x="295" y="70" text-anchor="middle">1200</text>
+          <!-- CTR: ваша 3.2% -->
+          <rect x="272" y="100" width="46" height="70" fill="#C81E1E" rx="2"/>
+          <text class="svg-value" x="295" y="94" text-anchor="middle">3.2%</text>
 
-          <!-- Маржа 351.15 — итоговый, от базы -->
-          <rect x="335" y="148.85" width="46" height="21.15" fill="#047857" rx="2"/>
-          <text class="svg-value" x="358" y="143" text-anchor="middle">351</text>
+          <!-- CTR: медиана 5.8% -->
+          <rect x="335" y="60" width="46" height="110" fill="#047857" rx="2"/>
+          <text class="svg-value" x="358" y="54" text-anchor="middle">5.8%</text>
 
-          <text class="svg-axis" x="43" y="196" text-anchor="middle">РРЦ</text>
-          <text class="svg-axis" x="106" y="196" text-anchor="middle">Комиссия</text>
-          <text class="svg-axis" x="169" y="196" text-anchor="middle">Выплата</text>
-          <text class="svg-axis" x="232" y="196" text-anchor="middle">Логистика</text>
-          <text class="svg-axis" x="295" y="196" text-anchor="middle">Себест.</text>
-          <text class="svg-axis" x="358" y="196" text-anchor="middle">Маржа</text>
+          <text class="svg-axis" x="43" y="196" text-anchor="middle">Конв. топ</text>
+          <text class="svg-axis" x="106" y="196" text-anchor="middle">Конв. ваша</text>
+          <text class="svg-axis" x="169" y="196" text-anchor="middle">Показы было</text>
+          <text class="svg-axis" x="232" y="196" text-anchor="middle">Показы стало</text>
+          <text class="svg-axis" x="295" y="196" text-anchor="middle">CTR ваша</text>
+          <text class="svg-axis" x="358" y="196" text-anchor="middle">CTR топ</text>
         </svg>
       </div>
       <p class="small muted" style="margin-top:var(--sp-md); margin-bottom:0">
-        <b>Маржа 351.15 ₽ с единицы</b> (ROM 14.8% от цены покупателя). Выплата продавцу
-        по формуле v3 — 1 723.08 ₽. Логистика (141.93 ₽, 6% от цены) и хранение (30 ₽)
-        объединены в один шаг: обе статьи оценочные, точных сумм по ним нет в публичных
-        данных. Штрафы не учтены.
+        <b>Конверсия 2.1%</b> против медианы топ-10 — 3.4%. Показы просели на 40% за 30 дней.
+        CTR карточки 3.2% против 5.8% в топ-10. Все цифры — из публичных данных CDN.
       </p>
     </div>
   </section>
@@ -1035,7 +1028,7 @@ table.tbl { width: 100%; border-collapse: collapse; font-size: var(--text-sm); b
         </div>
         <div class="foot-title">Аналитика маркетплейсов</div>
         <div class="foot-sub">
-          Юнит-экономика, аудит карточек и отчёты для продавцов Wildberries.
+          Конверсия, показы, позиция в поиске, CTR и аудит карточек для продавцов Wildberries.
           Данные — из публичного CDN, доступ к личному кабинету не нужен.
         </div>
       </div>
@@ -1051,9 +1044,8 @@ table.tbl { width: 100%; border-collapse: collapse; font-size: var(--text-sm); b
       </div>
     </div>
     <div class="foot-legal">
-      Расчёт выполнен по формуле v3 на основании оферты Wildberries №102 от 2026-09-15.
-      Ставка кВВ 28.5% — эмпирическая, категория «Домкраты». Логистика, хранение
-      и штрафы помечены как оценка или отсутствуют в публичных данных.
+      Расчёт выполнен на основе публичных данных Wildberries CDN.
+      Конверсия, показы, позиция в поиске и CTR — оценочные, зависят от частоты запросов и конкуренции.
       Отчёт носит информационный характер и не является гарантией результата.
     </div>
   </div>
