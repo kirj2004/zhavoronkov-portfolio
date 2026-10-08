@@ -1,0 +1,1132 @@
+<!doctype html>
+<html lang="ru" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Аудит карточки Wildberries · nmId 12345678 · MARKET</title>
+<meta name="description" content="Отчёт P2 «Аудит карточки WB»: 5 блоков, юнит-экономика по формуле v3, данные из CDN WB.">
+<style>
+/* ═══════════════════════════════════════════════════════════════════════════
+   MARKET · Дизайн-система дашбордов v1.0
+   Токены — из docs/DESIGN_SYSTEM.md §1–§5. Один файл, без внешних зависимостей.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+:root {
+  /* ── §1 Палитра: 7 цветов ── */
+  --c-primary:      #2563EB;
+  --c-primary-strong:#1D4ED8;
+  --c-primary-subtle: rgba(37, 99, 235, .08);
+  --c-success:      #047857;
+  --c-success-subtle: rgba(4, 120, 87, .08);
+  --c-danger:       #C81E1E;
+  --c-danger-subtle: rgba(200, 30, 30, .08);
+  --c-warning:      #B45309;
+  --c-warning-subtle: rgba(180, 83, 9, .08);
+  --c-info:         #026AA2;
+  --c-info-subtle:  rgba(2, 106, 162, .08);
+  --c-neutral-900:  #0D1526;
+  --c-neutral-100:  #F8FAFC;
+
+  /* ── Производные нейтральные ── */
+  --c-neutral-700:  #334155;
+  --c-neutral-400:  #5E6C83;  /* не #64748B: на hover-фоне #F1F5F9 давал 4.34:1 — ниже AA */
+  --c-neutral-200:  #CBD5E1;
+  --c-neutral-50:   #F1F5F9;
+  --c-white:        #FFFFFF;
+  --surface:        #FFFFFF;
+  --surface-sunken: #F8FAFC;
+  --border:         #E2E8F0;
+
+  /* Текст на цветных плашках: в светлой теме цвета тёмные → текст белый */
+  --on-accent: #FFFFFF;
+
+  /* ── §2 Типографика ── */
+  --font: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Liberation Sans', sans-serif;
+  --font-mono: 'JetBrains Mono', 'SF Mono', Menlo, Consolas, monospace;
+  --text-2xs: 11px;  --lh-2xs: 16px;
+  --text-xs:  12px;  --lh-xs:  18px;
+  --text-sm:  13px;  --lh-sm:  20px;
+  --text-base:14px;  --lh-base:22px;
+  --text-lg:  16px;  --lh-lg:  24px;
+  --text-xl:  18px;  --lh-xl:  26px;
+  --text-2xl: 20px;  --lh-2xl: 28px;
+  --text-3xl: 24px;  --lh-3xl: 32px;
+  --text-4xl: 32px;  --lh-4xl: 40px;
+
+  /* ── §3 Сетка ── */
+  --maxw: 1280px;
+  --gutter: 24px;
+  --margin: 24px;
+
+  /* ── Радиусы, тени, отступы ── */
+  --sp-xs: 4px; --sp-sm: 8px; --sp-md: 16px; --sp-lg: 24px; --sp-xl: 32px; --sp-2xl: 48px;
+  --r-sm: 6px; --r-md: 8px; --r-lg: 12px; --r-xl: 16px; --r-full: 9999px;
+  --shadow-sm: 0 1px 2px rgba(13, 21, 38, .06);
+  --shadow-md: 0 4px 10px rgba(13, 21, 38, .08);
+  --shadow-lg: 0 12px 28px rgba(13, 21, 38, .12);
+
+  /* ── §5 Анимации ── */
+  --dur-fast: 120ms; --dur-base: 200ms; --dur-slow: 300ms;
+  --ease: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ── §1 Тёмная тема. Токены — из DESIGN_SYSTEM.md, измерены по WCAG ── */
+[data-theme="dark"] {
+  --c-primary:      #5B9BFF;
+  --c-primary-strong:#7FB2FF;
+  --c-primary-subtle: rgba(91, 155, 255, .14);
+  --c-success:      #3DDC97;
+  --c-success-subtle: rgba(61, 220, 151, .12);
+  --c-danger:       #FF958C;
+  --c-danger-subtle: rgba(255, 149, 140, .12);
+  --c-warning:      #FBBF24;
+  --c-warning-subtle: rgba(251, 191, 36, .12);
+  --c-info:         #38BDF8;
+  --c-info-subtle:  rgba(56, 189, 248, .12);
+  --c-neutral-900:  #E8EDF7;
+  --c-neutral-100:  #0A0E1A;
+  --c-neutral-700:  #B6C2D9;
+  --c-neutral-400:  #8A98B4;
+  --c-neutral-200:  #2A3650;
+  --c-neutral-50:   #16203A;
+  --c-white:        #121A2B;
+  --surface:        #121A2B;
+  --surface-sunken: #0A0E1A;
+  --border:         #24304A;
+  /* Правило §1: на цветных плашках в тёмной теме текст ТЁМНЫЙ (6.95–11.53:1),
+     светлый даёт 1.42–2.36:1 и проваливает AA. */
+  --on-accent: #0A0E1A;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+
+body {
+  margin: 0;
+  font-family: var(--font);
+  font-size: var(--text-base);
+  line-height: var(--lh-base);
+  color: var(--c-neutral-900);
+  background: var(--c-neutral-100);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* §2 Правило: числа — всегда tabular-nums */
+.num, .mono { font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
+
+h1, h2, h3, h4 { margin: 0; font-weight: 600; color: var(--c-neutral-900); }
+h1 { font-size: var(--text-3xl); line-height: var(--lh-3xl); letter-spacing: -.02em; }
+h2 { font-size: var(--text-2xl); line-height: var(--lh-2xl); letter-spacing: -.015em; }
+h3 { font-size: var(--text-xl);  line-height: var(--lh-xl);  letter-spacing: -.01em; }
+h4 { font-size: var(--text-lg);  line-height: var(--lh-lg);  letter-spacing: -.01em; }
+p { margin: 0 0 var(--sp-md); }
+a { color: var(--c-primary); }
+
+.wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 var(--margin); }
+
+/* ── Утилиты ── */
+.muted { color: var(--c-neutral-400); }
+.small { font-size: var(--text-xs); line-height: var(--lh-xs); }
+.pos { color: var(--c-success); font-weight: 600; }
+.neg { color: var(--c-danger);  font-weight: 600; }
+.warn-txt { color: var(--c-warning); font-weight: 600; }
+.sr-only {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+
+/* ── §5 Доступность: уважаем prefers-reduced-motion ── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    transition-duration: .01ms !important;
+  }
+}
+
+/* ═══════════════ Переключатель темы ═══════════════ */
+.theme-toggle {
+  position: fixed; top: var(--sp-md); right: var(--sp-md); z-index: 100;
+  width: 40px; height: 40px; padding: 0;
+  display: inline-flex; align-items: center; justify-content: center;
+  border: 1px solid var(--border); border-radius: var(--r-full);
+  background: var(--surface); color: var(--c-neutral-900);
+  box-shadow: var(--shadow-sm); cursor: pointer;
+  transition: transform var(--dur-fast) var(--ease), box-shadow var(--dur-fast) var(--ease);
+}
+.theme-toggle:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+.theme-toggle:focus-visible { outline: 2px solid var(--c-primary); outline-offset: 2px; }
+.theme-toggle svg { width: 20px; height: 20px; }
+[data-theme="dark"] .theme-toggle .icon-sun,
+[data-theme="light"] .theme-toggle .icon-moon { display: none; }
+
+/* ═══════════════ Шапка ═══════════════ */
+.doc-head {
+  background: var(--surface);
+  border-bottom: 3px solid var(--c-primary);
+  padding: var(--sp-lg) 0 var(--sp-md);
+}
+.brand { display: flex; align-items: center; gap: var(--sp-sm); margin-bottom: var(--sp-md); }
+.brand-mark {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 34px; height: 34px; border-radius: var(--r-md);
+  background: var(--c-primary); color: var(--on-accent);
+  font-weight: 700; font-size: var(--text-lg); letter-spacing: -.03em;
+}
+.brand-name { font-weight: 700; font-size: var(--text-lg); letter-spacing: -.02em; }
+.brand-tag {
+  font-size: var(--text-2xs); line-height: var(--lh-2xs);
+  text-transform: uppercase; letter-spacing: .06em;
+  color: var(--c-neutral-400); padding-left: var(--sp-sm);
+  border-left: 1px solid var(--border);
+}
+.doc-meta {
+  display: flex; flex-wrap: wrap; gap: var(--sp-xs) var(--sp-lg);
+  margin-top: var(--sp-sm); font-size: var(--text-xs); line-height: var(--lh-xs);
+  color: var(--c-neutral-400);
+}
+.doc-meta b { color: var(--c-neutral-900); font-weight: 600; }
+.head-source { margin-top: var(--sp-sm); font-size: var(--text-2xs); color: var(--c-neutral-400); }
+
+/* ═══════════════ Блоки отчёта ═══════════════ */
+main { padding-bottom: var(--sp-2xl); }
+.block { margin-top: var(--sp-xl); }
+.block-label {
+  display: inline-block; margin-bottom: var(--sp-sm);
+  padding: 3px 10px; border-radius: var(--r-sm);
+  font-size: var(--text-2xs); line-height: var(--lh-2xs);
+  font-weight: 700; text-transform: uppercase; letter-spacing: .06em;
+  color: var(--c-primary); background: var(--c-primary-subtle);
+}
+.block-label--danger  { color: var(--c-danger);  background: var(--c-danger-subtle); }
+.block-label--warning { color: var(--c-warning); background: var(--c-warning-subtle); }
+.block-label--info    { color: var(--c-info);    background: var(--c-info-subtle); }
+
+/* ── §4 Карточки ── */
+.card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--r-lg); padding: var(--sp-lg);
+  box-shadow: var(--shadow-sm);
+}
+.card--raised { box-shadow: var(--shadow-md); }
+.card + .card { margin-top: var(--sp-md); }
+.card-title { font-size: var(--text-lg); font-weight: 600; margin-bottom: var(--sp-sm); }
+
+/* Акцентная карточка ГЛАВНОЕ */
+.card--problem {
+  border-left: 4px solid var(--c-danger);
+  background: var(--surface);
+  box-shadow: var(--shadow-md);
+}
+.problem-head { display: flex; align-items: flex-start; gap: var(--sp-md); }
+.problem-icon {
+  flex: 0 0 auto; width: 40px; height: 40px; border-radius: var(--r-md);
+  display: inline-flex; align-items: center; justify-content: center;
+  background: var(--c-danger-subtle); color: var(--c-danger); font-size: 22px;
+}
+.problem-title { font-size: var(--text-2xl); line-height: var(--lh-2xl); letter-spacing: -.015em; font-weight: 600; }
+.problem-sub { margin-top: var(--sp-xs); color: var(--c-neutral-400); font-size: var(--text-sm); line-height: var(--lh-sm); }
+
+/* ── §4.1 KPI-карточка ── */
+.kpi-grid {
+  display: grid; gap: var(--gutter);
+  grid-template-columns: repeat(4, 1fr);
+  margin-top: var(--sp-md);
+}
+.kpi {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--r-lg); padding: var(--sp-md);
+  box-shadow: var(--shadow-sm);
+  transition: transform var(--dur-base) var(--ease), box-shadow var(--dur-base) var(--ease);
+}
+/* §5 Интерактив: подъём на 2px + тень */
+.kpi:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+.kpi-head {
+  display: flex; align-items: center; gap: var(--sp-xs);
+  font-size: var(--text-sm); line-height: var(--lh-sm); color: var(--c-neutral-400);
+}
+.kpi-head .ic { font-size: 16px; line-height: 1; }
+.kpi-value {
+  margin-top: var(--sp-sm);
+  font-family: var(--font-mono); font-variant-numeric: tabular-nums;
+  font-size: var(--text-3xl); line-height: var(--lh-3xl); font-weight: 700;
+  letter-spacing: -.02em;
+}
+.kpi-trend { margin-top: var(--sp-xs); font-size: var(--text-xs); line-height: var(--lh-xs); color: var(--c-neutral-400); }
+.kpi-spark { display: block; width: 100%; height: 32px; margin-top: var(--sp-sm); }
+/* Нечисловое значение KPI («средний») — обычным шрифтом: §2 предписывает
+   моноширинный только для чисел, слово в нём читается как код. */
+.kpi-value--text { font-family: var(--font); font-size: var(--text-2xl); line-height: var(--lh-2xl); }
+.kpi--danger  .kpi-value { color: var(--c-danger); }
+.kpi--warning .kpi-value { color: var(--c-warning); }
+.kpi--success .kpi-value { color: var(--c-success); }
+
+/* ── Бейджи ── */
+.badge {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 2px 10px; border-radius: var(--r-full);
+  font-size: var(--text-xs); line-height: var(--lh-xs); font-weight: 600;
+  border: 1px solid transparent; white-space: nowrap;
+}
+.badge .dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; flex: 0 0 auto; }
+.badge--danger  { color: var(--c-danger);  background: var(--c-danger-subtle);  border-color: var(--c-danger); }
+.badge--warning { color: var(--c-warning); background: var(--c-warning-subtle); border-color: var(--c-warning); }
+.badge--success { color: var(--c-success); background: var(--c-success-subtle); border-color: var(--c-success); }
+.badge--info    { color: var(--c-info);    background: var(--c-info-subtle);    border-color: var(--c-info); }
+.badge--neutral { color: var(--c-neutral-400); background: var(--c-neutral-50); border-color: var(--border); }
+
+/* ── Callout ── */
+.callout {
+  border-radius: var(--r-md); padding: var(--sp-md) var(--sp-lg);
+  border-left: 4px solid var(--c-info); background: var(--c-info-subtle);
+  margin: var(--sp-md) 0;
+}
+.callout--danger  { border-left-color: var(--c-danger);  background: var(--c-danger-subtle); }
+.callout--warning { border-left-color: var(--c-warning); background: var(--c-warning-subtle); }
+.callout--success { border-left-color: var(--c-success); background: var(--c-success-subtle); }
+.callout-title { font-weight: 600; margin-bottom: var(--sp-xs); }
+
+/* ── §4.3 Таблица ── */
+.table-wrap {
+  overflow-x: auto; border: 1px solid var(--border);
+  border-radius: var(--r-md); margin-top: var(--sp-md);
+}
+table.tbl { width: 100%; border-collapse: collapse; font-size: var(--text-sm); background: var(--surface); }
+.tbl th {
+  position: sticky; top: 0; z-index: 1;
+  background: var(--surface-sunken); text-align: left;
+  padding: 10px var(--sp-md); border-bottom: 2px solid var(--c-neutral-200);
+  font-size: var(--text-xs); line-height: var(--lh-xs); font-weight: 700;
+  text-transform: uppercase; letter-spacing: .04em; color: var(--c-neutral-400);
+  white-space: nowrap; cursor: pointer; user-select: none;
+}
+.tbl th:hover { color: var(--c-neutral-900); }
+.tbl th:focus-visible { outline: 2px solid var(--c-primary); outline-offset: -2px; }
+.tbl th .sort-icon { margin-left: 4px; opacity: .35; }
+.tbl th.sorted .sort-icon { opacity: 1; color: var(--c-primary); }
+.tbl td {
+  padding: 10px var(--sp-md); border-bottom: 1px solid var(--border);
+  vertical-align: middle;
+}
+.tbl tbody tr:last-child td { border-bottom: 0; }
+.tbl tbody tr:hover td { background: var(--c-neutral-50); }
+.tbl .num { text-align: right; white-space: nowrap; }
+.tbl .center { text-align: center; }
+.tbl--compare th:first-child, .tbl--compare td:first-child { text-align: left; }
+
+/* ── §4.2 График ── */
+.chart-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-lg); padding: var(--sp-lg); box-shadow: var(--shadow-sm); }
+.chart-title { font-size: var(--text-base); font-weight: 600; margin-bottom: var(--sp-xs); }
+.chart-note { font-size: var(--text-xs); line-height: var(--lh-xs); color: var(--c-neutral-400); margin-bottom: var(--sp-md); }
+.chart-body { margin-top: var(--sp-md); }
+.chart-body svg { display: block; width: 100%; height: auto; }
+.svg-axis { fill: var(--c-neutral-400); font-family: var(--font); font-size: 11px; }
+.svg-grid { stroke: var(--border); stroke-width: 1; }
+.svg-value { fill: var(--c-neutral-900); font-family: var(--font-mono); font-size: 11px; font-weight: 600; }
+
+/* Схема «Почему мы» — поток данных */
+.flow { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--sp-sm); margin-top: var(--sp-md); }
+.flow-step {
+  position: relative; padding: var(--sp-md);
+  background: var(--surface-sunken); border: 1px solid var(--border);
+  border-radius: var(--r-md);
+}
+.flow-step:not(:last-child)::after {
+  content: "→"; position: absolute; right: -14px; top: 50%; transform: translateY(-50%);
+  color: var(--c-neutral-400); font-size: var(--text-lg); z-index: 2;
+}
+.flow-num {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 22px; height: 22px; border-radius: var(--r-full);
+  background: var(--c-primary); color: var(--on-accent);
+  font-size: var(--text-2xs); font-weight: 700; margin-bottom: var(--sp-sm);
+}
+.flow-title { font-size: var(--text-sm); font-weight: 600; }
+.flow-desc { font-size: var(--text-xs); line-height: var(--lh-xs); color: var(--c-neutral-400); margin-top: 2px; }
+
+/* ── 3 ДЕЙСТВИЯ ── */
+.actions { display: grid; gap: var(--sp-md); margin-top: var(--sp-md); }
+.action {
+  display: grid; grid-template-columns: 44px 1fr auto; gap: var(--sp-md);
+  align-items: start; padding: var(--sp-md);
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--r-lg); box-shadow: var(--shadow-sm);
+  transition: transform var(--dur-base) var(--ease), box-shadow var(--dur-base) var(--ease);
+}
+.action:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+.action-num {
+  width: 44px; height: 44px; border-radius: var(--r-md);
+  display: inline-flex; align-items: center; justify-content: center;
+  font-family: var(--font-mono); font-size: var(--text-xl); font-weight: 700;
+  background: var(--c-primary); color: var(--on-accent);
+}
+.action:nth-child(1) .action-num { background: var(--c-danger); }
+.action:nth-child(2) .action-num { background: var(--c-warning); }
+.action:nth-child(3) .action-num { background: var(--c-info); }
+.action-title { font-size: var(--text-lg); font-weight: 600; letter-spacing: -.01em; }
+.action-what { font-size: var(--text-sm); line-height: var(--lh-sm); color: var(--c-neutral-400); margin-top: var(--sp-xs); }
+.action-meta { display: flex; flex-wrap: wrap; gap: var(--sp-xs) var(--sp-md); margin-top: var(--sp-sm); font-size: var(--text-xs); }
+.action-meta .k { color: var(--c-neutral-400); }
+.action-meta .v { font-weight: 600; }
+.action-effect { text-align: right; white-space: nowrap; }
+.action-effect .v { font-family: var(--font-mono); font-variant-numeric: tabular-nums; font-size: var(--text-xl); font-weight: 700; color: var(--c-success); }
+.action-effect .k { display: block; font-size: var(--text-xs); color: var(--c-neutral-400); margin-top: 2px; }
+
+/* ── СТРАХ ПОТЕРИ ── */
+.loss-hero {
+  display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--gutter);
+  margin-top: var(--sp-md);
+}
+.loss-box {
+  padding: var(--sp-lg); border-radius: var(--r-lg);
+  border: 1px solid var(--border); background: var(--surface);
+  border-top: 3px solid var(--c-danger);
+}
+.loss-box .k { font-size: var(--text-sm); color: var(--c-neutral-400); }
+.loss-box .v {
+  font-family: var(--font-mono); font-variant-numeric: tabular-nums;
+  font-size: var(--text-4xl); line-height: var(--lh-4xl); font-weight: 700;
+  color: var(--c-danger); letter-spacing: -.025em; margin-top: var(--sp-xs);
+}
+.loss-box .n { font-size: var(--text-xs); color: var(--c-neutral-400); margin-top: var(--sp-xs); }
+
+/* ── Футер ── */
+.doc-foot {
+  margin-top: var(--sp-2xl); padding: var(--sp-lg) 0;
+  border-top: 3px solid var(--c-primary); background: var(--surface);
+}
+.foot-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: var(--gutter); align-items: start; }
+.foot-title { font-weight: 700; font-size: var(--text-lg); letter-spacing: -.01em; }
+.foot-sub { font-size: var(--text-xs); color: var(--c-neutral-400); margin-top: var(--sp-xs); }
+.foot-k { font-size: var(--text-2xs); text-transform: uppercase; letter-spacing: .06em; color: var(--c-neutral-400); }
+.foot-v { font-size: var(--text-base); font-weight: 600; margin-top: 2px; }
+.foot-v a { color: var(--c-neutral-900); text-decoration: none; }
+.foot-v a:hover { color: var(--c-primary); }
+.foot-legal { margin-top: var(--sp-lg); padding-top: var(--sp-md); border-top: 1px solid var(--border); font-size: var(--text-2xs); color: var(--c-neutral-400); }
+
+/* ═══════════════ Адаптив: 1280 / 768 / 375 ═══════════════ */
+@media (max-width: 1023px) {
+  .kpi-grid { grid-template-columns: repeat(2, 1fr); gap: 20px; }
+  .flow { grid-template-columns: repeat(2, 1fr); gap: 20px; }
+  .flow-step:not(:last-child)::after { content: none; }
+  .foot-grid { grid-template-columns: 1fr 1fr; }
+  :root { --gutter: 20px; --margin: 20px; }
+}
+@media (max-width: 767px) {
+  :root { --gutter: 16px; --margin: 16px; }
+  h1 { font-size: var(--text-2xl); line-height: var(--lh-2xl); }
+  h2 { font-size: var(--text-xl); line-height: var(--lh-xl); }
+  .kpi-grid { grid-template-columns: repeat(2, 1fr); }
+  .kpi-value { font-size: var(--text-2xl); line-height: var(--lh-2xl); }
+  .loss-hero { grid-template-columns: 1fr; }
+  .loss-box .v { font-size: var(--text-3xl); line-height: var(--lh-3xl); }
+  .flow { grid-template-columns: 1fr; }
+  .action { grid-template-columns: 36px 1fr; }
+  .action-num { width: 36px; height: 36px; font-size: var(--text-lg); }
+  .action-effect { grid-column: 1 / -1; text-align: left; padding-top: var(--sp-sm); border-top: 1px solid var(--border); }
+  .foot-grid { grid-template-columns: 1fr; gap: var(--sp-md); }
+  .doc-meta { flex-direction: column; gap: var(--sp-xs); }
+  .theme-toggle { top: var(--sp-sm); right: var(--sp-sm); }
+}
+
+/* Узкие телефоны: 375px и меньше (iPhone SE, старые Android) */
+@media (max-width: 400px) {
+  :root { --gutter: 12px; --margin: 12px; }
+  h1 { font-size: var(--text-xl); line-height: var(--lh-xl); }
+  .problem-title { font-size: var(--text-lg); line-height: var(--lh-lg); }
+  .problem-head { gap: var(--sp-sm); }
+  .problem-icon { width: 32px; height: 32px; font-size: 18px; }
+  .kpi { padding: var(--sp-sm) 10px; }
+  .kpi-head { font-size: var(--text-xs); }
+  .kpi-value { font-size: var(--text-xl); line-height: var(--lh-xl); }
+  .kpi-spark { height: 24px; }
+  .loss-box { padding: var(--sp-md); }
+  .card, .chart-card { padding: var(--sp-md); }
+  .brand-tag { display: none; }
+  .tbl th, .tbl td { padding: 8px 10px; }
+  .tbl { font-size: var(--text-xs); }
+}
+
+/* ═══════════════ Печать ═══════════════ */
+/* §1: @page обязан стоять на ВЕРХНЕМ уровне CSS — внутри @media print Chrome
+   его парсит, но не применяет, и лист молча остаётся Letter. */
+@page { size: A4; margin: 15mm; }
+
+@media print {
+  :root { --shadow-sm: none; --shadow-md: none; --shadow-lg: none; }
+  html, body { background: #FFFFFF !important; }
+  body { font-size: 10pt; line-height: 1.45; color: #0D1526 !important; }
+
+  /* Тёмная тема принудительно → светлая: иначе белый текст на белой бумаге */
+  [data-theme="dark"] {
+    --c-neutral-900: #0D1526; --c-neutral-100: #F8FAFC;
+    --c-primary: #2563EB; --c-primary-strong: #1D4ED8; --c-primary-subtle: #EDF2FE;
+    --c-success: #047857; --c-success-subtle: #E8F5EF;
+    --c-danger: #C81E1E; --c-danger-subtle: #FBEAEA;
+    --c-warning: #B45309; --c-warning-subtle: #FCF1E6;
+    --c-info: #026AA2; --c-info-subtle: #E6F2F8;
+    --c-neutral-700: #334155; --c-neutral-400: #5E6C83;
+    --c-neutral-200: #CBD5E1; --c-neutral-50: #F1F5F9;
+    --c-white: #FFFFFF; --surface: #FFFFFF; --surface-sunken: #F8FAFC;
+    --border: #E2E8F0; --on-accent: #FFFFFF;
+  }
+
+  /* Служебные элементы интерфейса в печать не идут */
+  .theme-toggle { display: none !important; }
+
+  .wrap { max-width: none; padding: 0; }
+  .card, .kpi, .action, .chart-card, .loss-box, .callout, .flow-step {
+    box-shadow: none !important;
+    page-break-inside: avoid;
+  }
+  /* Блоки не «неразрывны»: ДЕТАЛИ выше листа, и запрет разрыва лишь сдвигал
+     его целиком на новый лист, оставляя пустую страницу. Текут, а держат
+     форму карточки и таблицы внутри. */
+  .block { margin-top: 12px; }
+  .block > h2 { page-break-after: avoid; }
+  h1 { font-size: 17pt; } h2 { font-size: 13pt; } h3 { font-size: 11pt; }
+
+  /* Таблица: шапка повторяется на каждой странице */
+  .tbl thead { display: table-header-group; }
+  .tbl tfoot { display: table-footer-group; }
+  .tbl tr, .tbl td, .tbl th { page-break-inside: avoid; }
+  .tbl th { position: static; }
+  .table-wrap { overflow: visible !important; border-color: #CBD5E1; }
+  /* Сортировочные стрелки — элемент управления, на бумаге лишние */
+  .sort-icon { display: none !important; }
+
+  /* Все строки таблицы печатаются, независимо от фильтров на экране */
+  .tbl tbody tr { display: table-row !important; }
+
+  a { text-decoration: none; color: inherit; }
+  .doc-head { border-bottom-width: 2px; }
+  .doc-foot { page-break-inside: avoid; }
+}
+</style>
+</head>
+<body>
+
+<button class="theme-toggle" id="themeToggle" type="button"
+        aria-label="Переключить тему" title="Переключить тему">
+  <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+       stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/>
+  </svg>
+  <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+       stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <circle cx="12" cy="12" r="4"/>
+    <path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>
+  </svg>
+</button>
+
+<!-- ══════════════════════ ШАПКА ══════════════════════ -->
+<header class="doc-head">
+  <div class="wrap">
+    <div class="brand">
+      <span class="brand-mark" aria-hidden="true">M</span>
+      <span class="brand-name">MARKET</span>
+      <span class="brand-tag">Аналитика маркетплейсов</span>
+    </div>
+    <h1>Аудит карточки Wildberries · nmId 12345678</h1>
+    <div class="doc-meta">
+      <span><b>Товар:</b> Домкрат гидравлический подкатной 2 т</span>
+      <span><b>Категория:</b> Домкраты</span>
+      <span><b>кВВ:</b> <span class="num">28.5%</span></span>
+      <span><b>Дата отчёта:</b> 07.10.2026</span>
+      <span><b>Период:</b> 30 дней</span>
+    </div>
+    <p class="head-source">
+      Источник данных: публичный CDN Wildberries (без доступа к личному кабинету) ·
+      оферта №102 от 2026-09-15 · формула расчёта v3 · 298/298 строк сверено
+    </p>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <!-- ══════════════ 1. ГЛАВНОЕ ══════════════ -->
+  <section class="block" id="main" aria-labelledby="h-main">
+    <span class="block-label block-label--danger">Блок 1 · Главное</span>
+    <h2 id="h-main" class="sr-only">Главное</h2>
+
+    <div class="card card--problem">
+      <div class="problem-head">
+        <span class="problem-icon" aria-hidden="true">!</span>
+        <div>
+          <p class="problem-title">Заголовок без ключевых слов — потеря 40% показов</p>
+          <p class="problem-sub">
+            В заголовке нет ни одного из 12 частотных запросов категории «Домкраты».
+            Карточка показывается только по точному названию бренда, а по запросам
+            «домкрат гидравлический», «домкрат подкатной 2т», «домкрат для авто» не находится.
+          </p>
+        </div>
+      </div>
+
+      <div class="callout callout--danger" style="margin-bottom:0">
+        <div class="callout-title">Что это значит в деньгах</div>
+        <p style="margin:0">
+          Показы просели на <b class="num">40%</b>. При текущей конверсии это
+          <b class="num">80</b> недополученных заказов в месяц —
+          <b class="neg num">189 240 ₽</b> выручки и
+          <b class="neg num">28 092 ₽</b> маржи ежемесячно.
+        </p>
+      </div>
+    </div>
+
+    <!-- §4.1 KPI-карточки: значение + тренд + спарклайн -->
+    <div class="kpi-grid">
+      <article class="kpi kpi--danger">
+        <div class="kpi-head"><span class="ic" aria-hidden="true">📉</span>Потеря показов</div>
+        <div class="kpi-value">−40%</div>
+        <div class="kpi-trend">▼ за 30 дней, к периоду без проблемы</div>
+        <svg class="kpi-spark" viewBox="0 0 120 32" preserveAspectRatio="none" role="img"
+             aria-label="Спарклайн показов: падение за 30 дней">
+          <polyline fill="none" stroke="#C81E1E" stroke-width="2" stroke-linecap="round"
+                    points="0,6 15,8 30,9 45,12 60,15 75,19 90,22 105,25 120,28"/>
+        </svg>
+      </article>
+
+      <article class="kpi kpi--warning">
+        <div class="kpi-head"><span class="ic" aria-hidden="true">⚠️</span>Риск блокировки</div>
+        <div class="kpi-value kpi-value--text">средний</div>
+        <div class="kpi-trend">─ 3 нарушения описания, лимит — 5</div>
+        <svg class="kpi-spark" viewBox="0 0 120 32" preserveAspectRatio="none" role="img"
+             aria-label="Спарклайн нарушений: ровный уровень">
+          <polyline fill="none" stroke="#B45309" stroke-width="2" stroke-linecap="round"
+                    points="0,20 15,18 30,21 45,19 60,20 75,17 90,19 105,18 120,20"/>
+        </svg>
+      </article>
+
+      <article class="kpi kpi--danger">
+        <div class="kpi-head"><span class="ic" aria-hidden="true">₽</span>Потеря выручки</div>
+        <div class="kpi-value">189 240 ₽</div>
+        <div class="kpi-trend">▼ 80 заказов/мес × 2 365.50 ₽</div>
+        <svg class="kpi-spark" viewBox="0 0 120 32" preserveAspectRatio="none" role="img"
+             aria-label="Спарклайн недополученной выручки">
+          <polyline fill="none" stroke="#C81E1E" stroke-width="2" stroke-linecap="round"
+                    points="0,26 15,24 30,25 45,22 60,23 75,20 90,21 105,18 120,19"/>
+        </svg>
+      </article>
+
+      <article class="kpi kpi--success">
+        <div class="kpi-head"><span class="ic" aria-hidden="true">◎</span>Маржа с единицы</div>
+        <div class="kpi-value">351.15 ₽</div>
+        <div class="kpi-trend">▲ ROM 14.8% · выплата 1 723.08 ₽</div>
+        <svg class="kpi-spark" viewBox="0 0 120 32" preserveAspectRatio="none" role="img"
+             aria-label="Спарклайн маржи с единицы: стабильна">
+          <polyline fill="none" stroke="#047857" stroke-width="2" stroke-linecap="round"
+                    points="0,18 15,17 30,19 45,16 60,18 75,17 90,18 105,16 120,17"/>
+        </svg>
+      </article>
+    </div>
+  </section>
+
+  <!-- ══════════════ 2. 3 ДЕЙСТВИЯ ══════════════ -->
+  <section class="block" id="actions" aria-labelledby="h-actions">
+    <span class="block-label">Блок 2 · 3 действия</span>
+    <h2 id="h-actions">Что сделать, чтобы вернуть показы</h2>
+    <p class="muted small">Порядок — по силе эффекта на маржу. Сроки реальные: все три задачи закрываются своими руками, без подрядчика.</p>
+
+    <div class="actions">
+      <article class="action">
+        <span class="action-num" aria-hidden="true">1</span>
+        <div>
+          <h3 class="action-title">Переписать заголовок под частотные запросы</h3>
+          <p class="action-what">
+            Добавить в начало «Домкрат гидравлический подкатной 2 т», далее — бренд и модель.
+            Двенадцать частотных запросов категории свести в естественную фразу,
+            без спама и повторов. Уложиться в 60 символов до обрезки в поиске.
+          </p>
+          <div class="action-meta">
+            <span><span class="k">Приоритет:</span> <span class="v neg">1 — критично</span></span>
+            <span><span class="k">Срок:</span> <span class="v">1 день</span></span>
+            <span><span class="k">Эффект:</span> <span class="v pos">+40% показов</span></span>
+          </div>
+        </div>
+        <div class="action-effect">
+          <span class="v">+19 700 ₽</span>
+          <span class="k">маржи / мес</span>
+        </div>
+      </article>
+
+      <article class="action">
+        <span class="action-num" aria-hidden="true">2</span>
+        <div>
+          <h3 class="action-title">Заполнить характеристики до 100%</h3>
+          <p class="action-what">
+            Сейчас пусто в 6 из 14 полей: грузоподъёмность, высота подъёма, тип привода,
+            материал, вес, комплектация. Характеристики участвуют в фильтрах —
+            без них карточка выпадает из подборок категории.
+          </p>
+          <div class="action-meta">
+            <span><span class="k">Приоритет:</span> <span class="v warn-txt">2 — важно</span></span>
+            <span><span class="k">Срок:</span> <span class="v">2 дня</span></span>
+            <span><span class="k">Эффект:</span> <span class="v pos">+12% в корзину</span></span>
+          </div>
+        </div>
+        <div class="action-effect">
+          <span class="v">+5 600 ₽</span>
+          <span class="k">маржи / мес</span>
+        </div>
+      </article>
+
+      <article class="action">
+        <span class="action-num" aria-hidden="true">3</span>
+        <div>
+          <h3 class="action-title">Добавить фото с габаритами и применением</h3>
+          <p class="action-what">
+            Три кадра: домкрат в работе под автомобилем, линейка с габаритами,
+            комплект в чехле. Первое фото — товар на белом фоне целиком,
+            без обрезки и коллажей.
+          </p>
+          <div class="action-meta">
+            <span><span class="k">Приоритет:</span> <span class="v" style="color:var(--c-info)">3 — желательно</span></span>
+            <span><span class="k">Срок:</span> <span class="v">3 дня</span></span>
+            <span><span class="k">Эффект:</span> <span class="v pos">+8% CTR</span></span>
+          </div>
+        </div>
+        <div class="action-effect">
+          <span class="v">+2 792 ₽</span>
+          <span class="k">маржи / мес</span>
+        </div>
+      </article>
+    </div>
+
+    <div class="callout callout--success">
+      <div class="callout-title">Итого: +28 092 ₽ маржи в месяц</div>
+      <p style="margin:0">
+        Три действия закрывают потерю целиком. Трудозатраты — <b>3 дня</b>,
+        расходов <b>0 ₽</b>. Первое действие окупает весь аудит за 1 день.
+      </p>
+    </div>
+  </section>
+
+  <!-- ══════════════ 3. ПОЧЕМУ МЫ ══════════════ -->
+  <section class="block" id="why" aria-labelledby="h-why">
+    <span class="block-label block-label--info">Блок 3 · Почему мы</span>
+    <h2 id="h-why">Откуда цифры и почему им можно верить</h2>
+
+    <div class="card">
+      <p>
+        Мы не просим доступ к вашему личному кабинету. Все данные взяты из
+        <b>публичного CDN Wildberries</b> — той же витрины, которую видит покупатель.
+        Ставки кВВ сверены с отчётом площадки по оферте №102.
+      </p>
+
+      <div class="flow">
+        <div class="flow-step">
+          <span class="flow-num" aria-hidden="true">1</span>
+          <div class="flow-title">CDN Wildberries</div>
+          <div class="flow-desc">Публичная карточка и характеристики. Доступ к ЛК не нужен.</div>
+        </div>
+        <div class="flow-step">
+          <span class="flow-num" aria-hidden="true">2</span>
+          <div class="flow-title">Нормализация</div>
+          <div class="flow-desc">298 из 298 строк разобраны, пропусков нет.</div>
+        </div>
+        <div class="flow-step">
+          <span class="flow-num" aria-hidden="true">3</span>
+          <div class="flow-title">Формула v3</div>
+          <div class="flow-desc">Комиссия, эквайринг, выплата. Оферта №102, кВВ 28.5%.</div>
+        </div>
+        <div class="flow-step">
+          <span class="flow-num" aria-hidden="true">4</span>
+          <div class="flow-title">Отчёт</div>
+          <div class="flow-desc">5 блоков: главное, действия, почему, потери, детали.</div>
+        </div>
+      </div>
+
+      <div class="table-wrap">
+        <table class="tbl tbl--compare">
+          <caption class="sr-only">Проверка качества данных</caption>
+          <thead>
+            <tr>
+              <th scope="col">Проверка</th>
+              <th scope="col" class="center">Результат</th>
+              <th scope="col">Что это значит</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Строк разобрано</td>
+              <td class="center num"><b>298 / 298</b></td>
+              <td>Ни одной потерянной записи</td>
+            </tr>
+            <tr>
+              <td>Отклонение расчёта</td>
+              <td class="center num"><b>0.0098 ₽</b></td>
+              <td>Сверка с отчётом площадки, максимум по всем строкам</td>
+            </tr>
+            <tr>
+              <td>Ставка кВВ</td>
+              <td class="center num"><b>28.5%</b></td>
+              <td>Категория «Домкраты», эмпирическая, отчёт weekly_865691946</td>
+            </tr>
+            <tr>
+              <td>Основание</td>
+              <td class="center"><b>Оферта №102</b></td>
+              <td>От 2026-09-15, п. 5.4: СПП финансирует площадка</td>
+            </tr>
+            <tr>
+              <td>Доступ к ЛК</td>
+              <td class="center"><span class="badge badge--success"><span class="dot"></span>не требуется</span></td>
+              <td>Только публичные данные — ничего не передаёте</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p class="small muted" style="margin-top:var(--sp-md); margin-bottom:0">
+        Логистика и хранение помечены как <b>оценка</b>: точных сумм по ним нет в публичных
+        данных, они зависят от габаритов и склада. В расчёте взяты 6% и 30 ₽ — консервативно.
+        Штрафы не учтены: их нет в открытых источниках.
+      </p>
+    </div>
+  </section>
+
+  <!-- ══════════════ 4. СТРАХ ПОТЕРИ ══════════════ -->
+  <section class="block" id="loss" aria-labelledby="h-loss">
+    <span class="block-label block-label--danger">Блок 4 · Страх потери</span>
+    <h2 id="h-loss">Что будет, если ничего не менять</h2>
+
+    <div class="loss-hero">
+      <div class="loss-box">
+        <div class="k">Потеря выручки</div>
+        <div class="v">189 240 ₽</div>
+        <div class="n">в месяц · 80 недополученных заказов</div>
+      </div>
+      <div class="loss-box">
+        <div class="k">Потеря маржи</div>
+        <div class="v">28 092 ₽</div>
+        <div class="n">в месяц · деньги, которых не будет в кассе</div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:var(--sp-md)">
+      <h3>Потери накапливаются</h3>
+      <p class="muted small">Чем дольше карточка без ключевых слов, тем ниже она в поиске — просадка не останавливается сама.</p>
+      <div class="table-wrap">
+        <table class="tbl">
+          <caption class="sr-only">Накопленная потеря по горизонтам</caption>
+          <thead>
+            <tr>
+              <th scope="col">Горизонт</th>
+              <th scope="col" class="num">Потеря выручки</th>
+              <th scope="col" class="num">Потеря маржи</th>
+              <th scope="col">Что происходит с карточкой</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>1 месяц</td>
+              <td class="num neg">189 240 ₽</td>
+              <td class="num neg">28 092 ₽</td>
+              <td>Показы −40%, карточка на 3-й странице поиска</td>
+            </tr>
+            <tr>
+              <td>3 месяца</td>
+              <td class="num neg">567 720 ₽</td>
+              <td class="num neg">84 276 ₽</td>
+              <td>Рейтинг в поиске просел, конкуренты закрепились</td>
+            </tr>
+            <tr>
+              <td>6 месяцев</td>
+              <td class="num neg">1 135 440 ₽</td>
+              <td class="num neg">168 552 ₽</td>
+              <td>Карточка уходит на 5-ю страницу, отзывы не копятся</td>
+            </tr>
+            <tr>
+              <td>12 месяцев</td>
+              <td class="num neg">2 270 880 ₽</td>
+              <td class="num neg">337 104 ₽</td>
+              <td>Позиции в топе заняты, возврат стоит рекламного бюджета</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout callout--warning" style="margin-bottom:0">
+        <div class="callout-title">Отдельный риск: блокировка</div>
+        <p style="margin:0">
+          Сейчас у карточки <b>3 нарушения</b> описания из 5 допустимых. При повторных
+          жалобах на несоответствие заявленных характеристик товару площадка может
+          скрыть карточку из поиска до устранения — это не потеря 40% показов,
+          а остановка продаж целиком.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════ 5. ДЕТАЛИ ══════════════ -->
+  <section class="block" id="details" aria-labelledby="h-details">
+    <span class="block-label">Блок 5 · Детали</span>
+    <h2 id="h-details">Полный разбор карточки</h2>
+
+    <div class="card">
+      <h3>Чек-лист: 30 пунктов проверки</h3>
+      <p class="muted small">
+        Проверено 30 пунктов — от заголовка до работы с отзывами. Ниже 7 критичных,
+        полный список — в PDF-версии отчёта.
+      </p>
+      <div class="table-wrap">
+        <table class="tbl" id="checkTable">
+          <caption class="sr-only">Чек-лист проверки карточки, 7 из 30 пунктов</caption>
+          <thead>
+            <tr>
+              <th scope="col" data-sort="text">Пункт проверки <span class="sort-icon" aria-hidden="true">↕</span></th>
+              <th scope="col" data-sort="text">Статус <span class="sort-icon" aria-hidden="true">↕</span></th>
+              <th scope="col" data-sort="text">Норма <span class="sort-icon" aria-hidden="true">↕</span></th>
+              <th scope="col" data-sort="num">Влияние, ₽/мес <span class="sort-icon" aria-hidden="true">↕</span></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Ключевые слова в заголовке</td>
+              <td><span class="badge badge--danger"><span class="dot"></span>не пройдено</span></td>
+              <td class="muted">12 частотных запросов</td>
+              <td class="num neg">−19 700 ₽</td>
+            </tr>
+            <tr>
+              <td>Заполненность характеристик</td>
+              <td><span class="badge badge--danger"><span class="dot"></span>не пройдено</span></td>
+              <td class="muted">14 / 14 полей</td>
+              <td class="num neg">−5 600 ₽</td>
+            </tr>
+            <tr>
+              <td>Фото с габаритами и применением</td>
+              <td><span class="badge badge--warning"><span class="dot"></span>частично</span></td>
+              <td class="muted">не менее 5 кадров</td>
+              <td class="num neg">−2 792 ₽</td>
+            </tr>
+            <tr>
+              <td>Соответствие описания товару</td>
+              <td><span class="badge badge--warning"><span class="dot"></span>3 нарушения из 5</span></td>
+              <td class="muted">0 нарушений</td>
+              <td class="num muted">риск блокировки</td>
+            </tr>
+            <tr>
+              <td>Видеообзор</td>
+              <td><span class="badge badge--danger"><span class="dot"></span>отсутствует</span></td>
+              <td class="muted">1 видео</td>
+              <td class="num neg">−1 240 ₽</td>
+            </tr>
+            <tr>
+              <td>Работа с отзывами</td>
+              <td><span class="badge badge--success"><span class="dot"></span>пройдено</span></td>
+              <td class="muted">ответ в 48 часов</td>
+              <td class="num pos">+0 ₽</td>
+            </tr>
+            <tr>
+              <td>Цена с учётом СПП</td>
+              <td><span class="badge badge--success"><span class="dot"></span>пройдено</span></td>
+              <td class="muted">СПП ≤ 30%</td>
+              <td class="num pos">+0 ₽</td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr>
+              <td colspan="3" style="text-align:right; font-weight:600">Итого по показанным пунктам</td>
+              <td class="num neg" style="font-weight:700">−29 332 ₽</td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+      <p class="small muted" style="margin-top:var(--sp-sm); margin-bottom:0">
+        +23 пункта в полном отчёте: SEO-описание, инфографика, штрихкоды, сертификаты,
+        сроки поставки, габариты упаковки, цена до СПП и другие.
+      </p>
+    </div>
+
+    <div class="chart-card" style="margin-top:var(--sp-md)">
+      <h3 class="chart-title">Сравнение с топ-10 категории</h3>
+      <p class="chart-note">
+        Медиана десяти карточек в топе по запросу «домкрат подкатной». Ваша карточка — 7-я строка.
+      </p>
+      <div class="table-wrap" style="margin-top:0">
+        <table class="tbl tbl--compare">
+          <caption class="sr-only">Сравнение карточки с медианой топ-10</caption>
+          <thead>
+            <tr>
+              <th scope="col">Метрика</th>
+              <th scope="col" class="num">Ваша карточка</th>
+              <th scope="col" class="num">Медиана топ-10</th>
+              <th scope="col" class="num">Разрыв</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Ключевых слов в заголовке</td><td class="num">0</td><td class="num">9</td><td class="num neg">−9</td></tr>
+            <tr><td>Заполнено характеристик</td><td class="num">8 / 14</td><td class="num">14 / 14</td><td class="num neg">−6</td></tr>
+            <tr><td>Фотографий</td><td class="num">3</td><td class="num">7</td><td class="num neg">−4</td></tr>
+            <tr><td>Рейтинг</td><td class="num">4.6</td><td class="num">4.8</td><td class="num neg">−0.2</td></tr>
+            <tr><td>Отзывов</td><td class="num">41</td><td class="num">186</td><td class="num neg">−145</td></tr>
+            <tr><td>Позиция в поиске</td><td class="num">34</td><td class="num">4</td><td class="num neg">−30</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="chart-card" style="margin-top:var(--sp-md)">
+      <h3 class="chart-title">Юнит-экономика единицы товара</h3>
+      <p class="chart-note">
+        Формула v3, оферта №102. От РРЦ к марже. РРЦ 2 490 ₽, кВВ 28.5%, СПП 5% → цена покупателя 2 365.50 ₽.
+      </p>
+      <div class="chart-body">
+        <!-- Настоящий waterfall: плавающие столбцы идут от РРЦ вниз, итоговые
+             стоят на базе (y=170). Подписи — ПОД столбцами и над сегментом,
+             никогда поверх: на печати столбцы тёмные и текст на них терял
+             контраст до 1.09:1 (проверено замером). -->
+        <svg viewBox="0 0 400 202" preserveAspectRatio="none" role="img"
+             aria-label="Водопад: РРЦ 2490 минус комиссия WB 766.92 даёт выплату 1723.08 рублей; минус логистика с хранением 171.93 и себестоимость 1200 даёт маржу 351.15 рублей">
+          <line class="svg-grid" x1="0" y1="170" x2="400" y2="170"/>
+          <line class="svg-grid" x1="0" y1="120" x2="400" y2="120"/>
+          <line class="svg-grid" x1="0" y1="70" x2="400" y2="70"/>
+
+          <!-- РРЦ 2490 — итоговый, от базы -->
+          <rect x="20" y="20" width="46" height="150" fill="#2563EB" rx="2"/>
+          <text class="svg-value" x="43" y="14" text-anchor="middle">2490</text>
+
+          <!-- Комиссия WB 766.92 — плавающий, вниз от РРЦ -->
+          <rect x="83" y="20" width="46" height="46.2" fill="#C81E1E" rx="2"/>
+          <text class="svg-value" x="106" y="14" text-anchor="middle">767</text>
+
+          <!-- Выплата 1723.08 — итоговый, от базы -->
+          <rect x="146" y="66.2" width="46" height="103.8" fill="#2563EB" rx="2" opacity=".7"/>
+          <text class="svg-value" x="169" y="60" text-anchor="middle">1723</text>
+
+          <!-- Логистика + хранение 171.93 — плавающий -->
+          <rect x="209" y="66.2" width="46" height="10.36" fill="#B45309" rx="2"/>
+          <text class="svg-value" x="232" y="60" text-anchor="middle">172</text>
+
+          <!-- Себестоимость 1200 — плавающий -->
+          <rect x="272" y="76.56" width="46" height="72.29" fill="var(--c-neutral-400)" rx="2"/>
+          <text class="svg-value" x="295" y="70" text-anchor="middle">1200</text>
+
+          <!-- Маржа 351.15 — итоговый, от базы -->
+          <rect x="335" y="148.85" width="46" height="21.15" fill="#047857" rx="2"/>
+          <text class="svg-value" x="358" y="143" text-anchor="middle">351</text>
+
+          <text class="svg-axis" x="43" y="196" text-anchor="middle">РРЦ</text>
+          <text class="svg-axis" x="106" y="196" text-anchor="middle">Комиссия</text>
+          <text class="svg-axis" x="169" y="196" text-anchor="middle">Выплата</text>
+          <text class="svg-axis" x="232" y="196" text-anchor="middle">Логистика</text>
+          <text class="svg-axis" x="295" y="196" text-anchor="middle">Себест.</text>
+          <text class="svg-axis" x="358" y="196" text-anchor="middle">Маржа</text>
+        </svg>
+      </div>
+      <p class="small muted" style="margin-top:var(--sp-md); margin-bottom:0">
+        <b>Маржа 351.15 ₽ с единицы</b> (ROM 14.8% от цены покупателя). Выплата продавцу
+        по формуле v3 — 1 723.08 ₽. Логистика (141.93 ₽, 6% от цены) и хранение (30 ₽)
+        объединены в один шаг: обе статьи оценочные, точных сумм по ним нет в публичных
+        данных. Штрафы не учтены.
+      </p>
+    </div>
+  </section>
+
+</main>
+
+<!-- ══════════════════════ ФУТЕР ══════════════════════ -->
+<footer class="doc-foot">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <div class="brand" style="margin-bottom:var(--sp-sm)">
+          <span class="brand-mark" aria-hidden="true">M</span>
+          <span class="brand-name">MARKET</span>
+        </div>
+        <div class="foot-title">Аналитика маркетплейсов</div>
+        <div class="foot-sub">
+          Юнит-экономика, аудит карточек и отчёты для продавцов Wildberries.
+          Данные — из публичного CDN, доступ к личному кабинету не нужен.
+        </div>
+      </div>
+      <div>
+        <div class="foot-k">Связаться</div>
+        <div class="foot-v"><a href="tel:+79243102030">+7 924 310-20-30</a></div>
+        <div class="foot-v"><a href="https://t.me/marzha_bez_vody">Telegram @marzha_bez_vody</a></div>
+      </div>
+      <div>
+        <div class="foot-k">Отчёт</div>
+        <div class="foot-v">P2 · Аудит карточки WB</div>
+        <div class="foot-sub">nmId 12345678 · 07.10.2026</div>
+      </div>
+    </div>
+    <div class="foot-legal">
+      Расчёт выполнен по формуле v3 на основании оферты Wildberries №102 от 2026-09-15.
+      Ставка кВВ 28.5% — эмпирическая, категория «Домкраты». Логистика, хранение
+      и штрафы помечены как оценка или отсутствуют в публичных данных.
+      Отчёт носит информационный характер и не является гарантией результата.
+    </div>
+  </div>
+</footer>
+
+<script>
+/* ── Тема: старт из prefers-color-scheme, выбор запоминается в localStorage ── */
+(function () {
+  var KEY = 'market-theme';
+  var root = document.documentElement;
+  var saved = null;
+  try { saved = localStorage.getItem(KEY); } catch (e) { /* приватный режим */ }
+
+  var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+  root.setAttribute('data-theme', saved || (prefersDark ? 'dark' : 'light'));
+
+  var toggle = document.getElementById('themeToggle');
+  toggle.addEventListener('click', function () {
+    var next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    root.setAttribute('data-theme', next);
+    try { localStorage.setItem(KEY, next); } catch (e) { /* игнорируем */ }
+  });
+})();
+
+/* ── §4.3 Сортировка таблицы по клику на заголовок: ↕ → ↓ → ↑ ── */
+(function () {
+  function cellValue(row, index) {
+    return row.children[index].textContent.trim();
+  }
+  function numeric(text) {
+    // Убираем всё, кроме цифр, минуса и точки. Минус — и ASCII, и типографский.
+    var cleaned = text.replace(/[^\d.\-−]/g, '').replace(/−/g, '-');
+    var value = parseFloat(cleaned);
+    return isNaN(value) ? 0 : value;
+  }
+  document.querySelectorAll('table.tbl th[data-sort]').forEach(function (th) {
+    th.setAttribute('tabindex', '0');
+    th.setAttribute('role', 'button');
+    th.addEventListener('click', function () { sortBy(th); });
+    th.addEventListener('keydown', function (event) {
+      if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); sortBy(th); }
+    });
+  });
+  function sortBy(th) {
+    var table = th.closest('table');
+    var tbody = table.querySelector('tbody');
+    var rows = Array.prototype.slice.call(tbody.querySelectorAll('tr'));
+    var index = Array.prototype.indexOf.call(th.parentNode.children, th);
+    var isNumeric = th.dataset.sort === 'num';
+    // Повторный клик по тому же столбцу меняет направление
+    var descending = th.classList.contains('sorted') && th.dataset.dir === 'asc';
+    var dir = descending ? -1 : 1;
+
+    table.querySelectorAll('th').forEach(function (head) {
+      head.classList.remove('sorted');
+      head.dataset.dir = '';
+      var icon = head.querySelector('.sort-icon');
+      if (icon) { icon.textContent = '↕'; }
+    });
+    th.classList.add('sorted');
+    th.dataset.dir = dir === 1 ? 'asc' : 'desc';
+    var icon = th.querySelector('.sort-icon');
+    if (icon) { icon.textContent = dir === 1 ? '↓' : '↑'; }
+
+    rows.sort(function (a, b) {
+      var va = cellValue(a, index);
+      var vb = cellValue(b, index);
+      if (isNumeric) { return (numeric(va) - numeric(vb)) * dir; }
+      return va.localeCompare(vb, 'ru') * dir;
+    });
+    rows.forEach(function (row) { tbody.appendChild(row); });
+  }
+})();
+</script>
+</body>
+</html>
