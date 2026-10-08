@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Аудит карточки Wildberries за 1 день — 1 500 ₽ · Жаворонков Кирилл</title>
+<meta name="description" content="Аудит карточки Wildberries за 1 день: 5 блоков отчёта, юнит-экономика по формуле v3, 30 пунктов проверки, сравнение с топ-10 категории. Данные из публичного CDN — доступ к личному кабинету не нужен. 1 500 ₽.">
+<link rel="canonical" href="https://kirj2004.github.io/zhavoronkov-portfolio/p2-audit.html">
+<link rel="stylesheet" href="../assets/style.css">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+
+<style>
+/* Стили лендинга P2. Локальные: страница самодостаточна, правила не текут
+   в общий style.css. Токены, сетка и компоненты — оттуда же.
+   Внешних CDN нет: иконки — инлайн-SVG, шрифты — системные. */
+
+.pa-eyebrow{display:inline-flex;margin:0 0 var(--space-3)}
+
+.pa-cta{display:flex;flex-wrap:wrap;align-items:center;gap:var(--space-4);
+  margin:var(--space-6) 0 var(--space-8)}
+.pa-cta__note{margin:0;font-size:var(--text-sm);color:var(--color-text-tertiary)}
+.pa-btn-lg{height:var(--row-h-xl);padding:0 var(--space-6);font-size:var(--text-lg)}
+
+/* ── Что получите: 5 блоков отчёта ── */
+.pa-blocks{list-style:none;margin:0;padding:0;display:grid;gap:var(--space-4)}
+.pa-block{display:grid;grid-template-columns:44px 1fr;gap:var(--space-4);
+  padding:var(--space-5);background:var(--color-surface);
+  border:1px solid var(--color-border);border-radius:var(--radius-lg)}
+.pa-block__num{display:flex;align-items:center;justify-content:center;
+  width:44px;height:44px;border-radius:var(--radius-md);
+  background:var(--color-accent-subtle);color:var(--color-accent);
+  font-size:var(--text-lg);font-weight:700;line-height:1;
+  font-variant-numeric:tabular-nums}
+.pa-block__title{margin:0 0 var(--space-2);font-size:var(--text-lg);
+  font-weight:600;color:var(--color-text-primary);line-height:var(--leading-tight)}
+.pa-block__text{margin:0 0 var(--space-3);font-size:var(--text-sm);
+  color:var(--color-text-secondary);line-height:var(--leading);max-width:68ch}
+.pa-block__sample{margin:0;padding-top:var(--space-3);
+  border-top:1px solid var(--color-border);font-size:var(--text-xs);
+  color:var(--color-text-tertiary)}
+.pa-block__sample b{color:var(--color-text-primary);font-weight:600}
+/* Пятый блок — детали: самый объёмный, помечаем иначе */
+.pa-block--wide{grid-column:1/-1}
+
+/* ── Шаги работы ── */
+.pa-steps{list-style:none;margin:0;padding:0;display:grid;
+  grid-template-columns:repeat(3,1fr);gap:var(--space-4)}
+.pa-step{padding:var(--space-5);background:var(--color-surface);
+  border:1px solid var(--color-border);border-radius:var(--radius-lg);
+  display:flex;flex-direction:column;gap:var(--space-2)}
+.pa-step__num{display:inline-flex;align-items:center;justify-content:center;
+  width:32px;height:32px;border-radius:var(--radius-full);
+  background:var(--color-accent-subtle);color:var(--color-accent);
+  font-weight:700;font-size:var(--text-base);font-variant-numeric:tabular-nums}
+.pa-step__title{margin:0;font-size:var(--text-lg);font-weight:600;
+  color:var(--color-text-primary)}
+.pa-step__text{margin:0;font-size:var(--text-sm);
+  color:var(--color-text-secondary);line-height:1.5;flex:1}
+.pa-step__meta{margin:0;padding-top:var(--space-3);
+  border-top:1px solid var(--color-border);font-size:var(--text-xs);
+  color:var(--color-accent)}
+
+/* ── Пример отчёта: скриншоты ── */
+.pa-shots{display:grid;gap:var(--space-5)}
+.pa-shot{margin:0;background:var(--color-surface);
+  border:1px solid var(--color-border);border-radius:var(--radius-lg);
+  overflow:hidden}
+.pa-shot img{display:block;width:100%;height:auto;
+  border-bottom:1px solid var(--color-border)}
+.pa-shot figcaption{padding:var(--space-4) var(--space-5);
+  font-size:var(--text-sm);color:var(--color-text-secondary);line-height:1.5}
+.pa-shot figcaption b{display:block;margin-bottom:var(--space-1);
+  color:var(--color-text-primary);font-weight:600}
+/* Заглушка, если скриншот ещё не снят: рамка та же, чтобы вёрстка не ехала */
+.pa-shot__placeholder{display:flex;align-items:center;justify-content:center;
+  aspect-ratio:16/9;background:var(--color-well);
+  color:var(--color-text-tertiary);font-size:var(--text-sm);
+  border-bottom:1px solid var(--color-border)}
+
+/* ── FAQ ── */
+.pa-faq{display:grid;gap:var(--space-2)}
+.pa-faq details{background:var(--color-surface);border:1px solid var(--color-border);
+  border-radius:var(--radius-md);overflow:hidden}
+.pa-faq details[open]{border-color:var(--color-border-strong)}
+.pa-faq summary{display:flex;align-items:baseline;gap:var(--space-3);
+  padding:var(--space-4);cursor:pointer;font-size:var(--text-base);
+  font-weight:600;color:var(--color-text-primary);line-height:var(--leading-tight);
+  list-style:none}
+/* display:flex убирает ::marker, и свёрнутый аккордеон выглядит статичной
+   плашкой — непонятно, что его можно раскрыть. Шеврон рисуем сами и
+   разворачиваем при open. list-style:none выше гасит маркер WebKit. */
+.pa-faq summary::-webkit-details-marker{display:none}
+.pa-faq summary::after{content:"";flex:0 0 auto;width:8px;height:8px;
+  margin-left:auto;border-right:2px solid var(--color-text-tertiary);
+  border-bottom:2px solid var(--color-text-tertiary);
+  transform:rotate(45deg) translate(-2px,-2px);
+  transition:transform var(--dur-fast) var(--ease-out)}
+.pa-faq details[open] > summary::after{transform:rotate(-135deg) translate(-2px,-2px)}
+.pa-faq summary:hover{color:var(--color-accent)}
+.pa-faq summary:focus-visible{outline:2px solid var(--color-focus-ring);
+  outline-offset:-2px}
+.pa-faq__a{margin:0;padding:0 var(--space-4) var(--space-4);
+  font-size:var(--text-sm);color:var(--color-text-secondary);
+  line-height:var(--leading);max-width:72ch}
+.pa-faq__a b{color:var(--color-text-primary);font-weight:600}
+
+/* ── CTA ── */
+.pa-cta-block{padding:var(--space-8);background:var(--color-surface);
+  border:1px solid var(--color-border-strong);border-radius:var(--radius-xl)}
+.pa-cta-block__title{margin:0 0 var(--space-2);font-size:var(--text-3xl);
+  font-weight:600;letter-spacing:-0.02em;color:var(--color-text-primary)}
+.pa-cta-block__sub{margin:0 0 var(--space-6);font-size:var(--text-base);
+  color:var(--color-text-secondary);max-width:60ch}
+
+@media (max-width:900px){
+  .pa-steps{grid-template-columns:1fr}
+}
+@media (max-width:560px){
+  .pa-block{grid-template-columns:1fr;gap:var(--space-3)}
+  .pa-block__num{width:36px;height:36px;font-size:var(--text-base)}
+  .pa-cta-block{padding:var(--space-5)}
+  .pa-cta-block__title{font-size:var(--text-2xl)}
+  .pa-btn-lg{width:100%;justify-content:center}
+}
+
+@media print{
+  /* На бумаге нужен только текст предложения: навигация, переключатель
+     темы, кнопки и скриншоты — элементы интерфейса, не документ.
+     Палитру печати задаёт style.css: он переводит тёмную тему в светлую. */
+  .site-header,.site-footer,.pa-cta,.theme-toggle,.pa-shot,
+  .pa-btn-lg{display:none!important}
+  .pa-faq details{break-inside:avoid}
+  .pa-faq details > .pa-faq__a{display:block!important}
+  .section{margin-top:var(--space-8)}
+}
+</style>
+
+<!-- ═══════════════ Schema.org: Service + FAQPage ═══════════════ -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Service",
+      "@id": "https://kirj2004.github.io/zhavoronkov-portfolio/p2-audit.html#service",
+      "name": "Аудит карточки Wildberries",
+      "alternateName": "Аудит карточки WB за 1 день",
+      "serviceType": "Аудит карточки товара на маркетплейсе Wildberries",
+      "description": "Аудит одной карточки Wildberries за 1 день: отчёт из 5 блоков — главная проблема и деньги, 3 действия с эффектом и сроком, источник данных, потери при бездействии и детали (30 пунктов проверки, сравнение с топ-10 категории, юнит-экономика). Данные берутся из публичного CDN Wildberries, доступ к личному кабинету не требуется.",
+      "url": "https://kirj2004.github.io/zhavoronkov-portfolio/p2-audit.html",
+      "category": "Маркетплейсы и электронная коммерция",
+      "provider": {
+        "@type": "Person",
+        "name": "Жаворонков Кирилл",
+        "jobTitle": "Специалист по юнит-экономике маркетплейсов",
+        "telephone": "+7-924-310-20-30",
+        "email": "ip.zhavoronkov.ka@yandex.ru",
+        "sameAs": "https://t.me/marzha_bez_vody"
+      },
+      "areaServed": {
+        "@type": "Country",
+        "name": "Россия"
+      },
+      "availableChannel": {
+        "@type": "ServiceChannel",
+        "serviceUrl": "https://t.me/marzha_bez_vody",
+        "servicePhone": {
+          "@type": "ContactPoint",
+          "telephone": "+7-924-310-20-30",
+          "contactType": "customer service",
+          "availableLanguage": "Russian"
+        }
+      },
+      "offers": {
+        "@type": "Offer",
+        "price": "1500",
+        "priceCurrency": "RUB",
+        "priceValidUntil": "2026-12-31",
+        "availability": "https://schema.org/InStock",
+        "url": "https://kirj2004.github.io/zhavoronkov-portfolio/p2-audit.html#order",
+        "description": "Аудит одной карточки Wildberries: срок 1 день, отчёт из 5 блоков в PDF и HTML.",
+        "seller": {
+          "@type": "Person",
+          "name": "Жаворонков Кирилл"
+        }
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://kirj2004.github.io/zhavoronkov-portfolio/p2-audit.html#faq",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Нужен ли доступ к моему личному кабинету Wildberries?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Нет. Аудит строится на публичном CDN Wildberries — той же витрине, которую видит покупатель: карточка, характеристики, фото, отзывы, позиции в поиске. API-ключ и доступ в личный кабинет не нужны, ничего передавать не требуется."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Что именно я получу за 1 500 ₽?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Отчёт из 5 блоков: ГЛАВНОЕ (проблема и её цена в рублях), 3 ДЕЙСТВИЯ (что сделать, ожидаемый эффект, срок), ПОЧЕМУ МЫ (источник данных и проверки качества), СТРАХ ПОТЕРИ (сколько теряете в месяц и за год при бездействии), ДЕТАЛИ (30 пунктов проверки, сравнение с топ-10 категории, юнит-экономика единицы товара). Отчёт приходит в PDF и в интерактивном HTML."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Сколько времени занимает аудит?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Один рабочий день с момента, когда вы присылаете ссылку на карточку. Отчёт строится на публичных данных, поэтому ждать выгрузок из личного кабинета не нужно."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Какие карточки подходят для аудита?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Любая карточка Wildberries, которая уже в продаже. Аудит работает и для товара без продаж: тогда отчёт покажет, что мешает ему продаваться — заголовок, характеристики, фото или цена. Для одного заказа — одна карточка; несколько разбираются отдельными заказами."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Откуда берутся цифры потерь в рублях?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Из юнит-экономики по формуле v3: цена с учётом согласованной скидки, комиссия WB, эквайринг, выплата продавцу, логистика, хранение и себестоимость. Формула сверена с отчётом площадки — расхождение не более 0,0098 ₽ на строку, проверено 298 из 298 строк. Логистика, хранение и штрафы помечаются как оценка или «нет данных», если их нет в открытых источниках: выдуманных цифр в отчёте нет."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Вы внедряете рекомендации?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Нет, аудит заканчивается отчётом. Вы получаете диагноз, приоритеты и конкретные формулировки — заголовок, список недостающих характеристик, состав фото. Правки в карточку вы вносите сами или через своего контент-менеджера. Это осознанное ограничение: так цена остаётся 1 500 ₽, а не превращается в проект."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Как оплатить и что если отчёт не подойдёт?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Оплата после того, как отчёт готов: сначала вы его смотрите, потом платите. Предоплата не нужна. Если аудит не получился по моей причине — данных не хватило или карточка не разобралась, — оплата не берётся."
+          }
+        }
+      ]
+    }
+  ]
+}
+</script>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="site-header__inner">
+    <a class="brand" href="../index.html">
+      <span class="brand__name">Жаворонков Кирилл</span>
+      <span class="brand__sub">аудит карточки WB</span>
+    </a>
+    <nav class="nav" aria-label="Разделы страницы">
+      <a class="nav-link" href="#whats">Что получите</a>
+      <a class="nav-link" href="#how">Как работает</a>
+      <a class="nav-link" href="#sample">Пример</a>
+      <a class="nav-link" href="#faq">Вопросы</a>
+      <a class="nav-link" href="#order">Заказать</a>
+    </nav>
+    <a class="btn btn--primary" href="#order">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+      Заказать
+    </a>
+  </div>
+</header>
+
+<main class="page">
+
+  <!-- ── 1. Hero ────────────────────────────────────────────────────── -->
+  <section class="section" id="top" aria-labelledby="top-title">
+    <p class="badge badge--accent pa-eyebrow">Аудит карточки Wildberries</p>
+    <h1 class="page-title" id="top-title">Аудит карточки WB за 1 день — 1 500 ₽</h1>
+    <p class="page-sub">
+      Пришлите ссылку на карточку — завтра получите отчёт с диагнозом,
+      ценой проблемы в рублях и тремя действиями по приоритету.
+      Доступ к личному кабинету не нужен: работаем на публичных данных.
+    </p>
+
+    <div class="pa-cta">
+      <a class="btn btn--primary pa-btn-lg" href="#order">Заказать — 1 500 ₽</a>
+      <p class="pa-cta__note">
+        Оплата после того, как отчёт готов. Предоплата не нужна.
+      </p>
+    </div>
+
+    <div class="grid grid-4">
+      <div class="metric">
+        <span class="metric-value">1 день</span>
+        <span class="metric-label">от ссылки до отчёта</span>
+      </div>
+      <div class="metric">
+        <span class="metric-value">5 блоков</span>
+        <span class="metric-label">главное, действия, детали</span>
+      </div>
+      <div class="metric">
+        <span class="metric-value">30 пунктов</span>
+        <span class="metric-label">проверки карточки</span>
+      </div>
+      <div class="metric">
+        <span class="metric-value">0 доступов</span>
+        <span class="metric-label">к вашему кабинету</span>
+      </div>
+    </div>
+
+    <div class="alert alert--info" role="note" style="margin-top:var(--space-6)">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+      <span>
+        Никаких ключей и паролей: аудит строится на публичном CDN Wildberries —
+        той же витрине, которую видит покупатель.
+      </span>
+    </div>
+  </section>
+
+  <!-- ── 2. Что получите: 5 блоков отчёта ───────────────────────────── -->
+  <section class="section" id="whats" aria-labelledby="whats-title">
+    <div class="section-head">
+      <h2 class="section-title" id="whats-title">Что получите</h2>
+      <span class="section-note">пять блоков отчёта, каждый отвечает на свой вопрос</span>
+    </div>
+
+    <ol class="pa-blocks">
+      <li class="pa-block">
+        <span class="pa-block__num" aria-hidden="true">1</span>
+        <div>
+          <h3 class="pa-block__title">Главное — проблема и её цена</h3>
+          <p class="pa-block__text">
+            Одна главная проблема, из-за которой карточка теряет показы или
+            заказы, и её стоимость в рублях. Не список из тридцати замечаний,
+            а то, что решает исход: «заголовок без ключевых слов — потеря 40%
+            показов». Рядом четыре KPI: потеря показов, риск блокировки,
+            потеря выручки, маржа с единицы.
+          </p>
+          <p class="pa-block__sample">
+            <b>Пример:</b> «Показы просели на 40% — это 80 недополученных
+            заказов в месяц, 189 240 ₽ выручки и 28 092 ₽ маржи»
+          </p>
+        </div>
+      </li>
+
+      <li class="pa-block">
+        <span class="pa-block__num" aria-hidden="true">2</span>
+        <div>
+          <h3 class="pa-block__title">3 действия — что делать</h3>
+          <p class="pa-block__text">
+            Три задачи по приоритету, а не по порядку в голове. У каждой:
+            что именно сделать, ожидаемый эффект в процентах и рублях,
+            реальный срок и приоритет. Формулировки готовы к работе —
+            заголовок написан, характеристики перечислены, состав фото описан.
+          </p>
+          <p class="pa-block__sample">
+            <b>Пример:</b> «1. Переписать заголовок под 12 частотных запросов —
+            +40% показов, срок 1 день, +19 700 ₽ маржи в месяц»
+          </p>
+        </div>
+      </li>
+
+      <li class="pa-block">
+        <span class="pa-block__num" aria-hidden="true">3</span>
+        <div>
+          <h3 class="pa-block__title">Почему мы — откуда цифры</h3>
+          <p class="pa-block__text">
+            Источник данных и проверки качества, чтобы вы могли оценить,
+            насколько цифрам можно верить. Не «мы посчитали», а схема:
+            откуда взяты данные, сколько строк разобрано, какая формула
+            применена и по какому документу площадки.
+          </p>
+          <p class="pa-block__sample">
+            <b>Пример:</b> «Публичный CDN Wildberries, 298 из 298 строк,
+            формула v3 по оферте №102, расхождение 0,0098 ₽»
+          </p>
+        </div>
+      </li>
+
+      <li class="pa-block">
+        <span class="pa-block__num" aria-hidden="true">4</span>
+        <div>
+          <h3 class="pa-block__title">Страх потери — что будет, если не чинить</h3>
+          <p class="pa-block__text">
+            Сколько денег уходит прямо сейчас и как накапливается потеря
+            на горизонтах 3, 6 и 12 месяцев. Плюс отдельный риск: сколько
+            нарушений описания накопилось и при каком количестве площадка
+            скрывает карточку из поиска.
+          </p>
+          <p class="pa-block__sample">
+            <b>Пример:</b> «Через год — 2 270 880 ₽ выручки и 337 104 ₽ маржи.
+            Сейчас 3 нарушения из 5 допустимых»
+          </p>
+        </div>
+      </li>
+
+      <li class="pa-block pa-block--wide">
+        <span class="pa-block__num" aria-hidden="true">5</span>
+        <div>
+          <h3 class="pa-block__title">Детали — полный разбор</h3>
+          <p class="pa-block__text">
+            Всё, что подтверждает выводы: чек-лист из 30 пунктов проверки
+            со статусом и суммой влияния по каждому, сравнение с медианой
+            топ-10 категории по шести метрикам и юнит-экономика единицы
+            товара водопадом — от цены покупателя до маржи.
+          </p>
+          <p class="pa-block__sample">
+            <b>Пример:</b> «Ключевых слов в заголовке: 0 против 9 в топ-10.
+            Позиция в поиске: 34 против 4»
+          </p>
+        </div>
+      </li>
+    </ol>
+  </section>
+
+  <!-- ── 3. Как работает ────────────────────────────────────────────── -->
+  <section class="section" id="how" aria-labelledby="how-title">
+    <div class="section-head">
+      <h2 class="section-title" id="how-title">Как работает</h2>
+      <span class="section-note">три шага, без встреч и созвонов</span>
+    </div>
+
+    <ol class="pa-steps">
+      <li class="pa-step">
+        <span class="pa-step__num" aria-hidden="true">1</span>
+        <h3 class="pa-step__title">Заявка</h3>
+        <p class="pa-step__text">
+          Присылаете ссылку на карточку Wildberries в Telegram или по телефону.
+          Достаточно ссылки — артикул, категорию и характеристики я найду сам.
+          Ключи и доступы не нужны.
+        </p>
+        <p class="pa-step__meta">5 минут · бесплатно</p>
+      </li>
+
+      <li class="pa-step">
+        <span class="pa-step__num" aria-hidden="true">2</span>
+        <h3 class="pa-step__title">Аудит</h3>
+        <p class="pa-step__text">
+          Разбираю карточку: заголовок и ключевые запросы, характеристики,
+          фото и видео, описание, отзывы, цену и СПП. Считаю юнит-экономику
+          по формуле v3 и сравниваю с медианой топ-10 категории.
+        </p>
+        <p class="pa-step__meta">1 рабочий день</p>
+      </li>
+
+      <li class="pa-step">
+        <span class="pa-step__num" aria-hidden="true">3</span>
+        <h3 class="pa-step__title">Отчёт</h3>
+        <p class="pa-step__text">
+          Получаете отчёт из 5 блоков в PDF и в интерактивном HTML: смотрите,
+          задаёте вопросы, платите после. Если аудит не получился по моей
+          причине — оплата не берётся.
+        </p>
+        <p class="pa-step__meta">1 500 ₽ · оплата после отчёта</p>
+      </li>
+    </ol>
+  </section>
+
+  <!-- ── 4. Пример отчёта ───────────────────────────────────────────── -->
+  <section class="section" id="sample" aria-labelledby="sample-title">
+    <div class="section-head">
+      <h2 class="section-title" id="sample-title">Пример отчёта</h2>
+      <span class="section-note">три фрагмента из демо-отчёта</span>
+    </div>
+
+    <p class="section-note" style="display:block;margin:0 0 var(--space-4);max-width:72ch">
+      Ниже — фрагменты демонстрационного отчёта по карточке категории
+      «Домкраты» (nmId 12345678, кВВ 28,5%). Цифры в примере — расчёт по
+      демо-данным, а не по вашей карточке.
+    </p>
+
+    <div class="pa-shots">
+      <figure class="pa-shot">
+        <img src="../assets/p2/1-main.png"
+             alt="Блок «Главное» демо-отчёта: карточка проблемы «Заголовок без ключевых слов — потеря 40% показов», суммы 189 240 ₽ выручки и 28 092 ₽ маржи, четыре KPI-карточки со спарклайнами"
+             width="1280" height="800" loading="lazy" decoding="async">
+        <figcaption>
+          <b>Блок 1 · Главное</b>
+          Главная проблема и её цена в рублях, четыре KPI со спарклайнами.
+          Отвечает на вопрос «сколько я теряю и почему».
+        </figcaption>
+      </figure>
+
+      <figure class="pa-shot">
+        <img src="../assets/p2/2-actions.png"
+             alt="Блок «3 действия» демо-отчёта: три нумерованные задачи с приоритетом, сроком, ожидаемым эффектом и суммой маржи — 19 700, 5 600 и 2 792 рубля"
+             width="1280" height="690" loading="lazy" decoding="async">
+        <figcaption>
+          <b>Блок 2 · 3 действия</b>
+          Три задачи по приоритету: что сделать, эффект, срок и деньги.
+          Формулировки готовы к работе, подрядчик не нужен.
+        </figcaption>
+      </figure>
+
+      <figure class="pa-shot">
+        <img src="../assets/p2/3-details.png"
+             alt="Блок «Детали» демо-отчёта: чек-лист из семи пунктов проверки со статусами и суммами влияния, таблица сравнения с медианой топ-10 по шести метрикам"
+             width="1280" height="920" loading="lazy" decoding="async">
+        <figcaption>
+          <b>Блок 5 · Детали</b>
+          Чек-лист из 30 пунктов со статусом и суммой влияния плюс сравнение
+          с медианой топ-10 категории. Показывает, откуда взялись выводы.
+        </figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- ── 5. FAQ ─────────────────────────────────────────────────────── -->
+  <section class="section" id="faq" aria-labelledby="faq-title">
+    <div class="section-head">
+      <h2 class="section-title" id="faq-title">Частые вопросы</h2>
+      <span class="section-note">семь вопросов, которые задают до заказа</span>
+    </div>
+
+    <div class="pa-faq">
+      <details>
+        <summary>Нужен ли доступ к моему личному кабинету Wildberries?</summary>
+        <p class="pa-faq__a">
+          Нет. Аудит строится на <b>публичном CDN Wildberries</b> — той же
+          витрине, которую видит покупатель: карточка, характеристики, фото,
+          отзывы, позиции в поиске. API-ключ и доступ в личный кабинет не
+          нужны, ничего передавать не требуется.
+        </p>
+      </details>
+
+      <details>
+        <summary>Что именно я получу за 1 500 ₽?</summary>
+        <p class="pa-faq__a">
+          Отчёт из <b>5 блоков</b>: ГЛАВНОЕ (проблема и её цена в рублях),
+          3 ДЕЙСТВИЯ (что сделать, ожидаемый эффект, срок), ПОЧЕМУ МЫ
+          (источник данных и проверки качества), СТРАХ ПОТЕРИ (сколько
+          теряете в месяц и за год при бездействии), ДЕТАЛИ (30 пунктов
+          проверки, сравнение с топ-10 категории, юнит-экономика единицы
+          товара). Отчёт приходит в PDF и в интерактивном HTML.
+        </p>
+      </details>
+
+      <details>
+        <summary>Сколько времени занимает аудит?</summary>
+        <p class="pa-faq__a">
+          <b>Один рабочий день</b> с момента, когда вы присылаете ссылку на
+          карточку. Отчёт строится на публичных данных, поэтому ждать
+          выгрузок из личного кабинета не нужно.
+        </p>
+      </details>
+
+      <details>
+        <summary>Какие карточки подходят для аудита?</summary>
+        <p class="pa-faq__a">
+          Любая карточка Wildberries, которая <b>уже в продаже</b>. Аудит
+          работает и для товара без продаж: тогда отчёт покажет, что мешает
+          ему продаваться — заголовок, характеристики, фото или цена.
+          Для одного заказа — одна карточка; несколько разбираются
+          отдельными заказами.
+        </p>
+      </details>
+
+      <details>
+        <summary>Откуда берутся цифры потерь в рублях?</summary>
+        <p class="pa-faq__a">
+          Из юнит-экономики по <b>формуле v3</b>: цена с учётом согласованной
+          скидки, комиссия WB, эквайринг, выплата продавцу, логистика,
+          хранение и себестоимость. Формула сверена с отчётом площадки —
+          расхождение не более <b>0,0098 ₽ на строку</b>, проверено 298 из
+          298 строк. Логистика, хранение и штрафы помечаются как оценка или
+          «нет данных», если их нет в открытых источниках: выдуманных цифр
+          в отчёте нет.
+        </p>
+      </details>
+
+      <details>
+        <summary>Вы внедряете рекомендации?</summary>
+        <p class="pa-faq__a">
+          Нет, аудит заканчивается отчётом. Вы получаете диагноз, приоритеты
+          и конкретные формулировки — заголовок, список недостающих
+          характеристик, состав фото. Правки в карточку вы вносите сами или
+          через своего контент-менеджера. Это осознанное ограничение: так
+          цена остаётся 1 500 ₽, а не превращается в проект.
+        </p>
+      </details>
+
+      <details>
+        <summary>Как оплатить и что если отчёт не подойдёт?</summary>
+        <p class="pa-faq__a">
+          <b>Оплата после того, как отчёт готов</b>: сначала вы его смотрите,
+          потом платите. Предоплата не нужна. Если аудит не получился по моей
+          причине — данных не хватило или карточка не разобралась, — оплата
+          не берётся.
+        </p>
+      </details>
+    </div>
+  </section>
+
+  <!-- ── 6. CTA ─────────────────────────────────────────────────────── -->
+  <section class="section" id="order" aria-labelledby="order-title">
+    <div class="pa-cta-block">
+      <h2 class="pa-cta-block__title" id="order-title">
+        Пришлите ссылку на карточку
+      </h2>
+      <p class="pa-cta-block__sub">
+        Отвечаю письменно, звонков нет. Достаточно ссылки на карточку
+        Wildberries — остальное найду сам. Отчёт будет завтра.
+      </p>
+
+      <div class="grid grid-2">
+        <a class="contact" href="https://t.me/marzha_bez_vody" rel="noopener">
+          <span class="contact__icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M22 2 11 13"/><path d="M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+          </span>
+          <span class="contact__body">
+            <span class="contact__label">Telegram</span>
+            <span class="contact__value">@marzha_bez_vody</span>
+          </span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M7 17 17 7M7 7h10v10"/></svg>
+        </a>
+
+        <a class="contact" href="tel:+79243102030">
+          <span class="contact__icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          </span>
+          <span class="contact__body">
+            <span class="contact__label">Телефон</span>
+            <span class="contact__value tnum">+7 924 310-20-30</span>
+          </span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M7 17 17 7M7 7h10v10"/></svg>
+        </a>
+      </div>
+
+      <div class="alert alert--warning" role="note" style="margin-top:var(--space-5)">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><path d="M12 9v4M12 17h.01"/></svg>
+        <span>
+          Цена 1 500 ₽ фиксируется до начала работ. Оплата — после того,
+          как отчёт готов.
+        </span>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="site-footer__inner">
+    <span class="site-footer__copy">© <span data-pfx-year>2026</span> Жаворонков Кирилл</span>
+    <nav class="site-footer__nav" aria-label="Разделы страницы">
+      <a class="nav-link" href="#whats">Что получите</a>
+      <a class="nav-link" href="#how">Как работает</a>
+      <a class="nav-link" href="#sample">Пример</a>
+      <a class="nav-link" href="#faq">Вопросы</a>
+      <a class="nav-link" href="../index.html">Портфолио</a>
+    </nav>
+    <p class="site-footer__note">
+      Цифры в примере — расчёт по демонстрационным данным карточки категории
+      «Домкраты», а не по вашей карточке. Логистика, хранение и штрафы
+      помечены в отчёте как оценка или «нет данных». Отчёт носит
+      информационный характер и не является гарантией результата.
+    </p>
+  </div>
+</footer>
+
+<script type="module" src="../assets/site.js"></script>
+</body>
+</html>
