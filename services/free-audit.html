@@ -61,6 +61,14 @@
 
 .fa-error{display:none;padding:var(--space-5);background:var(--color-danger-subtle);border:1px solid var(--color-danger);border-radius:var(--radius-lg);color:var(--color-danger);font-size:var(--text-sm);margin-bottom:var(--space-4)}
 
+.fa-margin{margin-bottom:var(--space-6);padding:var(--space-5);background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-lg);text-align:center}
+.fa-margin__label{font-size:var(--text-sm);font-weight:600;color:var(--color-text-secondary);margin-bottom:var(--space-2);cursor:help;text-decoration:underline dotted;text-underline-offset:2px}
+.fa-margin__value{font-size:var(--text-4xl);font-weight:700;font-variant-numeric:tabular-nums;line-height:var(--leading-tight)}
+.fa-margin__value--green{color:var(--color-accent)}
+.fa-margin__value--yellow{color:var(--color-warning)}
+.fa-margin__value--red{color:var(--color-danger)}
+.fa-margin__disclaimer{margin:var(--space-2) 0 0;font-size:var(--text-xs);color:var(--color-text-tertiary)}
+
 @media (max-width:560px){
   .fa-hero__title{font-size:var(--text-3xl)}
   .fa-problem{grid-template-columns:1fr;gap:var(--space-3)}
@@ -109,12 +117,19 @@
 
     <div class="fa-problems" id="problems-list"></div>
 
+    <!-- Примерная маржа -->
+    <div class="fa-margin" id="margin-estimate">
+      <div class="fa-margin__label" title="Точный расчёт с реальной себестоимостью — 3500 ₽">Примерная маржа</div>
+      <div class="fa-margin__value fa-margin__value--green" id="margin-value">0%</div>
+      <p class="fa-margin__disclaimer">Оценочно. Точный расчёт — в полном отчёте.</p>
+    </div>
+
     <!-- CTA -->
     <div class="fa-cta">
-      <h3 class="fa-cta__title">Полный аудит 30 пунктов</h3>
-      <p class="fa-cta__sub">5 блоков отчёта: SEO, фото, габариты, конкуренты, деньги</p>
-      <p class="fa-cta__price">1 500 ₽</p>
-      <a class="fa-cta__btn" href="p2-audit.html">Заказать полный аудит</a>
+      <h3 class="fa-cta__title">Полный расчёт юнит-экономики</h3>
+      <p class="fa-cta__sub">Точная маржа, себестоимость, логистика, реклама</p>
+      <p class="fa-cta__price">3 500 ₽</p>
+      <a class="fa-cta__btn" href="p2-audit.html">Получить точный расчёт</a>
 
       <!-- Telegram -->
       <div class="fa-telegram">
@@ -140,6 +155,7 @@
   var resultTitle = document.getElementById('result-title');
   var resultScore = document.getElementById('result-score');
   var problemsList = document.getElementById('problems-list');
+  var marginValue = document.getElementById('margin-value');
   var telegramBtn = document.getElementById('telegram-btn');
 
   var SEVERITY_ICONS = {
@@ -221,6 +237,15 @@
 
       problemsList.appendChild(item);
     });
+
+    // Рендеринг оценки маржи
+    if (data.margin_estimate) {
+      var me = data.margin_estimate;
+      var pct = me.margin_pct_estimated || 0;
+      var zone = me.margin_zone || 'red';
+      marginValue.textContent = pct + '%';
+      marginValue.className = 'fa-margin__value fa-margin__value--' + zone;
+    }
   }
 
   function escapeHtml(str) {
@@ -280,7 +305,14 @@
           impact: 'Покупатель не знает материал — снижение конверсии'
         }
       ],
-      quick_score: 45
+      quick_score: 45,
+      margin_estimate: {
+        price: 1500,
+        cost_assumed_pct: 40,
+        margin_pct_estimated: 25.5,
+        margin_zone: 'green',
+        disclaimer: 'Оценочно. Точный расчёт — в полном отчёте.'
+      }
     };
   }
 
