@@ -83,9 +83,9 @@
 
   <!-- Форма -->
   <div class="fa-form">
-    <label class="fa-form__label" for="nm-input">Ссылка на карточку WB или артикул</label>
-    <input class="fa-form__input" id="nm-input" type="text" placeholder="https://www.wildberries.ru/catalog/334820823/detail.aspx" autocomplete="off">
-    <p class="fa-form__hint">Например: 334820823 или полная ссылка на карточку</p>
+    <label class="fa-form__label" for="nm-input">Ссылка на карточку или артикул WB</label>
+    <input class="fa-form__input" id="nm-input" type="text" placeholder="https://wildberries.ru/catalog/... или 334820823" autocomplete="off">
+    <p class="fa-form__hint">Скопируйте ссылку из браузера или введите артикул (6-10 цифр)</p>
     <button class="fa-form__btn btn btn-primary" id="check-btn" type="button">Проверить бесплатно</button>
   </div>
 
@@ -177,10 +177,10 @@
 
   function extractNmId(input) {
     input = input.trim();
-    if (/^\d+$/.test(input)) return input;
-    var match = input.match(/\/catalog\/(\d+)/);
+    if (/^\d{6,10}$/.test(input)) return input;
+    var match = input.match(/\/catalog\/(\d{6,10})/);
     if (match) return match[1];
-    match = input.match(/(\d{6,})/);
+    match = input.match(/(\d{6,10})/);
     if (match) return match[1];
     return '';
   }
