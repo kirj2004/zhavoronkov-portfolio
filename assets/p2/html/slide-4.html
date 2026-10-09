@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="utf-8">
+<title>Пример отчёта — аудит карточки WB</title>
+<style>
+:root{
+  --bg:#0A0A0B; --bg-elevated:#141416; --bg-elevated-2:#1B1B1F;
+  --border-subtle:#26262B; --border-strong:#33333A;
+  --text-primary:#F5F5F7; --text-secondary:#8B8B94; --text-tertiary:#5A5A62;
+  --accent:#FFB800; --accent-soft:rgba(255,184,0,.12);
+  --success:#10B981; --warning:#F59E0B; --danger:#EF4444;
+  --font:'Inter',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+  --mono:'JetBrains Mono','Noto Sans Mono','DejaVu Sans Mono',monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1600px;height:1000px}
+body{
+  font-family:var(--font); background:var(--bg); color:var(--text-primary);
+  -webkit-font-smoothing:antialiased; display:flex; flex-direction:column;
+  padding:70px 80px; overflow:hidden;
+}
+.topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:42px;flex:none}
+.caption{font-family:var(--mono);font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--text-tertiary);font-weight:500}
+.brand{display:flex;align-items:center;gap:9px}
+.brand-mark{width:22px;height:22px;border-radius:6px;background:var(--accent);color:#0A0A0B;font-weight:800;font-size:13px;display:flex;align-items:center;justify-content:center;letter-spacing:-.02em}
+.brand-name{font-size:13px;font-weight:600;letter-spacing:.06em;color:var(--text-secondary)}
+.head{flex:none}
+.display{font-size:76px;font-weight:700;letter-spacing:-.04em;line-height:.98}
+.display .dim{color:var(--text-tertiary)}
+.subhead{font-size:20px;font-weight:500;color:var(--text-secondary);letter-spacing:-.01em;margin-top:18px}
+.content{flex:1;display:flex;flex-direction:column;min-height:0;margin-top:44px}
+.content.center{justify-content:center;gap:72px}
+.footer{flex:none;margin-top:30px;padding-top:26px;border-top:1px solid var(--border-subtle);display:flex;align-items:center;justify-content:space-between}
+.footer-line{font-family:var(--mono);font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);font-weight:600}
+
+/* Slide 1 — категории */
+.cats{display:grid;grid-template-columns:repeat(12,1fr);gap:20px}
+.cat{grid-column:span 3;background:var(--bg-elevated);border:1px solid var(--border-subtle);border-radius:16px;padding:26px 24px;display:flex;flex-direction:column}
+.cat.wide{grid-column:span 4}
+.cat .ic{color:var(--accent);margin-bottom:18px}
+.cat .n{font-family:var(--mono);font-size:42px;font-weight:600;color:var(--accent);letter-spacing:-.02em;line-height:1}
+.cat .lbl{font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--text-primary);font-weight:600;margin-top:12px}
+.cat .sub{font-size:13px;color:var(--text-secondary);margin-top:4px}
+
+/* Slide 2 — блоки отчёта */
+.rows{display:flex;flex-direction:column;gap:12px}
+.row{display:grid;grid-template-columns:64px 250px 1fr;align-items:center;gap:28px;background:var(--bg-elevated);border:1px solid var(--border-subtle);border-radius:14px;padding:20px 28px}
+.row .num{font-family:var(--mono);font-size:30px;font-weight:600;color:var(--accent);letter-spacing:-.02em}
+.row .t{font-size:19px;font-weight:600;letter-spacing:-.01em}
+.row .d{font-size:14px;color:var(--text-secondary)}
+.term{margin-top:auto;align-self:flex-start;display:inline-flex;align-items:center;gap:11px;background:var(--bg-elevated-2);border:1px solid var(--border-subtle);border-radius:999px;padding:13px 24px;font-size:15px;font-weight:500;color:var(--text-primary)}
+.term .ic{color:var(--accent);display:flex}
+
+/* Slide 3 — процесс */
+.steps{display:flex;align-items:center;position:relative}
+.steps::before{content:"";position:absolute;left:8%;right:8%;top:32px;height:1px;background:var(--border-subtle)}
+.step{flex:1;text-align:center;position:relative;z-index:1}
+.step .num{font-family:var(--mono);font-size:44px;font-weight:600;color:var(--accent);letter-spacing:-.02em;line-height:1}
+.step .t{font-size:20px;font-weight:600;margin-top:18px}
+.step .d{font-size:14px;color:var(--text-secondary);margin-top:8px;line-height:1.45}
+.arrow{display:flex;align-items:center;padding:0 4px;margin-top:-8px;color:var(--border-strong)}
+.checks{display:grid;grid-template-columns:1fr 1fr;gap:22px 56px;padding-top:36px;border-top:1px solid var(--border-subtle)}
+.chk{display:flex;align-items:center;gap:13px;font-size:16px;color:var(--text-primary)}
+.chk .ic{color:var(--success);display:flex;flex:none}
+
+/* Slide 4 — превью отчёта */
+.previews{display:flex;justify-content:center;gap:40px;align-items:flex-start}
+.pv{text-align:center}
+.pv .page{width:280px;height:400px;border-radius:12px;overflow:hidden;border:1px solid var(--border-subtle);box-shadow:0 8px 24px rgba(0,0,0,.5);background:#fff}
+.pv .page img{width:100%;height:100%;object-fit:cover;object-position:top;display:block}
+.pv .cap{margin-top:18px;font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--text-secondary)}
+.baseline{margin-top:auto;padding-top:30px;border-top:1px solid var(--border-subtle);display:flex;justify-content:center;gap:16px;font-size:15px;color:var(--text-secondary)}
+.baseline b{color:var(--text-primary);font-weight:600}
+.baseline .sep{color:var(--border-strong)}
+
+@media print{@page{size:1600px 1000px;margin:0}}
+</style></head>
+<body>
+<div class="topbar"><span class="caption">Example / Report</span><div class="brand"><div class="brand-mark">M</div><span class="brand-name">MARKET</span></div></div>
+<div class="head">
+<div class="display">Как выглядит отчёт</div>
+<div class="subhead">Интерактивный пример</div>
+</div>
+<div class="content"><div class="previews"><div class="pv"><div class="page"><img src="page-1.png" alt="Главное"></div><div class="cap">Главное</div></div><div class="pv"><div class="page"><img src="page-2.png" alt="Действия"></div><div class="cap">Действия</div></div><div class="pv"><div class="page"><img src="page-3.png" alt="Детали"></div><div class="cap">Детали</div></div></div>
+<div class="baseline"><span><b>Топ-10 конкурентов</b></span><span class="sep">·</span>
+<span><b>30 пунктов</b></span><span class="sep">·</span>
+<span><b>5 блоков</b></span></div>
+</div>
+
+</body></html>
