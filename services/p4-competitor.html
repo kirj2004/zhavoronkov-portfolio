@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Разбор конкурента на Wildberries — 3 500 ₽ · Жаворонков Кирилл</title>
+<meta name="description" content="Что делают топ-5 конкурентов и почему они продают: цена, фото, отзывы, SEO, стратегия. Разбор по открытым данным Wildberries за 1 день. 3 500 ₽.">
+<link rel="canonical" href="https://kirj2004.github.io/zhavoronkov-portfolio/p4-competitor.html">
+<link rel="stylesheet" href="../assets/style.css">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+
+<style>
+/* Стили лендинга P4. Локальные: страница самодостаточна, правила не текут
+   в общий style.css. Токены, сетка и компоненты — оттуда же.
+   Внешних CDN нет: иконки — инлайн-SVG, шрифты — системные. */
+
+.p4-eyebrow{display:inline-flex;margin:0 0 var(--space-3)}
+
+.p4-cta{display:flex;flex-wrap:wrap;align-items:center;gap:var(--space-4);
+  margin:var(--space-6) 0 var(--space-8)}
+.p4-cta__note{margin:0;font-size:var(--text-sm);color:var(--color-text-tertiary)}
+.p4-btn-lg{height:var(--row-h-xl);padding:0 var(--space-6);font-size:var(--text-lg)}
+
+/* ── Что получите: 5 блоков отчёта ── */
+.p4-blocks{list-style:none;margin:0;padding:0;display:grid;gap:var(--space-4)}
+.p4-block{display:grid;grid-template-columns:44px 1fr;gap:var(--space-4);
+  padding:var(--space-5);background:var(--color-surface);
+  border:1px solid var(--color-border);border-radius:var(--radius-lg)}
+.p4-block__num{display:flex;align-items:center;justify-content:center;
+  width:44px;height:44px;border-radius:var(--radius-md);
+  background:var(--color-accent-subtle);color:var(--color-accent);
+  font-size:var(--text-lg);font-weight:700;line-height:1;
+  font-variant-numeric:tabular-nums}
+.p4-block__title{margin:0 0 var(--space-2);font-size:var(--text-lg);
+  font-weight:600;color:var(--color-text-primary);line-height:var(--leading-tight)}
+.p4-block__text{margin:0 0 var(--space-3);font-size:var(--text-sm);
+  color:var(--color-text-secondary);line-height:var(--leading);max-width:68ch}
+.p4-block__sample{margin:0;padding-top:var(--space-3);
+  border-top:1px solid var(--color-border);font-size:var(--text-xs);
+  color:var(--color-text-tertiary)}
+.p4-block__sample b{color:var(--color-text-primary);font-weight:600}
+.p4-block--wide{grid-column:1/-1}
+
+/* ── Шаги работы ── */
+.p4-steps{list-style:none;margin:0;padding:0;display:grid;
+  grid-template-columns:repeat(3,1fr);gap:var(--space-4)}
+.p4-step{padding:var(--space-5);background:var(--color-surface);
+  border:1px solid var(--color-border);border-radius:var(--radius-lg);
+  display:flex;flex-direction:column;gap:var(--space-2)}
+.p4-step__num{display:inline-flex;align-items:center;justify-content:center;
+  width:32px;height:32px;border-radius:var(--radius-full);
+  background:var(--color-accent-subtle);color:var(--color-accent);
+  font-weight:700;font-size:var(--text-base);font-variant-numeric:tabular-nums}
+.p4-step__title{margin:0;font-size:var(--text-lg);font-weight:600;
+  color:var(--color-text-primary)}
+.p4-step__text{margin:0;font-size:var(--text-sm);
+  color:var(--color-text-secondary);line-height:1.5;flex:1}
+.p4-step__meta{margin:0;padding-top:var(--space-3);
+  border-top:1px solid var(--color-border);font-size:var(--text-xs);
+  color:var(--color-accent)}
+
+/* ── Пример отчёта ── */
+.p4-shots{display:grid;gap:var(--space-5)}
+.p4-shot{margin:0;background:var(--color-surface);
+  border:1px solid var(--color-border);border-radius:var(--radius-lg);
+  overflow:hidden}
+.p4-shot img{display:block;width:100%;height:auto;
+  border-bottom:1px solid var(--color-border)}
+.p4-shot figcaption{padding:var(--space-4) var(--space-5);
+  font-size:var(--text-sm);color:var(--color-text-secondary);line-height:1.5}
+.p4-shot figcaption b{display:block;margin-bottom:var(--space-1);
+  color:var(--color-text-primary);font-weight:600}
+.p4-demo-link{display:inline-flex;align-items:center;gap:var(--space-2);
+  margin-top:var(--space-3);font-size:var(--text-sm);font-weight:600;
+  color:var(--color-accent);text-decoration:none}
+.p4-demo-link:hover{text-decoration:underline}
+
+/* ── FAQ ── */
+.p4-faq{display:grid;gap:var(--space-2)}
+.p4-faq details{background:var(--color-surface);border:1px solid var(--color-border);
+  border-radius:var(--radius-md);overflow:hidden}
+.p4-faq details[open]{border-color:var(--color-border-strong)}
+.p4-faq summary{display:flex;align-items:baseline;gap:var(--space-3);
+  padding:var(--space-4);cursor:pointer;font-size:var(--text-base);
+  font-weight:600;color:var(--color-text-primary);line-height:var(--leading-tight);
+  list-style:none}
+.p4-faq summary::-webkit-details-marker{display:none}
+.p4-faq summary::after{content:"";flex:0 0 auto;width:8px;height:8px;
+  margin-left:auto;border-right:2px solid var(--color-text-tertiary);
+  border-bottom:2px solid var(--color-text-tertiary);
+  transform:rotate(45deg) translate(-2px,-2px);
+  transition:transform var(--dur-fast) var(--ease-out)}
+.p4-faq details[open] > summary::after{transform:rotate(-135deg) translate(-2px,-2px)}
+.p4-faq summary:hover{color:var(--color-accent)}
+.p4-faq summary:focus-visible{outline:2px solid var(--color-focus-ring);
+  outline-offset:-2px}
+.p4-faq__a{margin:0;padding:0 var(--space-4) var(--space-4);
+  font-size:var(--text-sm);color:var(--color-text-secondary);
+  line-height:var(--leading);max-width:72ch}
+.p4-faq__a b{color:var(--color-text-primary);font-weight:600}
+
+/* ── CTA ── */
+.p4-cta-block{padding:var(--space-8);background:var(--color-surface);
+  border:1px solid var(--color-border-strong);border-radius:var(--radius-xl)}
+.p4-cta-block__title{margin:0 0 var(--space-2);font-size:var(--text-3xl);
+  font-weight:600;letter-spacing:-0.02em;color:var(--color-text-primary)}
+.p4-cta-block__sub{margin:0 0 var(--space-6);font-size:var(--text-base);
+  color:var(--color-text-secondary);max-width:60ch}
+
+@media (max-width:900px){
+  .p4-steps{grid-template-columns:1fr}
+}
+@media (max-width:560px){
+  .p4-block{grid-template-columns:1fr;gap:var(--space-3)}
+  .p4-block__num{width:36px;height:36px;font-size:var(--text-base)}
+  .p4-cta-block{padding:var(--space-5)}
+  .p4-cta-block__title{font-size:var(--text-2xl)}
+  .p4-btn-lg{width:100%;justify-content:center}
+}
+
+@media print{
+  .site-header,.site-footer,.p4-cta,.theme-toggle,.p4-shot,
+  .p4-btn-lg{display:none!important}
+  .p4-faq details{break-inside:avoid}
+  .p4-faq details > .p4-faq__a{display:block!important}
+  .section{margin-top:var(--space-8)}
+}
+</style>
+
+<!-- ═══════════════ Schema.org: Service + FAQPage ═══════════════ -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Service",
+      "@id": "https://kirj2004.github.io/zhavoronkov-portfolio/p4-competitor.html#service",
+      "name": "Разбор конкурента на Wildberries",
+      "alternateName": "Анализ конкурентов в категории за 1 день",
+      "serviceType": "Анализ карточек конкурентов на маркетплейсе Wildberries",
+      "description": "Разбор до пяти конкурентов категории: цена и её история, фото и rich-контент, отзывы и системные дефекты, семантика и позиции, стратегия. Вывод — на чём конкурент зарабатывает и где его можно обойти без демпинга. Отчёт из 5 блоков за один рабочий день.",
+      "url": "https://kirj2004.github.io/zhavoronkov-portfolio/p4-competitor.html",
+      "category": "Маркетплейсы и электронная коммерция",
+      "provider": {
+        "@type": "Person",
+        "name": "Жаворонков Кирилл",
+        "jobTitle": "Специалист по аналитике маркетплейсов",
+        "telephone": "+7-924-310-20-30",
+        "email": "ip.zhavoronkov.ka@yandex.ru",
+        "sameAs": "https://t.me/marzha_bez_vody"
+      },
+      "areaServed": { "@type": "Country", "name": "Россия" },
+      "offers": {
+        "@type": "Offer",
+        "price": "3500",
+        "priceCurrency": "RUB",
+        "priceValidUntil": "2026-12-31",
+        "availability": "https://schema.org/InStock",
+        "url": "https://kirj2004.github.io/zhavoronkov-portfolio/p4-competitor.html#order",
+        "description": "Разбор конкурентов категории: срок 1 день, отчёт из 5 блоков в PDF и HTML.",
+        "seller": { "@type": "Person", "name": "Жаворонков Кирилл" }
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://kirj2004.github.io/zhavoronkov-portfolio/p4-competitor.html#faq",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Что нужно от меня?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Ссылка на вашу карточку и на 3–5 карточек конкурентов (или категория, и я найду лидеров сам). Если есть — укажите задачу: догнать по трафику, по продажам или выйти из своего сегмента." }
+        },
+        {
+          "@type": "Question",
+          "name": "Нужен ли API-ключ Wildberries?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Нет. Разбор строится на публичном CDN Wildberries — витрине, которую видит покупатель: карточка, характеристики, фото, отзывы, позиции. Ключ Seller API и доступ в личный кабинет не нужны." }
+        },
+        {
+          "@type": "Question",
+          "name": "Сколько времени занимает разбор?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Один рабочий день с момента получения ссылок. Все данные публичные, ждать выгрузок из личного кабинета не нужно." }
+        },
+        {
+          "@type": "Question",
+          "name": "Сколько конкурентов вы разбираете?",
+          "acceptedAnswer": { "@type": "Answer", "text": "До пяти. Если у вас уже есть список — беру его; если нет, нахожу лидеров категории по позициям в поиске. Один заказ — одна категория, для нескольких нужны отдельные заказы." }
+        },
+        {
+          "@type": "Question",
+          "name": "Что если отчёт не подойдёт?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Оплата после того, как отчёт готов: сначала вы его смотрите, потом платите. Предоплата не нужна. Если разбор не получился по моей причине — данных не хватило или карточка не разобралась, — оплата не берётся." }
+        },
+        {
+          "@type": "Question",
+          "name": "Работаете с начинающими?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Да. Разбор помогает и на старте: видно, что нужно повторить у лидеров категории и где у них слабые места, на которых можно отыграть без бюджета на рекламу." }
+        },
+        {
+          "@type": "Question",
+          "name": "Что НЕ входит в разбор?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Правки в вашу карточку — только рекомендации. Юнит-экономика ваших SKU (это P7) и анализ ниши целиком (P10) — отдельные услуги. Копирование карточек конкурентов не делаю: разбираю, почему они работают, а не копирую их." }
+        }
+      ]
+    }
+  ]
+}
+</script>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="site-header__inner">
+    <a class="brand" href="../index.html">
+      <span class="brand__name">Жаворонков Кирилл</span>
+      <span class="brand__sub">разбор конкурента WB</span>
+    </a>
+    <nav class="nav" aria-label="Разделы страницы">
+      <a class="nav-link" href="#whats">Что получите</a>
+      <a class="nav-link" href="#how">Как работает</a>
+      <a class="nav-link" href="#sample">Пример</a>
+      <a class="nav-link" href="#faq">Вопросы</a>
+      <a class="nav-link" href="#order">Заказать</a>
+    </nav>
+    <a class="btn btn--primary" href="#order">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+      Заказать
+    </a>
+  </div>
+</header>
+
+<main class="page">
+
+  <!-- ── 1. Hero ────────────────────────────────────────────────────── -->
+  <section class="section" id="top" aria-labelledby="top-title">
+    <p class="badge badge--accent p4-eyebrow">Разбор конкурента Wildberries</p>
+    <h1 class="page-title" id="top-title">Что делают топ-5 конкурентов и почему они продают</h1>
+    <p class="page-sub">
+      Разбираю до пяти конкурентов категории: цена и её история, фото
+      и rich-контент, отзывы и системные дефекты, семантика, позиции
+      и стратегия. Вывод — на чём он зарабатывает и где его можно обойти
+      без демпинга. Отчёт за один рабочий день.
+    </p>
+
+    <div class="p4-cta">
+      <a class="btn btn--primary p4-btn-lg" href="#order">Заказать — 3 500 ₽</a>
+      <p class="p4-cta__note">
+        Оплата после того, как отчёт готов. Предоплата не нужна.
+      </p>
+    </div>
+
+    <div class="grid grid-4">
+      <div class="metric">
+        <span class="metric-value">1 день</span>
+        <span class="metric-label">от ссылок до отчёта</span>
+      </div>
+      <div class="metric">
+        <span class="metric-value">5 блоков</span>
+        <span class="metric-label">главное, действия, детали</span>
+      </div>
+      <div class="metric">
+        <span class="metric-value">до 5</span>
+        <span class="metric-label">конкурентов в разборе</span>
+      </div>
+      <div class="metric">
+        <span class="metric-value">0 доступов</span>
+        <span class="metric-label">к вашему кабинету</span>
+      </div>
+    </div>
+
+    <div class="alert alert--info" role="note" style="margin-top:var(--space-6)">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+      <span>
+        Никаких ключей и паролей: разбор строится на публичном CDN
+        Wildberries — той же витрине, которую видит покупатель.
+      </span>
+    </div>
+  </section>
+
+  <!-- ── 2. Что получите: 5 блоков отчёта ───────────────────────────── -->
+  <section class="section" id="whats" aria-labelledby="whats-title">
+    <div class="section-head">
+      <h2 class="section-title" id="whats-title">Что получите</h2>
+      <span class="section-note">пять блоков отчёта, каждый отвечает на свой вопрос</span>
+    </div>
+
+    <ol class="p4-blocks">
+      <li class="p4-block">
+        <span class="p4-block__num" aria-hidden="true">1</span>
+        <div>
+          <h3 class="p4-block__title">ГЛАВНОЕ — почему конкурент продаёт</h3>
+          <p class="p4-block__text">
+            Одна причина, из-за которой конкурент впереди: цена, карточка,
+            отзывы или позиции. Не список из десяти наблюдений, а то, что
+            решает исход. Рядом четыре KPI: его продажи в месяц, средняя
+            цена, рейтинг, число отзывов.
+          </p>
+          <p class="p4-block__sample">
+            <b>Пример:</b> «Продаёт в 3 раза больше при цене +12 %: 4 200
+            отзывов против ваших 90 — покупатель берёт по инерции рейтинга»
+          </p>
+        </div>
+      </li>
+
+      <li class="p4-block">
+        <span class="p4-block__num" aria-hidden="true">2</span>
+        <div>
+          <h3 class="p4-block__title">3 ДЕЙСТВИЯ — что забрать у конкурента</h3>
+          <p class="p4-block__text">
+            Три задачи по приоритету: что именно повторить или сделать лучше,
+            ожидаемый эффект в показы и заказы, срок. Не «улучшить карточку»,
+            а «переписать первый кадр под его возражение, у него 4 слайда
+            из 7 не несут пользы».
+          </p>
+          <p class="p4-block__sample">
+            <b>Пример:</b> «1. Закрыть возражение по комплектации в первом
+            кадре — у конкурента оно не закрыто, +15 % конверсии, срок 1 день»
+          </p>
+        </div>
+      </li>
+
+      <li class="p4-block">
+        <span class="p4-block__num" aria-hidden="true">3</span>
+        <div>
+          <h3 class="p4-block__title">ПОЧЕМУ МЫ — откуда цифры</h3>
+          <p class="p4-block__text">
+            Источник данных и проверки качества, чтобы вы могли оценить,
+            насколько цифрам можно верить. Не «мы посмотрели», а схема:
+            откуда взяты данные, сколько карточек разобрано, какая формула
+            применена.
+          </p>
+          <p class="p4-block__sample">
+            <b>Пример:</b> «Публичный CDN Wildberries, 5 карточек конкурентов,
+            позиции сверены по поисковой выдаче на дату разбора»
+          </p>
+        </div>
+      </li>
+
+      <li class="p4-block">
+        <span class="p4-block__num" aria-hidden="true">4</span>
+        <div>
+          <h3 class="p4-block__title">СТРАХ ПОТЕРИ — что будет, если не смотреть</h3>
+          <p class="p4-block__text">
+            Сколько показов и заказов вы отдаёте конкуренту прямо сейчас
+            и как разрыв растёт: отзывы копятся, позиции укрепляются,
+            покупатель привыкает. Чем позже вы начинаете отыгрывать,
+            тем дороже это стоит.
+          </p>
+          <p class="p4-block__sample">
+            <b>Пример:</b> «+1 отзыв в день у конкурента: за год разрыв
+            в рейтинге станет непреодолимым без бюджета на рекламу»
+          </p>
+        </div>
+      </li>
+
+      <li class="p4-block p4-block--wide">
+        <span class="p4-block__num" aria-hidden="true">5</span>
+        <div>
+          <h3 class="p4-block__title">ДЕТАЛИ — таблица по каждому конкуренту</h3>
+          <p class="p4-block__text">
+            Всё, что подтверждает выводы: по каждому из пяти конкурентов —
+            цена и её история, характеристики и rich-контент, вес и склад,
+            рейтинг и распределение по звёздам, доля отзывов 1–3★, топ
+            системных дефектов из отзывов и позиции в поиске.
+          </p>
+          <p class="p4-block__sample">
+            <b>Пример:</b> «Конкурент №1: цена 1 490 ₽, рейтинг 4,7,
+            18 % отзывов 1–3★, главный дефект — „не соответствует
+            комплектации“, позиция 3»
+          </p>
+        </div>
+      </li>
+    </ol>
+  </section>
+
+  <!-- ── 3. Как работает ────────────────────────────────────────────── -->
+  <section class="section" id="how" aria-labelledby="how-title">
+    <div class="section-head">
+      <h2 class="section-title" id="how-title">Как работает</h2>
+      <span class="section-note">три шага, без встреч и созвонов</span>
+    </div>
+
+    <ol class="p4-steps">
+      <li class="p4-step">
+        <span class="p4-step__num" aria-hidden="true">1</span>
+        <h3 class="p4-step__title">Заявка</h3>
+        <p class="p4-step__text">
+          Присылаете ссылку на свою карточку и на 3–5 конкурентов. Нет
+          списка — назовите категорию, найду лидеров по позициям в поиске.
+          Ключи и доступы не нужны.
+        </p>
+        <p class="p4-step__meta">5 минут · бесплатно</p>
+      </li>
+
+      <li class="p4-step">
+        <span class="p4-step__num" aria-hidden="true">2</span>
+        <h3 class="p4-step__title">Разбор</h3>
+        <p class="p4-step__text">
+          По каждому конкуренту: цена и история, фото и rich-контент,
+          характеристики, отзывы и дефекты, семантика и позиции. Свожу
+          в таблицу и ищу, где его можно обойти.
+        </p>
+        <p class="p4-step__meta">1 рабочий день</p>
+      </li>
+
+      <li class="p4-step">
+        <span class="p4-step__num" aria-hidden="true">3</span>
+        <h3 class="p4-step__title">Отчёт</h3>
+        <p class="p4-step__text">
+          Получаете отчёт из 5 блоков в PDF и в интерактивном HTML: смотрите,
+          задаёте вопросы, платите после. Если разбор не получился по моей
+          причине — оплата не берётся.
+        </p>
+        <p class="p4-step__meta">3 500 ₽ · оплата после отчёта</p>
+      </li>
+    </ol>
+  </section>
+
+  <!-- ── 4. Пример отчёта ───────────────────────────────────────────── -->
+  <section class="section" id="sample" aria-labelledby="sample-title">
+    <div class="section-head">
+      <h2 class="section-title" id="sample-title">Пример отчёта</h2>
+      <span class="section-note">два фрагмента из демо-отчёта</span>
+    </div>
+
+    <p class="section-note" style="display:block;margin:0 0 var(--space-4);max-width:72ch">
+      Ниже — фрагменты демонстрационного отчёта по категории «Домкраты».
+      Цифры в примере — расчёт по демо-данным, а не по вашей карточке.
+    </p>
+
+    <div class="p4-shots">
+      <figure class="p4-shot">
+        <img src="../assets/examples/p4-page-1.png"
+             alt="Первая страница демо-отчёта: главное и KPI разбора конкурента — продажи, средняя цена, рейтинг, число отзывов"
+             width="1280" height="800" loading="lazy" decoding="async">
+        <figcaption>
+          <b>Блок 1 · ГЛАВНОЕ</b>
+          Причина, по которой конкурент продаёт, и четыре KPI его карточки.
+          Отвечает на вопрос «почему он впереди».
+        </figcaption>
+      </figure>
+
+      <figure class="p4-shot">
+        <img src="../assets/examples/p4-page-2.png"
+             alt="Блок «Детали» демо-отчёта: таблица сравнения конкурентов — цена, рейтинг, отзывы, дефекты, позиции"
+             width="1280" height="920" loading="lazy" decoding="async">
+        <figcaption>
+          <b>Блок 5 · ДЕТАЛИ</b>
+          Таблица по каждому конкуренту: цена, рейтинг, отзывы, системные
+          дефекты, позиции. Показывает, откуда взялись выводы.
+        </figcaption>
+      </figure>
+    </div>
+
+    <a class="p4-demo-link" href="../assets/demos/primer_razbor_konkurenta_334820823.pdf">
+      Открыть полный PDF-пример отчёта →
+    </a>
+  </section>
+
+  <!-- ── 5. FAQ ─────────────────────────────────────────────────────── -->
+  <section class="section" id="faq" aria-labelledby="faq-title">
+    <div class="section-head">
+      <h2 class="section-title" id="faq-title">Частые вопросы</h2>
+      <span class="section-note">семь вопросов, которые задают до заказа</span>
+    </div>
+
+    <div class="p4-faq">
+      <details>
+        <summary>Что нужно от меня?</summary>
+        <p class="p4-faq__a">
+          Ссылка на вашу карточку и на <b>3–5 карточек конкурентов</b> (или
+          категория, и я найду лидеров сам). Если есть — укажите задачу:
+          догнать по трафику, по продажам или выйти из своего сегмента.
+        </p>
+      </details>
+
+      <details>
+        <summary>Нужен ли API-ключ Wildberries?</summary>
+        <p class="p4-faq__a">
+          Нет. Разбор строится на <b>публичном CDN Wildberries</b> — витрине,
+          которую видит покупатель: карточка, характеристики, фото, отзывы,
+          позиции. Ключ Seller API и доступ в личный кабинет не нужны.
+        </p>
+      </details>
+
+      <details>
+        <summary>Сколько времени занимает разбор?</summary>
+        <p class="p4-faq__a">
+          <b>Один рабочий день</b> с момента получения ссылок. Все данные
+          публичные, ждать выгрузок из личного кабинета не нужно.
+        </p>
+      </details>
+
+      <details>
+        <summary>Сколько конкурентов вы разбираете?</summary>
+        <p class="p4-faq__a">
+          <b>До пяти.</b> Если у вас уже есть список — беру его; если нет,
+          нахожу лидеров категории по позициям в поиске. Один заказ — одна
+          категория, для нескольких нужны отдельные заказы.
+        </p>
+      </details>
+
+      <details>
+        <summary>Что если отчёт не подойдёт?</summary>
+        <p class="p4-faq__a">
+          <b>Оплата после того, как отчёт готов</b>: сначала вы его смотрите,
+          потом платите. Предоплата не нужна. Если разбор не получился по моей
+          причине — данных не хватило или карточка не разобралась, — оплата
+          не берётся.
+        </p>
+      </details>
+
+      <details>
+        <summary>Работаете с начинающими?</summary>
+        <p class="p4-faq__a">
+          Да. Разбор помогает и на старте: видно, что нужно <b>повторить
+          у лидеров</b> категории и где у них слабые места, на которых можно
+          отыграть без бюджета на рекламу.
+        </p>
+      </details>
+
+      <details>
+        <summary>Что НЕ входит в разбор?</summary>
+        <p class="p4-faq__a">
+          Правки в вашу карточку — только рекомендации. Юнит-экономика ваших
+          SKU (это P7) и анализ ниши целиком (P10) — <b>отдельные услуги</b>.
+          Копирование карточек конкурентов не делаю: разбираю, почему они
+          работают, а не копирую их.
+        </p>
+      </details>
+    </div>
+  </section>
+
+  <!-- ── 6. CTA ─────────────────────────────────────────────────────── -->
+  <section class="section" id="order" aria-labelledby="order-title">
+    <div class="p4-cta-block">
+      <h2 class="p4-cta-block__title" id="order-title">
+        Пришлите ссылки на карточки
+      </h2>
+      <p class="p4-cta-block__sub">
+        Отвечаю письменно, звонков нет. Достаточно ссылок на вашу карточку
+        и конкурентов — остальное найду сам. Отчёт будет завтра.
+      </p>
+
+      <div class="grid grid-2">
+        <a class="contact" href="https://t.me/marzha_bez_vody" rel="noopener">
+          <span class="contact__icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M22 2 11 13"/><path d="M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+          </span>
+          <span class="contact__body">
+            <span class="contact__label">Telegram</span>
+            <span class="contact__value">@marzha_bez_vody</span>
+          </span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M7 17 17 7M7 7h10v10"/></svg>
+        </a>
+
+        <a class="contact" href="tel:+792****2030">
+          <span class="contact__icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          </span>
+          <span class="contact__body">
+            <span class="contact__label">Телефон</span>
+            <span class="contact__value tnum">+7 924 310-20-30</span>
+          </span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M7 17 17 7M7 7h10v10"/></svg>
+        </a>
+      </div>
+
+      <div class="alert alert--warning" role="note" style="margin-top:var(--space-5)">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><path d="M12 9v4M12 17h.01"/></svg>
+        <span>
+          Цена 3 500 ₽ фиксируется до начала работ. Оплата — после того,
+          как отчёт готов.
+        </span>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="site-footer__inner">
+    <span class="site-footer__copy">© <span data-pfx-year>2026</span> Жаворонков Кирилл</span>
+    <nav class="site-footer__nav" aria-label="Разделы страницы">
+      <a class="nav-link" href="#whats">Что получите</a>
+      <a class="nav-link" href="#how">Как работает</a>
+      <a class="nav-link" href="#sample">Пример</a>
+      <a class="nav-link" href="#faq">Вопросы</a>
+      <a class="nav-link" href="../index.html">Портфолио</a>
+    </nav>
+    <p class="site-footer__note">
+      Цифры в примере — расчёт по демонстрационным данным карточки категории
+      «Домкраты», а не по вашей карточке. Логистика, хранение и штрафы
+      помечены в отчёте как оценка или «нет данных». Отчёт носит
+      информационный характер и не является гарантией результата.
+    </p>
+  </div>
+</footer>
+
+<script type="module" src="../assets/site.js"></script>
+</body>
+</html>

@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Юнит-экономика магазина FBS/FBW — 9 900 ₽ · Жаворонков Кирилл</title>
+<meta name="description" content="Какие SKU убыточны, а какие кормят бизнес: юнит-экономика по всем SKU, ABC-XYZ, безубыточность по каждой позиции, Margin Control. Отчёт из 5 блоков за 2–3 дня. 9 900 ₽.">
+<link rel="canonical" href="https://kirj2004.github.io/zhavoronkov-portfolio/p7-multi-sku.html">
+<link rel="stylesheet" href="../assets/style.css">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+
+<style>
+/* Стили лендинга P7. Локальные: страница самодостаточна, правила не текут
+   в общий style.css. Токены, сетка и компоненты — оттуда же.
+   Внешних CDN нет: иконки — инлайн-SVG, шрифты — системные. */
+
+.p7-eyebrow{display:inline-flex;margin:0 0 var(--space-3)}
+
+.p7-cta{display:flex;flex-wrap:wrap;align-items:center;gap:var(--space-4);
+  margin:var(--space-6) 0 var(--space-8)}
+.p7-cta__note{margin:0;font-size:var(--text-sm);color:var(--color-text-tertiary)}
+.p7-btn-lg{height:var(--row-h-xl);padding:0 var(--space-6);font-size:var(--text-lg)}
+
+/* ── Что получите: 5 блоков отчёта ── */
+.p7-blocks{list-style:none;margin:0;padding:0;display:grid;gap:var(--space-4)}
+.p7-block{display:grid;grid-template-columns:44px 1fr;gap:var(--space-4);
+  padding:var(--space-5);background:var(--color-surface);
+  border:1px solid var(--color-border);border-radius:var(--radius-lg)}
+.p7-block__num{display:flex;align-items:center;justify-content:center;
+  width:44px;height:44px;border-radius:var(--radius-md);
+  background:var(--color-accent-subtle);color:var(--color-accent);
+  font-size:var(--text-lg);font-weight:700;line-height:1;
+  font-variant-numeric:tabular-nums}
+.p7-block__title{margin:0 0 var(--space-2);font-size:var(--text-lg);
+  font-weight:600;color:var(--color-text-primary);line-height:var(--leading-tight)}
+.p7-block__text{margin:0 0 var(--space-3);font-size:var(--text-sm);
+  color:var(--color-text-secondary);line-height:var(--leading);max-width:68ch}
+.p7-block__sample{margin:0;padding-top:var(--space-3);
+  border-top:1px solid var(--color-border);font-size:var(--text-xs);
+  color:var(--color-text-tertiary)}
+.p7-block__sample b{color:var(--color-text-primary);font-weight:600}
+.p7-block--wide{grid-column:1/-1}
+
+/* ── Шаги работы ── */
+.p7-steps{list-style:none;margin:0;padding:0;display:grid;
+  grid-template-columns:repeat(3,1fr);gap:var(--space-4)}
+.p7-step{padding:var(--space-5);background:var(--color-surface);
+  border:1px solid var(--color-border);border-radius:var(--radius-lg);
+  display:flex;flex-direction:column;gap:var(--space-2)}
+.p7-step__num{display:inline-flex;align-items:center;justify-content:center;
+  width:32px;height:32px;border-radius:var(--radius-full);
+  background:var(--color-accent-subtle);color:var(--color-accent);
+  font-weight:700;font-size:var(--text-base);font-variant-numeric:tabular-nums}
+.p7-step__title{margin:0;font-size:var(--text-lg);font-weight:600;
+  color:var(--color-text-primary)}
+.p7-step__text{margin:0;font-size:var(--text-sm);
+  color:var(--color-text-secondary);line-height:1.5;flex:1}
+.p7-step__meta{margin:0;padding-top:var(--space-3);
+  border-top:1px solid var(--color-border);font-size:var(--text-xs);
+  color:var(--color-accent)}
+
+/* ── Пример отчёта ── */
+.p7-shots{display:grid;gap:var(--space-5)}
+.p7-shot{margin:0;background:var(--color-surface);
+  border:1px solid var(--color-border);border-radius:var(--radius-lg);
+  overflow:hidden}
+.p7-shot img{display:block;width:100%;height:auto;
+  border-bottom:1px solid var(--color-border)}
+.p7-shot figcaption{padding:var(--space-4) var(--space-5);
+  font-size:var(--text-sm);color:var(--color-text-secondary);line-height:1.5}
+.p7-shot figcaption b{display:block;margin-bottom:var(--space-1);
+  color:var(--color-text-primary);font-weight:600}
+.p7-demo-link{display:inline-flex;align-items:center;gap:var(--space-2);
+  margin-top:var(--space-3);font-size:var(--text-sm);font-weight:600;
+  color:var(--color-accent);text-decoration:none}
+.p7-demo-link:hover{text-decoration:underline}
+
+/* ── FAQ ── */
+.p7-faq{display:grid;gap:var(--space-2)}
+.p7-faq details{background:var(--color-surface);border:1px solid var(--color-border);
+  border-radius:var(--radius-md);overflow:hidden}
+.p7-faq details[open]{border-color:var(--color-border-strong)}
+.p7-faq summary{display:flex;align-items:baseline;gap:var(--space-3);
+  padding:var(--space-4);cursor:pointer;font-size:var(--text-base);
+  font-weight:600;color:var(--color-text-primary);line-height:var(--leading-tight);
+  list-style:none}
+.p7-faq summary::-webkit-details-marker{display:none}
+.p7-faq summary::after{content:"";flex:0 0 auto;width:8px;height:8px;
+  margin-left:auto;border-right:2px solid var(--color-text-tertiary);
+  border-bottom:2px solid var(--color-text-tertiary);
+  transform:rotate(45deg) translate(-2px,-2px);
+  transition:transform var(--dur-fast) var(--ease-out)}
+.p7-faq details[open] > summary::after{transform:rotate(-135deg) translate(-2px,-2px)}
+.p7-faq summary:hover{color:var(--color-accent)}
+.p7-faq summary:focus-visible{outline:2px solid var(--color-focus-ring);
+  outline-offset:-2px}
+.p7-faq__a{margin:0;padding:0 var(--space-4) var(--space-4);
+  font-size:var(--text-sm);color:var(--color-text-secondary);
+  line-height:var(--leading);max-width:72ch}
+.p7-faq__a b{color:var(--color-text-primary);font-weight:600}
+
+/* ── CTA ── */
+.p7-cta-block{padding:var(--space-8);background:var(--color-surface);
+  border:1px solid var(--color-border-strong);border-radius:var(--radius-xl)}
+.p7-cta-block__title{margin:0 0 var(--space-2);font-size:var(--text-3xl);
+  font-weight:600;letter-spacing:-0.02em;color:var(--color-text-primary)}
+.p7-cta-block__sub{margin:0 0 var(--space-6);font-size:var(--text-base);
+  color:var(--color-text-secondary);max-width:60ch}
+
+@media (max-width:900px){
+  .p7-steps{grid-template-columns:1fr}
+}
+@media (max-width:560px){
+  .p7-block{grid-template-columns:1fr;gap:var(--space-3)}
+  .p7-block__num{width:36px;height:36px;font-size:var(--text-base)}
+  .p7-cta-block{padding:var(--space-5)}
+  .p7-cta-block__title{font-size:var(--text-2xl)}
+  .p7-btn-lg{width:100%;justify-content:center}
+}
+
+@media print{
+  .site-header,.site-footer,.p7-cta,.theme-toggle,.p7-shot,
+  .p7-btn-lg{display:none!important}
+  .p7-faq details{break-inside:avoid}
+  .p7-faq details > .p7-faq__a{display:block!important}
+  .section{margin-top:var(--space-8)}
+}
+</style>
+
+<!-- ═══════════════ Schema.org: Service + FAQPage ═══════════════ -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Service",
+      "@id": "https://kirj2004.github.io/zhavoronkov-portfolio/p7-multi-sku.html#service",
+      "name": "Юнит-экономика магазина FBS/FBW",
+      "alternateName": "Экономика всех SKU за 2–3 дня",
+      "serviceType": "Расчёт юнит-экономики ассортимента на Wildberries",
+      "description": "Юнит-экономика по всем SKU магазина: полная статья затрат FBS и FBW по каждой позиции, сортировка по вкладу в прибыль, ABC-XYZ ассортимента, безубыточность и цена под цель, Margin Control с тремя приоритетными правками. Отчёт из 5 блоков за 2–3 дня.",
+      "url": "https://kirj2004.github.io/zhavoronkov-portfolio/p7-multi-sku.html",
+      "category": "Маркетплейсы и электронная коммерция",
+      "provider": {
+        "@type": "Person",
+        "name": "Жаворонков Кирилл",
+        "jobTitle": "Специалист по аналитике маркетплейсов",
+        "telephone": "+7-924-310-20-30",
+        "email": "ip.zhavoronkov.ka@yandex.ru",
+        "sameAs": "https://t.me/marzha_bez_vody"
+      },
+      "areaServed": { "@type": "Country", "name": "Россия" },
+      "offers": {
+        "@type": "Offer",
+        "price": "9900",
+        "priceCurrency": "RUB",
+        "priceValidUntil": "2026-12-31",
+        "availability": "https://schema.org/InStock",
+        "url": "https://kirj2004.github.io/zhavoronkov-portfolio/p7-multi-sku.html#order",
+        "description": "Юнит-экономика по всем SKU магазина: срок 2–3 дня, отчёт из 5 блоков в PDF и HTML.",
+        "seller": { "@type": "Person", "name": "Жаворонков Кирилл" }
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://kirj2004.github.io/zhavoronkov-portfolio/p7-multi-sku.html#faq",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Сколько SKU входит в расчёт?",
+          "acceptedAnswer": { "@type": "Answer", "text": "До десяти позиций в одном заказе. Если у вас больше — посчитаю до десяти приоритетных и подскажу, как добавить остальные, либо оформим второй заказ." }
+        },
+        {
+          "@type": "Question",
+          "name": "Что нужно от меня?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Список артикулов (nmId), себестоимость по каждому SKU и выгрузка отчёта площадки за месяц. Если выгрузки нет — помогу собрать, это входит в работу." }
+        },
+        {
+          "@type": "Question",
+          "name": "Нужен ли API-ключ Wildberries?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Не обязателен. Публичные данные беру из открытого CDN. С вашим ключом Seller API расчёт точнее по логистике и хранению, и по каждому SKU отдельно, но можно и без него." }
+        },
+        {
+          "@type": "Question",
+          "name": "Сколько времени занимает?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Два-три рабочих дня с момента получения данных: список SKU, себестоимость и выгрузка. Чем больше позиций, тем ближе к трём дням." }
+        },
+        {
+          "@type": "Question",
+          "name": "Что если отчёт не подойдёт?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Оплата после того, как отчёт готов: сначала вы его смотрите, потом платите. Предоплата не нужна. Если расчёт не получился по моей причине — оплата не берётся." }
+        },
+        {
+          "@type": "Question",
+          "name": "Работаете с начинающими?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Да, если у вас уже есть ассортимент из нескольких SKU. Для одного товара выгоднее услуга P1 — она дешевле и даёт тот же разбор по одной позиции." }
+        },
+        {
+          "@type": "Question",
+          "name": "Что НЕ входит?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Внесение изменений в цены и карточки — только рекомендации. Разбор конкурентов (P4), анализ ниши (P10) и аудит карточек (P2) — отдельные услуги. Сезонное планирование и прогноз закупок на год в этот заказ не входят." }
+        }
+      ]
+    }
+  ]
+}
+</script>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="site-header__inner">
+    <a class="brand" href="../index.html">
+      <span class="brand__name">Жаворонков Кирилл</span>
+      <span class="brand__sub">экономика ассортимента WB</span>
+    </a>
+    <nav class="nav" aria-label="Разделы страницы">
+      <a class="nav-link" href="#whats">Что получите</a>
+      <a class="nav-link" href="#how">Как работает</a>
+      <a class="nav-link" href="#sample">Пример</a>
+      <a class="nav-link" href="#faq">Вопросы</a>
+      <a class="nav-link" href="#order">Заказать</a>
+    </nav>
+    <a class="btn btn--primary" href="#order">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+      Заказать
+    </a>
+  </div>
+</header>
+
+<main class="page">
+
+  <!-- ── 1. Hero ────────────────────────────────────────────────────── -->
+  <section class="section" id="top" aria-labelledby="top-title">
+    <p class="badge badge--accent p7-eyebrow">Юнит-экономика FBS/FBW</p>
+    <h1 class="page-title" id="top-title">Какие SKU убыточны, а какие кормят ваш бизнес</h1>
+    <p class="page-sub">
+      Считаю юнит-экономику по всем SKU магазина: полная статья затрат FBS
+      и FBW по каждой позиции, сортировка по вкладу в прибыль, ABC-XYZ
+      и безубыточность. Видно, какие товары создают оборот без денег,
+      а какие кормят остальной ассортимент.
+    </p>
+
+    <div class="p7-cta">
+      <a class="btn btn--primary p7-btn-lg" href="#order">Заказать — 9 900 ₽</a>
+      <p class="p7-cta__note">
+        Оплата после того, как отчёт готов. Предоплата не нужна.
+      </p>
+    </div>
+
+    <div class="grid grid-4">
+      <div class="metric">
+        <span class="metric-value">2–3 дня</span>
+        <span class="metric-label">от данных до отчёта</span>
+      </div>
+      <div class="metric">
+        <span class="metric-value">5 блоков</span>
+        <span class="metric-label">главное, действия, детали</span>
+      </div>
+      <div class="metric">
+        <span class="metric-value">до 10 SKU</span>
+        <span class="metric-label">в одном заказе</span>
+      </div>
+      <div class="metric">
+        <span class="metric-value">ABC-XYZ</span>
+        <span class="metric-label">+ Margin Control</span>
+      </div>
+    </div>
+
+    <div class="alert alert--info" role="note" style="margin-top:var(--space-6)">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+      <span>
+        Ключ Seller API не обязателен: публичные данные карточки беру
+        из открытого CDN Wildberries. С вашим ключом расчёт точнее
+        по логистике и хранению по каждой позиции.
+      </span>
+    </div>
+  </section>
+
+  <!-- ── 2. Что получите: 5 блоков отчёта ───────────────────────────── -->
+  <section class="section" id="whats" aria-labelledby="whats-title">
+    <div class="section-head">
+      <h2 class="section-title" id="whats-title">Что получите</h2>
+      <span class="section-note">пять блоков отчёта, каждый отвечает на свой вопрос</span>
+    </div>
+
+    <ol class="p7-blocks">
+      <li class="p7-block">
+        <span class="p7-block__num" aria-hidden="true">1</span>
+        <div>
+          <h3 class="p7-block__title">ГЛАВНОЕ — где магазин теряет деньги</h3>
+          <p class="p7-block__text">
+            Сколько SKU работают в минус, сколько в ноль и сколько реально
+            кормят бизнес — тремя числами. Рядом четыре KPI: маржа магазина
+            в месяц, доля убыточных SKU, убыток от них в рублях, точка
+            безубыточности магазина.
+          </p>
+          <p class="p7-block__sample">
+            <b>Пример:</b> «Из 10 SKU: 3 убыточны (−48 700 ₽/мес), 2 в ноль,
+            5 кормят бизнес. Магазин в плюсе на 12,4 %»
+          </p>
+        </div>
+      </li>
+
+      <li class="p7-block">
+        <span class="p7-block__num" aria-hidden="true">2</span>
+        <div>
+          <h3 class="p7-block__title">3 ДЕЙСТВИЯ — что делать с ассортиментом</h3>
+          <p class="p7-block__text">
+            Три правки по приоритету: что вывести, что оставить, что поднять
+            в цене. У каждой — ожидаемый эффект в рублях в месяц и срок.
+            Не «пересмотреть ассортимент», а «вывести SKU-7 и SKU-9: вместе
+            −34 200 ₽/мес, освободят склад».
+          </p>
+          <p class="p7-block__sample">
+            <b>Пример:</b> «1. Вывести 2 SKU с отрицательной маржой —
+            +34 200 ₽/мес, срок 3 дня»
+          </p>
+        </div>
+      </li>
+
+      <li class="p7-block">
+        <span class="p7-block__num" aria-hidden="true">3</span>
+        <div>
+          <h3 class="p7-block__title">ПОЧЕМУ МЫ — откуда цифры</h3>
+          <p class="p7-block__text">
+            Источник данных и проверки качества, чтобы вы могли оценить,
+            насколько цифрам можно верить. Не «мы посчитали», а схема:
+            откуда взяты данные, сколько строк разобрано, какая формула
+            применена и по какому документу площадки взяты ставки.
+          </p>
+          <p class="p7-block__sample">
+            <b>Пример:</b> «Публичный CDN Wildberries + выгрузка площадки,
+            298 из 298 строк сверено, ставки — по оферте WB на дату расчёта»
+          </p>
+        </div>
+      </li>
+
+      <li class="p7-block">
+        <span class="p7-block__num" aria-hidden="true">4</span>
+        <div>
+          <h3 class="p7-block__title">СТРАХ ПОТЕРИ — что будет, если не чинить</h3>
+          <p class="p7-block__text">
+            Сколько убыточные SKU съедают за месяц и как накапливается потеря
+            на горизонтах 3, 6 и 12 месяцев. Убыточный товар — это не
+            «оборот», а прямой минус, и он растёт вместе с объёмом продаж.
+          </p>
+          <p class="p7-block__sample">
+            <b>Пример:</b> «−48 700 ₽/мес = 584 400 ₽ за год — на товарах,
+            которые кажутся рабочими»
+          </p>
+        </div>
+      </li>
+
+      <li class="p7-block p7-block--wide">
+        <span class="p7-block__num" aria-hidden="true">5</span>
+        <div>
+          <h3 class="p7-block__title">ДЕТАЛИ — таблица по всем SKU</h3>
+          <p class="p7-block__text">
+            Всё, что подтверждает выводы: юнит-экономика по каждому SKU
+            с сортировкой по вкладу в прибыль, матрица ABC-XYZ, безубыточность
+            и цена под целевую маржу по каждой позиции. Плюс Margin Control —
+            что менять первым, чтобы вытащить магазин в плюс.
+          </p>
+          <p class="p7-block__sample">
+            <b>Пример:</b> «SKU-1: маржа +312 ₽ (A, X) · SKU-7: маржа −89 ₽
+            (C, Z) — к выводу · SKU-4: в ноль, поднять цену на 7 %»
+          </p>
+        </div>
+      </li>
+    </ol>
+  </section>
+
+  <!-- ── 3. Как работает ────────────────────────────────────────────── -->
+  <section class="section" id="how" aria-labelledby="how-title">
+    <div class="section-head">
+      <h2 class="section-title" id="how-title">Как работает</h2>
+      <span class="section-note">три шага, без встреч и созвонов</span>
+    </div>
+
+    <ol class="p7-steps">
+      <li class="p7-step">
+        <span class="p7-step__num" aria-hidden="true">1</span>
+        <h3 class="p7-step__title">Заявка</h3>
+        <p class="p7-step__text">
+          Присылаете список артикулов, себестоимость по каждому SKU и выгрузку
+          площадки за месяц. Нет выгрузки — помогу собрать. Ключ API
+          не нужен.
+        </p>
+        <p class="p7-step__meta">10 минут · бесплатно</p>
+      </li>
+
+      <li class="p7-step">
+        <span class="p7-step__num" aria-hidden="true">2</span>
+        <h3 class="p7-step__title">Расчёт</h3>
+        <p class="p7-step__text">
+          Считаю статью затрат по FBS и FBW по каждой позиции, маржу с
+          единицы, безубыточность и цену под цель. Свожу в ABC-XYZ
+          и ранжирую по вкладу в прибыль.
+        </p>
+        <p class="p7-step__meta">2–3 рабочих дня</p>
+      </li>
+
+      <li class="p7-step">
+        <span class="p7-step__num" aria-hidden="true">3</span>
+        <h3 class="p7-step__title">Отчёт</h3>
+        <p class="p7-step__text">
+          Получаете отчёт из 5 блоков в PDF и в интерактивном HTML: смотрите,
+          задаёте вопросы, платите после. Если расчёт не получился по моей
+          причине — оплата не берётся.
+        </p>
+        <p class="p7-step__meta">9 900 ₽ · оплата после отчёта</p>
+      </li>
+    </ol>
+  </section>
+
+  <!-- ── 4. Пример отчёта ───────────────────────────────────────────── -->
+  <section class="section" id="sample" aria-labelledby="sample-title">
+    <div class="section-head">
+      <h2 class="section-title" id="sample-title">Пример отчёта</h2>
+      <span class="section-note">два фрагмента из демо-отчёта</span>
+    </div>
+
+    <p class="section-note" style="display:block;margin:0 0 var(--space-4);max-width:72ch">
+      Ниже — фрагменты демонстрационного отчёта по ассортименту из 10 SKU.
+      Цифры в примере — расчёт по демо-данным, а не по вашему магазину.
+    </p>
+
+    <div class="p7-shots">
+      <figure class="p7-shot">
+        <img src="../assets/examples/p7-page-1.png"
+             alt="Первая страница демо-отчёта: главное и KPI юнит-экономики ассортимента — маржа магазина, доля убыточных SKU, убыток в рублях"
+             width="1280" height="800" loading="lazy" decoding="async">
+        <figcaption>
+          <b>Блок 1 · ГЛАВНОЕ</b>
+          Сколько SKU в минусе, в ноль и в плюсе — и что это стоит в рублях
+          за месяц. Отвечает на вопрос «где магазин теряет».
+        </figcaption>
+      </figure>
+
+      <figure class="p7-shot">
+        <img src="../assets/examples/p7-page-2.png"
+             alt="Блок «Детали» демо-отчёта: матрица ABC-XYZ и таблица юнит-экономики по каждому SKU с маржой и точкой безубыточности"
+             width="1280" height="920" loading="lazy" decoding="async">
+        <figcaption>
+          <b>Блок 5 · ДЕТАЛИ</b>
+          Матрица ABC-XYZ и юнит-экономика по каждому SKU с сортировкой
+          по вкладу в прибыль. Показывает, откуда взялись выводы.
+        </figcaption>
+      </figure>
+    </div>
+
+    <a class="p7-demo-link" href="../assets/examples/p7-example.pdf">
+      Открыть полный PDF-пример отчёта →
+    </a>
+  </section>
+
+  <!-- ── 5. FAQ ─────────────────────────────────────────────────────── -->
+  <section class="section" id="faq" aria-labelledby="faq-title">
+    <div class="section-head">
+      <h2 class="section-title" id="faq-title">Частые вопросы</h2>
+      <span class="section-note">семь вопросов, которые задают до заказа</span>
+    </div>
+
+    <div class="p7-faq">
+      <details>
+        <summary>Сколько SKU входит в расчёт?</summary>
+        <p class="p7-faq__a">
+          <b>До десяти позиций</b> в одном заказе. Если у вас больше — посчитаю
+          до десяти приоритетных и подскажу, как добавить остальные, либо
+          оформим второй заказ.
+        </p>
+      </details>
+
+      <details>
+        <summary>Что нужно от меня?</summary>
+        <p class="p7-faq__a">
+          Список артикулов (nmId), <b>себестоимость по каждому SKU</b>
+          и выгрузка отчёта площадки за месяц. Если выгрузки нет — помогу
+          собрать, это входит в работу.
+        </p>
+      </details>
+
+      <details>
+        <summary>Нужен ли API-ключ Wildberries?</summary>
+        <p class="p7-faq__a">
+          Не обязателен. Публичные данные беру из <b>открытого CDN</b>.
+          С вашим ключом Seller API расчёт точнее по логистике и хранению,
+          и по каждому SKU отдельно, но можно и без него.
+        </p>
+      </details>
+
+      <details>
+        <summary>Сколько времени занимает?</summary>
+        <p class="p7-faq__a">
+          <b>Два-три рабочих дня</b> с момента получения данных: список SKU,
+          себестоимость и выгрузка. Чем больше позиций, тем ближе к трём дням.
+        </p>
+      </details>
+
+      <details>
+        <summary>Что если отчёт не подойдёт?</summary>
+        <p class="p7-faq__a">
+          <b>Оплата после того, как отчёт готов</b>: сначала вы его смотрите,
+          потом платите. Предоплата не нужна. Если расчёт не получился по моей
+          причине — оплата не берётся.
+        </p>
+      </details>
+
+      <details>
+        <summary>Работаете с начинающими?</summary>
+        <p class="p7-faq__a">
+          Да, если у вас уже есть ассортимент из нескольких SKU. Для одного
+          товара выгоднее услуга <b>P1</b> — она дешевле и даёт тот же разбор
+          по одной позиции.
+        </p>
+      </details>
+
+      <details>
+        <summary>Что НЕ входит?</summary>
+        <p class="p7-faq__a">
+          Внесение изменений в цены и карточки — только рекомендации. Разбор
+          конкурентов (P4), анализ ниши (P10) и аудит карточек (P2) —
+          <b>отдельные услуги</b>. Сезонное планирование и прогноз закупок
+          на год в этот заказ не входят.
+        </p>
+      </details>
+    </div>
+  </section>
+
+  <!-- ── 6. CTA ─────────────────────────────────────────────────────── -->
+  <section class="section" id="order" aria-labelledby="order-title">
+    <div class="p7-cta-block">
+      <h2 class="p7-cta-block__title" id="order-title">
+        Пришлите список SKU и себестоимость
+      </h2>
+      <p class="p7-cta-block__sub">
+        Отвечаю письменно, звонков нет. Достаточно списка артикулов
+        и себестоимости по каждому — остальное найду сам. Отчёт будет
+        через 2–3 дня.
+      </p>
+
+      <div class="grid grid-2">
+        <a class="contact" href="https://t.me/marzha_bez_vody" rel="noopener">
+          <span class="contact__icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M22 2 11 13"/><path d="M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+          </span>
+          <span class="contact__body">
+            <span class="contact__label">Telegram</span>
+            <span class="contact__value">@marzha_bez_vody</span>
+          </span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M7 17 17 7M7 7h10v10"/></svg>
+        </a>
+
+        <a class="contact" href="tel:+792****2030">
+          <span class="contact__icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          </span>
+          <span class="contact__body">
+            <span class="contact__label">Телефон</span>
+            <span class="contact__value tnum">+7 924 310-20-30</span>
+          </span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M7 17 17 7M7 7h10v10"/></svg>
+        </a>
+      </div>
+
+      <div class="alert alert--warning" role="note" style="margin-top:var(--space-5)">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><path d="M12 9v4M12 17h.01"/></svg>
+        <span>
+          Цена 9 900 ₽ фиксируется до начала работ. Оплата — после того,
+          как отчёт готов.
+        </span>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="site-footer__inner">
+    <span class="site-footer__copy">© <span data-pfx-year>2026</span> Жаворонков Кирилл</span>
+    <nav class="site-footer__nav" aria-label="Разделы страницы">
+      <a class="nav-link" href="#whats">Что получите</a>
+      <a class="nav-link" href="#how">Как работает</a>
+      <a class="nav-link" href="#sample">Пример</a>
+      <a class="nav-link" href="#faq">Вопросы</a>
+      <a class="nav-link" href="../index.html">Портфолио</a>
+    </nav>
+    <p class="site-footer__note">
+      Цифры в примере — расчёт по демонстрационным данным карточки категории
+      «Домкраты», а не по вашему магазину. Логистика, хранение и штрафы
+      помечены в отчёте как оценка или «нет данных». Отчёт носит
+      информационный характер и не является гарантией результата.
+    </p>
+  </div>
+</footer>
+
+<script type="module" src="../assets/site.js"></script>
+</body>
+</html>

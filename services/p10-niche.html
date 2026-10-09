@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Анализ ниши Wildberries — 9 000 ₽ · Жаворонков Кирилл</title>
+<meta name="description" content="Стоит ли входить в нишу и с какой ценой: объём, конкуренция, маржа, свободные коридоры, прогноз на 30 дней. Анализ по открытым данным Wildberries за 3 дня. 9 000 ₽.">
+<link rel="canonical" href="https://kirj2004.github.io/zhavoronkov-portfolio/p10-niche.html">
+<link rel="stylesheet" href="../assets/style.css">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+
+<style>
+/* Стили лендинга P10. Локальные: страница самодостаточна, правила не текут
+   в общий style.css. Токены, сетка и компоненты — оттуда же.
+   Внешних CDN нет: иконки — инлайн-SVG, шрифты — системные. */
+
+.p10-eyebrow{display:inline-flex;margin:0 0 var(--space-3)}
+
+.p10-cta{display:flex;flex-wrap:wrap;align-items:center;gap:var(--space-4);
+  margin:var(--space-6) 0 var(--space-8)}
+.p10-cta__note{margin:0;font-size:var(--text-sm);color:var(--color-text-tertiary)}
+.p10-btn-lg{height:var(--row-h-xl);padding:0 var(--space-6);font-size:var(--text-lg)}
+
+/* ── Что получите: 5 блоков отчёта ── */
+.p10-blocks{list-style:none;margin:0;padding:0;display:grid;gap:var(--space-4)}
+.p10-block{display:grid;grid-template-columns:44px 1fr;gap:var(--space-4);
+  padding:var(--space-5);background:var(--color-surface);
+  border:1px solid var(--color-border);border-radius:var(--radius-lg)}
+.p10-block__num{display:flex;align-items:center;justify-content:center;
+  width:44px;height:44px;border-radius:var(--radius-md);
+  background:var(--color-accent-subtle);color:var(--color-accent);
+  font-size:var(--text-lg);font-weight:700;line-height:1;
+  font-variant-numeric:tabular-nums}
+.p10-block__title{margin:0 0 var(--space-2);font-size:var(--text-lg);
+  font-weight:600;color:var(--color-text-primary);line-height:var(--leading-tight)}
+.p10-block__text{margin:0 0 var(--space-3);font-size:var(--text-sm);
+  color:var(--color-text-secondary);line-height:var(--leading);max-width:68ch}
+.p10-block__sample{margin:0;padding-top:var(--space-3);
+  border-top:1px solid var(--color-border);font-size:var(--text-xs);
+  color:var(--color-text-tertiary)}
+.p10-block__sample b{color:var(--color-text-primary);font-weight:600}
+.p10-block--wide{grid-column:1/-1}
+
+/* ── Шаги работы ── */
+.p10-steps{list-style:none;margin:0;padding:0;display:grid;
+  grid-template-columns:repeat(3,1fr);gap:var(--space-4)}
+.p10-step{padding:var(--space-5);background:var(--color-surface);
+  border:1px solid var(--color-border);border-radius:var(--radius-lg);
+  display:flex;flex-direction:column;gap:var(--space-2)}
+.p10-step__num{display:inline-flex;align-items:center;justify-content:center;
+  width:32px;height:32px;border-radius:var(--radius-full);
+  background:var(--color-accent-subtle);color:var(--color-accent);
+  font-weight:700;font-size:var(--text-base);font-variant-numeric:tabular-nums}
+.p10-step__title{margin:0;font-size:var(--text-lg);font-weight:600;
+  color:var(--color-text-primary)}
+.p10-step__text{margin:0;font-size:var(--text-sm);
+  color:var(--color-text-secondary);line-height:1.5;flex:1}
+.p10-step__meta{margin:0;padding-top:var(--space-3);
+  border-top:1px solid var(--color-border);font-size:var(--text-xs);
+  color:var(--color-accent)}
+
+/* ── Пример отчёта ── */
+.p10-shots{display:grid;gap:var(--space-5)}
+.p10-shot{margin:0;background:var(--color-surface);
+  border:1px solid var(--color-border);border-radius:var(--radius-lg);
+  overflow:hidden}
+.p10-shot img{display:block;width:100%;height:auto;
+  border-bottom:1px solid var(--color-border)}
+.p10-shot figcaption{padding:var(--space-4) var(--space-5);
+  font-size:var(--text-sm);color:var(--color-text-secondary);line-height:1.5}
+.p10-shot figcaption b{display:block;margin-bottom:var(--space-1);
+  color:var(--color-text-primary);font-weight:600}
+.p10-demo-link{display:inline-flex;align-items:center;gap:var(--space-2);
+  margin-top:var(--space-3);font-size:var(--text-sm);font-weight:600;
+  color:var(--color-accent);text-decoration:none}
+.p10-demo-link:hover{text-decoration:underline}
+
+/* ── FAQ ── */
+.p10-faq{display:grid;gap:var(--space-2)}
+.p10-faq details{background:var(--color-surface);border:1px solid var(--color-border);
+  border-radius:var(--radius-md);overflow:hidden}
+.p10-faq details[open]{border-color:var(--color-border-strong)}
+.p10-faq summary{display:flex;align-items:baseline;gap:var(--space-3);
+  padding:var(--space-4);cursor:pointer;font-size:var(--text-base);
+  font-weight:600;color:var(--color-text-primary);line-height:var(--leading-tight);
+  list-style:none}
+.p10-faq summary::-webkit-details-marker{display:none}
+.p10-faq summary::after{content:"";flex:0 0 auto;width:8px;height:8px;
+  margin-left:auto;border-right:2px solid var(--color-text-tertiary);
+  border-bottom:2px solid var(--color-text-tertiary);
+  transform:rotate(45deg) translate(-2px,-2px);
+  transition:transform var(--dur-fast) var(--ease-out)}
+.p10-faq details[open] > summary::after{transform:rotate(-135deg) translate(-2px,-2px)}
+.p10-faq summary:hover{color:var(--color-accent)}
+.p10-faq summary:focus-visible{outline:2px solid var(--color-focus-ring);
+  outline-offset:-2px}
+.p10-faq__a{margin:0;padding:0 var(--space-4) var(--space-4);
+  font-size:var(--text-sm);color:var(--color-text-secondary);
+  line-height:var(--leading);max-width:72ch}
+.p10-faq__a b{color:var(--color-text-primary);font-weight:600}
+
+/* ── CTA ── */
+.p10-cta-block{padding:var(--space-8);background:var(--color-surface);
+  border:1px solid var(--color-border-strong);border-radius:var(--radius-xl)}
+.p10-cta-block__title{margin:0 0 var(--space-2);font-size:var(--text-3xl);
+  font-weight:600;letter-spacing:-0.02em;color:var(--color-text-primary)}
+.p10-cta-block__sub{margin:0 0 var(--space-6);font-size:var(--text-base);
+  color:var(--color-text-secondary);max-width:60ch}
+
+@media (max-width:900px){
+  .p10-steps{grid-template-columns:1fr}
+}
+@media (max-width:560px){
+  .p10-block{grid-template-columns:1fr;gap:var(--space-3)}
+  .p10-block__num{width:36px;height:36px;font-size:var(--text-base)}
+  .p10-cta-block{padding:var(--space-5)}
+  .p10-cta-block__title{font-size:var(--text-2xl)}
+  .p10-btn-lg{width:100%;justify-content:center}
+}
+
+@media print{
+  .site-header,.site-footer,.p10-cta,.theme-toggle,.p10-shot,
+  .p10-btn-lg{display:none!important}
+  .p10-faq details{break-inside:avoid}
+  .p10-faq details > .p10-faq__a{display:block!important}
+  .section{margin-top:var(--space-8)}
+}
+</style>
+
+<!-- ═══════════════ Schema.org: Service + FAQPage ═══════════════ -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Service",
+      "@id": "https://kirj2004.github.io/zhavoronkov-portfolio/p10-niche.html#service",
+      "name": "Анализ ниши Wildberries",
+      "alternateName": "Стоит ли входить в нишу за 3 дня",
+      "serviceType": "Анализ ниши и конкуренции на маркетплейсе Wildberries",
+      "description": "Анализ ниши Wildberries: объём и медиана цены, концентрация и конкуренция, свободные ценовые коридоры, топ-10 конкурентов, кВВ категории, системные дефекты из отзывов и прогноз на 30 дней. Вывод — входить, не входить или входить в конкретный сегмент. Отчёт из 5 блоков за 3 дня.",
+      "url": "https://kirj2004.github.io/zhavoronkov-portfolio/p10-niche.html",
+      "category": "Маркетплейсы и электронная коммерция",
+      "provider": {
+        "@type": "Person",
+        "name": "Жаворонков Кирилл",
+        "jobTitle": "Специалист по аналитике маркетплейсов",
+        "telephone": "+7-924-310-20-30",
+        "email": "ip.zhavoronkov.ka@yandex.ru",
+        "sameAs": "https://t.me/marzha_bez_vody"
+      },
+      "areaServed": { "@type": "Country", "name": "Россия" },
+      "offers": {
+        "@type": "Offer",
+        "price": "9000",
+        "priceCurrency": "RUB",
+        "priceValidUntil": "2026-12-31",
+        "availability": "https://schema.org/InStock",
+        "url": "https://kirj2004.github.io/zhavoronkov-portfolio/p10-niche.html#order",
+        "description": "Анализ ниши Wildberries: срок 3 дня, отчёт из 5 блоков в PDF и HTML.",
+        "seller": { "@type": "Person", "name": "Жаворонков Кирилл" }
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://kirj2004.github.io/zhavoronkov-portfolio/p10-niche.html#faq",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Что нужно от меня?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Название категории или ключевой запрос (например, «домкрат») и, если есть, ваши ориентиры: бюджет на закупку, желаемая маржа. Больше ничего не требуется — данные публичные." }
+        },
+        {
+          "@type": "Question",
+          "name": "Нужен ли API-ключ Wildberries?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Нет. Анализ строится на публичном CDN Wildberries — поисковой выдаче и карточках, которые видит покупатель. Ключ Seller API и доступ в личный кабинет не нужны." }
+        },
+        {
+          "@type": "Question",
+          "name": "Сколько времени занимает анализ?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Три рабочих дня с момента получения запроса. Собираю карточки категории, считаю медиану, концентрацию и свободные коридоры." }
+        },
+        {
+          "@type": "Question",
+          "name": "Чем это отличается от разбора конкурента (P4)?",
+          "acceptedAnswer": { "@type": "Answer", "text": "P4 разбирает конкретных конкурентов, которых вы уже знаете. P10 смотрит на нишу целиком: сколько в ней денег, насколько она занята, где свободные коридоры и стоит ли вообще входить." }
+        },
+        {
+          "@type": "Question",
+          "name": "Что если отчёт не подойдёт?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Оплата после того, как отчёт готов: сначала вы его смотрите, потом платите. Предоплата не нужна. Если анализ не получился по моей причине — запрос слишком широкий или данных не хватило, — оплата не берётся." }
+        },
+        {
+          "@type": "Question",
+          "name": "Работаете с начинающими?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Да. Анализ ниши чаще всего заказывают как раз перед входом в категорию: он показывает, есть ли вообще смысл запускать товар и с какой ценой, до того как вы вложитесь в закупку." }
+        },
+        {
+          "@type": "Question",
+          "name": "Что НЕ входит в анализ?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Поиск поставщика, закупка и запуск товара — это не аналитика. Юнит-экономика конкретных SKU (P1, P7) и разбор конкурентов (P4) — отдельные услуги. Прогноз даётся на 30 дней, долгосрочное планирование не входит." }
+        }
+      ]
+    }
+  ]
+}
+</script>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="site-header__inner">
+    <a class="brand" href="../index.html">
+      <span class="brand__name">Жаворонков Кирилл</span>
+      <span class="brand__sub">анализ ниши WB</span>
+    </a>
+    <nav class="nav" aria-label="Разделы страницы">
+      <a class="nav-link" href="#whats">Что получите</a>
+      <a class="nav-link" href="#how">Как работает</a>
+      <a class="nav-link" href="#sample">Пример</a>
+      <a class="nav-link" href="#faq">Вопросы</a>
+      <a class="nav-link" href="#order">Заказать</a>
+    </nav>
+    <a class="btn btn--primary" href="#order">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+      Заказать
+    </a>
+  </div>
+</header>
+
+<main class="page">
+
+  <!-- ── 1. Hero ────────────────────────────────────────────────────── -->
+  <section class="section" id="top" aria-labelledby="top-title">
+    <p class="badge badge--accent p10-eyebrow">Анализ ниши Wildberries</p>
+    <h1 class="page-title" id="top-title">Стоит ли входить в нишу и с какой ценой</h1>
+    <p class="page-sub">
+      Разбираю нишу целиком: сколько в ней денег, насколько она занята,
+      где свободные ценовые коридоры и какие дефекты у товаров лидеров.
+      На выходе — вывод «входить или нет» и цена, с которой имеет смысл
+      стартовать. Отчёт за три дня.
+    </p>
+
+    <div class="p10-cta">
+      <a class="btn btn--primary p10-btn-lg" href="#order">Заказать — 9 000 ₽</a>
+      <p class="p10-cta__note">
+        Оплата после того, как отчёт готов. Предоплата не нужна.
+      </p>
+    </div>
+
+    <div class="grid grid-4">
+      <div class="metric">
+        <span class="metric-value">3 дня</span>
+        <span class="metric-label">от запроса до отчёта</span>
+      </div>
+      <div class="metric">
+        <span class="metric-value">5 блоков</span>
+        <span class="metric-label">главное, действия, детали</span>
+      </div>
+      <div class="metric">
+        <span class="metric-value">топ-10</span>
+        <span class="metric-label">конкурентов в таблице</span>
+      </div>
+      <div class="metric">
+        <span class="metric-value">30 дней</span>
+        <span class="metric-label">прогноз по нише</span>
+      </div>
+    </div>
+
+    <div class="alert alert--info" role="note" style="margin-top:var(--space-6)">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+      <span>
+        Никаких ключей и паролей: анализ строится на публичном CDN
+        Wildberries — поисковой выдаче и карточках, которые видит покупатель.
+      </span>
+    </div>
+  </section>
+
+  <!-- ── 2. Что получите: 5 блоков отчёта ───────────────────────────── -->
+  <section class="section" id="whats" aria-labelledby="whats-title">
+    <div class="section-head">
+      <h2 class="section-title" id="whats-title">Что получите</h2>
+      <span class="section-note">пять блоков отчёта, каждый отвечает на свой вопрос</span>
+    </div>
+
+    <ol class="p10-blocks">
+      <li class="p10-block">
+        <span class="p10-block__num" aria-hidden="true">1</span>
+        <div>
+          <h3 class="p10-block__title">ГЛАВНОЕ — есть ли место в нише</h3>
+          <p class="p10-block__text">
+            Один вывод: входить, не входить или входить в конкретный сегмент —
+            и почему. Рядом четыре KPI ниши: медиана цены, концентрация
+            (HHI), число продавцов и доля отзывов 1–3★.
+          </p>
+          <p class="p10-block__sample">
+            <b>Пример:</b> «Ниша фрагментирована: крупного игрока нет,
+            свободный коридор 2 777–4 663 ₽, в выдаче всего 2 карточки»
+          </p>
+        </div>
+      </li>
+
+      <li class="p10-block">
+        <span class="p10-block__num" aria-hidden="true">2</span>
+        <div>
+          <h3 class="p10-block__title">3 ДЕЙСТВИЯ — с чего начать</h3>
+          <p class="p10-block__text">
+            Три задачи по приоритету: в какой сегмент заходить, с какой ценой,
+            на каком дефекте лидеров отыграть. У каждой — ожидаемый эффект
+            и срок.
+          </p>
+          <p class="p10-block__sample">
+            <b>Пример:</b> «1. Стартовать в коридоре 3 000–3 500 ₽ —
+            конкуренция 2 карточки, срок 7 дней»
+          </p>
+        </div>
+      </li>
+
+      <li class="p10-block">
+        <span class="p10-block__num" aria-hidden="true">3</span>
+        <div>
+          <h3 class="p10-block__title">ПОЧЕМУ МЫ — откуда цифры</h3>
+          <p class="p10-block__text">
+            Источник данных и проверки качества, чтобы вы могли оценить,
+            насколько цифрам можно верить. Не «мы посмотрели», а схема:
+            сколько карточек разобрано, какая формула применена, на какую
+            дату взяты данные.
+          </p>
+          <p class="p10-block__sample">
+            <b>Пример:</b> «Публичный CDN Wildberries, 200+ карточек категории,
+            HHI и медиана рассчитаны на дату разбора»
+          </p>
+        </div>
+      </li>
+
+      <li class="p10-block">
+        <span class="p10-block__num" aria-hidden="true">4</span>
+        <div>
+          <h3 class="p10-block__title">СТРАХ ПОТЕРИ — цена ошибки</h3>
+          <p class="p10-block__text">
+            Сколько стоит вложиться в закупку и не продать: сколько денег
+            замораживается в товаре, который не пойдёт, и как быстро ниша
+            может закрыться, если лидер снизит цену.
+          </p>
+          <p class="p10-block__sample">
+            <b>Пример:</b> «Партия на 200 шт × 420 ₽ = 84 000 ₽ в товаре.
+            При ошибке в нише это деньги на складе без движения»
+          </p>
+        </div>
+      </li>
+
+      <li class="p10-block p10-block--wide">
+        <span class="p10-block__num" aria-hidden="true">5</span>
+        <div>
+          <h3 class="p10-block__title">ДЕТАЛИ — таблицы по нише</h3>
+          <p class="p10-block__text">
+            Всё, что подтверждает выводы: общая картина ниши (медиана цены,
+            средний рейтинг, доля 1–3★, число продавцов), таблица ценовых
+            сегментов, топ-10 конкурентов, свободные коридоры и топ-10
+            системных дефектов из отзывов.
+          </p>
+          <p class="p10-block__sample">
+            <b>Пример:</b> «Сегмент 2 777–4 663 ₽ — 2 карточки, медиана
+            3 420 ₽, дефект №1 „не соответствует комплектации“ — 21 % отзывов»
+          </p>
+        </div>
+      </li>
+    </ol>
+  </section>
+
+  <!-- ── 3. Как работает ────────────────────────────────────────────── -->
+  <section class="section" id="how" aria-labelledby="how-title">
+    <div class="section-head">
+      <h2 class="section-title" id="how-title">Как работает</h2>
+      <span class="section-note">три шага, без встреч и созвонов</span>
+    </div>
+
+    <ol class="p10-steps">
+      <li class="p10-step">
+        <span class="p10-step__num" aria-hidden="true">1</span>
+        <h3 class="p10-step__title">Заявка</h3>
+        <p class="p10-step__text">
+          Называете категорию или ключевой запрос и, если есть, ориентиры:
+          бюджет на закупку и желаемую маржу. Больше ничего не нужно.
+        </p>
+        <p class="p10-step__meta">5 минут · бесплатно</p>
+      </li>
+
+      <li class="p10-step">
+        <span class="p10-step__num" aria-hidden="true">2</span>
+        <h3 class="p10-step__title">Анализ</h3>
+        <p class="p10-step__text">
+          Собираю карточки категории, считаю медиану цены, концентрацию
+          (HHI), свободные ценовые коридоры, разбираю отзывы лидеров
+          и системные дефекты.
+        </p>
+        <p class="p10-step__meta">3 рабочих дня</p>
+      </li>
+
+      <li class="p10-step">
+        <span class="p10-step__num" aria-hidden="true">3</span>
+        <h3 class="p10-step__title">Отчёт</h3>
+        <p class="p10-step__text">
+          Получаете отчёт из 5 блоков в PDF и в интерактивном HTML: смотрите,
+          задаёте вопросы, платите после. Если анализ не получился по моей
+          причине — оплата не берётся.
+        </p>
+        <p class="p10-step__meta">9 000 ₽ · оплата после отчёта</p>
+      </li>
+    </ol>
+  </section>
+
+  <!-- ── 4. Пример отчёта ───────────────────────────────────────────── -->
+  <section class="section" id="sample" aria-labelledby="sample-title">
+    <div class="section-head">
+      <h2 class="section-title" id="sample-title">Пример отчёта</h2>
+      <span class="section-note">два фрагмента из демо-отчёта</span>
+    </div>
+
+    <p class="section-note" style="display:block;margin:0 0 var(--space-4);max-width:72ch">
+      Ниже — фрагменты демонстрационного отчёта по нише «домкрат».
+      Цифры в примере — расчёт по демо-данным, а не по вашей категории.
+    </p>
+
+    <div class="p10-shots">
+      <figure class="p10-shot">
+        <img src="../assets/examples/p10-page-1.png"
+             alt="Первая страница демо-отчёта: главное и KPI анализа ниши — медиана цены, концентрация HHI, число продавцов, доля отзывов 1–3 звезды"
+             width="1280" height="800" loading="lazy" decoding="async">
+        <figcaption>
+          <b>Блок 1 · ГЛАВНОЕ</b>
+          Вывод о входе в нишу и четыре KPI: медиана цены, концентрация,
+          число продавцов, доля негативных отзывов.
+        </figcaption>
+      </figure>
+
+      <figure class="p10-shot">
+        <img src="../assets/examples/p10-page-2.png"
+             alt="Блок «Детали» демо-отчёта: таблица ценовых сегментов, топ-10 конкурентов и свободные коридоры ниши"
+             width="1280" height="920" loading="lazy" decoding="async">
+        <figcaption>
+          <b>Блок 5 · ДЕТАЛИ</b>
+          Ценовые сегменты, топ-10 конкурентов и свободные коридоры.
+          Показывает, откуда взялся вывод о входе.
+        </figcaption>
+      </figure>
+    </div>
+
+    <a class="p10-demo-link" href="../assets/examples/p10-example.pdf">
+      Открыть полный PDF-пример отчёта →
+    </a>
+  </section>
+
+  <!-- ── 5. FAQ ─────────────────────────────────────────────────────── -->
+  <section class="section" id="faq" aria-labelledby="faq-title">
+    <div class="section-head">
+      <h2 class="section-title" id="faq-title">Частые вопросы</h2>
+      <span class="section-note">семь вопросов, которые задают до заказа</span>
+    </div>
+
+    <div class="p10-faq">
+      <details>
+        <summary>Что нужно от меня?</summary>
+        <p class="p10-faq__a">
+          Название категории или ключевой запрос (например, «домкрат») и, если
+          есть, ваши ориентиры: <b>бюджет на закупку</b>, желаемая маржа.
+          Больше ничего не требуется — данные публичные.
+        </p>
+      </details>
+
+      <details>
+        <summary>Нужен ли API-ключ Wildberries?</summary>
+        <p class="p10-faq__a">
+          Нет. Анализ строится на <b>публичном CDN Wildberries</b> — поисковой
+          выдаче и карточках, которые видит покупатель. Ключ Seller API
+          и доступ в личный кабинет не нужны.
+        </p>
+      </details>
+
+      <details>
+        <summary>Сколько времени занимает анализ?</summary>
+        <p class="p10-faq__a">
+          <b>Три рабочих дня</b> с момента получения запроса. Собираю карточки
+          категории, считаю медиану, концентрацию и свободные коридоры.
+        </p>
+      </details>
+
+      <details>
+        <summary>Чем это отличается от разбора конкурента (P4)?</summary>
+        <p class="p10-faq__a">
+          <b>P4</b> разбирает конкретных конкурентов, которых вы уже знаете.
+          <b>P10</b> смотрит на нишу целиком: сколько в ней денег, насколько
+          она занята, где свободные коридоры и стоит ли вообще входить.
+        </p>
+      </details>
+
+      <details>
+        <summary>Что если отчёт не подойдёт?</summary>
+        <p class="p10-faq__a">
+          <b>Оплата после того, как отчёт готов</b>: сначала вы его смотрите,
+          потом платите. Предоплата не нужна. Если анализ не получился по моей
+          причине — запрос слишком широкий или данных не хватило, — оплата
+          не берётся.
+        </p>
+      </details>
+
+      <details>
+        <summary>Работаете с начинающими?</summary>
+        <p class="p10-faq__a">
+          Да. Анализ ниши чаще всего заказывают как раз <b>перед входом</b>
+          в категорию: он показывает, есть ли вообще смысл запускать товар
+          и с какой ценой, до того как вы вложитесь в закупку.
+        </p>
+      </details>
+
+      <details>
+        <summary>Что НЕ входит в анализ?</summary>
+        <p class="p10-faq__a">
+          Поиск поставщика, закупка и запуск товара — это не аналитика.
+          Юнит-экономика конкретных SKU (P1, P7) и разбор конкурентов (P4) —
+          <b>отдельные услуги</b>. Прогноз даётся на 30 дней, долгосрочное
+          планирование не входит.
+        </p>
+      </details>
+    </div>
+  </section>
+
+  <!-- ── 6. CTA ─────────────────────────────────────────────────────── -->
+  <section class="section" id="order" aria-labelledby="order-title">
+    <div class="p10-cta-block">
+      <h2 class="p10-cta-block__title" id="order-title">
+        Назовите категорию или запрос
+      </h2>
+      <p class="p10-cta-block__sub">
+        Отвечаю письменно, звонков нет. Достаточно названия категории —
+        остальное найду сам. Отчёт будет через три дня.
+      </p>
+
+      <div class="grid grid-2">
+        <a class="contact" href="https://t.me/marzha_bez_vody" rel="noopener">
+          <span class="contact__icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M22 2 11 13"/><path d="M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+          </span>
+          <span class="contact__body">
+            <span class="contact__label">Telegram</span>
+            <span class="contact__value">@marzha_bez_vody</span>
+          </span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M7 17 17 7M7 7h10v10"/></svg>
+        </a>
+
+        <a class="contact" href="tel:+792****2030">
+          <span class="contact__icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          </span>
+          <span class="contact__body">
+            <span class="contact__label">Телефон</span>
+            <span class="contact__value tnum">+7 924 310-20-30</span>
+          </span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M7 17 17 7M7 7h10v10"/></svg>
+        </a>
+      </div>
+
+      <div class="alert alert--warning" role="note" style="margin-top:var(--space-5)">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><path d="M12 9v4M12 17h.01"/></svg>
+        <span>
+          Цена 9 000 ₽ фиксируется до начала работ. Оплата — после того,
+          как отчёт готов.
+        </span>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="site-footer__inner">
+    <span class="site-footer__copy">© <span data-pfx-year>2026</span> Жаворонков Кирилл</span>
+    <nav class="site-footer__nav" aria-label="Разделы страницы">
+      <a class="nav-link" href="#whats">Что получите</a>
+      <a class="nav-link" href="#how">Как работает</a>
+      <a class="nav-link" href="#sample">Пример</a>
+      <a class="nav-link" href="#faq">Вопросы</a>
+      <a class="nav-link" href="../index.html">Портфолио</a>
+    </nav>
+    <p class="site-footer__note">
+      Цифры в примере — расчёт по демонстрационным данным карточки категории
+      «Домкраты», а не по вашей категории. Логистика, хранение и штрафы
+      помечены в отчёте как оценка или «нет данных». Отчёт носит
+      информационный характер и не является гарантией результата.
+    </p>
+  </div>
+</footer>
+
+<script type="module" src="../assets/site.js"></script>
+</body>
+</html>
